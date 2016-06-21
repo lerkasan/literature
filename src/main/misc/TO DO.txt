@@ -1,0 +1,7 @@
+unique filds in tables
+cascades for relationships in DB
+download files
+logging log4j
+unit tests
+api_key encryption
+users

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	xmlns="http://java.sun.com/xml/ns/persistence" version="2.0" >
+    <persistence-unit name="literature" 
+	transaction-type="RESOURCE_LOCAL">
+		<provider>
+		     org.eclipse.persistence.jpa.PersistenceProvider
+		</provider>
+		<properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/literature" />
+            <property name="javax.persistence.jdbc.user" value="dbuser" />
+            <property name="javax.persistence.jdbc.password" value="daniel" />
+            <property name="eclipselink.ddl-generation" value="none" />
+        </properties>
+      </persistence-unit>
+</persistence> 

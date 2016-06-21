@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <definition name="index" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Home"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/index.jsp"></put-attribute>
+    </definition>
+     <definition name="resourceList" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Resource list"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/resourceList.jsp"></put-attribute>
+    </definition>
+    <definition name="newResource" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Add new resource"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/newResource.jsp"></put-attribute>
+    </definition>
+    <definition name="rss/*" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Rss News"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/rss.jsp"></put-attribute>
+    </definition>
+    <definition name="rss" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Rss News"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/rss.jsp"></put-attribute>
+    </definition>
+    <definition name="savedRss" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Rss News"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/savedRss.jsp"></put-attribute>
+    </definition>
+     <definition name="savedRss/*" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Rss News"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/savedRss.jsp"></put-attribute>
+    </definition>
+    <definition name="searchResult" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Search Results"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/search.jsp"></put-attribute>
+    </definition>
+</tiles-definitions>
