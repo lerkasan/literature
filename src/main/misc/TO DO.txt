@@ -5,3 +5,4 @@ logging log4j
 unit tests
 api_key encryption
 users
+cahnge tupe of url variables from String to java.net.URL

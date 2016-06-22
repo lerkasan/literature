@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.lerkasan.literature.dao.ResourceRepository;
 import com.github.lerkasan.literature.entity.Resource;
+import com.github.lerkasan.literature.parser.AmazonBook;
 import com.github.lerkasan.literature.parser.ApiRequestPreparationService;
 import com.github.lerkasan.literature.parser.CrossrefApiJson;
 import com.github.lerkasan.literature.parser.GoogleApiJson;
 import com.github.lerkasan.literature.parser.ParsingService;
 import com.github.lerkasan.literature.parser.SpringerApiJson;
+import com.github.lerkasan.literature.parser.impl.amazon.AmazonBookSearchService;
 
 @Controller
 @RequestMapping("/search")
@@ -27,6 +29,13 @@ public class SearchController {
 
 	@Inject
 	ResourceRepository resourceRepository;
+
+	@Inject
+	AmazonBookSearchService amazonBookSearchService;
+
+	@Inject
+	@Qualifier("AmazonParsingService")
+	ParsingService amazonParsingService;
 
 	@Inject
 	@Qualifier("GoogleParsingService")
@@ -48,25 +57,15 @@ public class SearchController {
 		List<GoogleApiJson> googleResults;
 		List<SpringerApiJson> springerResults;
 		List<CrossrefApiJson> crossrefResults;
+		String apiResponse = "";
 
 		if ((searchQuery != null) && (searchQuery != "")) {
 			String[] searchedWords = apiRequestPreparation.deleteSpecialsAndSplit(searchQuery);
-			// List<Resource> resources = new ArrayList<>();
 			Iterable<Resource> foundApi = resourceRepository.findByResponseFormatNot("rss");
-			// foundResources.forEach(resources::add);
 
-			// Resource api = resourceRepository.findByName("Google");
-
-			/*
-			 * String preparedQuery = apiRequestPreparation.prepareQuery(api,
-			 * searchedWords); String apiResponse =
-			 * apiRequestPreparation.passRequestToApi(api, preparedQuery);
-			 * googleResults = googleParsingService.parse(apiResponse);
-			model.addAttribute("googleResults", googleResults); */
-			
 			for (Resource api : foundApi) {
 				String preparedQuery = apiRequestPreparation.prepareQuery(api, searchedWords);
-				String apiResponse = apiRequestPreparation.passRequestToApi(api, preparedQuery);
+				apiResponse = apiRequestPreparation.passRequestToApi(api, preparedQuery);
 				switch (api.getName()) {
 				case "Google": {
 					googleResults = googleParsingService.parse(apiResponse);
@@ -77,16 +76,29 @@ public class SearchController {
 					springerResults = springerParsingService.parse(apiResponse);
 					model.addAttribute("springerResults", springerResults);
 					break;
-				} 
+				}
 				case "Crossref": {
 					crossrefResults = crossrefParsingService.parse(apiResponse);
 					model.addAttribute("crossrefResults", crossrefResults);
 					break;
-				} 
+				}
+				case "Amazon": {
+					String amazonRequestUrl = amazonBookSearchService.prepareRequestUrl(preparedQuery);
+					amazonParsingService.parse(amazonRequestUrl);
+					// model.addAttribute("crossrefResults", crossrefResults);
+					break;
+				}
 				}
 
 			}
 		}
+		/*
+		 * String amazonRequestUrl =
+		 * amazonBookSearchService.prepareRequestUrl(preparedQuery);
+		 * List<AmazonBook> books =
+		 * amazonParsingService.parse(amazonRequestUrl);
+		 */
+
 		return "searchResult";
 	}
 

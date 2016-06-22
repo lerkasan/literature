@@ -29,7 +29,7 @@ public class GoogleParsingServiceImpl implements ParsingService {
 		JsonParser parser = new JsonParser();
 
 		JsonArray items = parser.parse(input).getAsJsonObject().getAsJsonArray("items");
-		if (items != null) {
+		if ((items != null) && (items.size() > 0)) {
 			for (JsonElement item : items) {
 				GoogleApiJson articleJson = json.fromJson(item, GoogleApiJson.class);
 				JsonObject pagemap = item.getAsJsonObject().get("pagemap").getAsJsonObject();

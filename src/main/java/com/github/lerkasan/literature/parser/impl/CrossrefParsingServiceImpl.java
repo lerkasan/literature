@@ -28,13 +28,16 @@ public class CrossrefParsingServiceImpl implements ParsingService {
 		JsonParser parser = new JsonParser();
 		JsonArray items = parser.parse(input).getAsJsonObject().get("message").getAsJsonObject()
 				.getAsJsonArray("items");
-		if (items != null) {
+		if ((items != null) && (items.size() > 0)) {
 			for (JsonElement item : items) {
 				CrossrefApiJson itemJson = json.fromJson(item, CrossrefApiJson.class);
 				if (!item.getAsJsonObject().get("type").getAsString().equals("component")
 						&& item.getAsJsonObject().has("title")) {
-					String title = item.getAsJsonObject().get("title").getAsJsonArray().get(0).getAsString();
-					itemJson.setItemTitle(title);
+					JsonArray titleArray = item.getAsJsonObject().get("title").getAsJsonArray();
+					if ( (titleArray != null) && (titleArray.size() > 0 ) ) {
+						String title = titleArray.get(0).getAsString();
+						itemJson.setItemTitle(title);
+					}
 				}
 				if (item.getAsJsonObject().has("created")) {
 					JsonElement created = item.getAsJsonObject().get("date-time");
@@ -54,10 +57,10 @@ public class CrossrefParsingServiceImpl implements ParsingService {
 				itemList.add(itemJson);
 			}
 		}
-		 System.out.println(itemList.get(5).getDOI() + " " + itemList.get(5).getItemTitle() + " " + 
-		 itemList.get(5).getIsbn());
-		 System.out.println(itemList.get(6).getDOI() + " " + itemList.get(6).getItemTitle() + " " + 
-				 itemList.get(6).getIsbn());
+		System.out.println(
+				itemList.get(5).getDOI() + " " + itemList.get(5).getItemTitle() + " " + itemList.get(5).getIsbn());
+		System.out.println(
+				itemList.get(6).getDOI() + " " + itemList.get(6).getItemTitle() + " " + itemList.get(6).getIsbn());
 		return itemList;
 
 	}

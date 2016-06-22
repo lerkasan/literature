@@ -38,6 +38,8 @@ public class Resource implements Serializable {
 	private String apiKey;
 	
 	private String searchEngineKey;
+	
+	private String associateId;
 
 	//bi-directional many-to-one association to ItemToRead
 	@OneToMany(mappedBy="resource")
@@ -97,6 +99,14 @@ public class Resource implements Serializable {
 
 	public void setSearchEngineKey(String searchEngineKey) {
 		this.searchEngineKey = searchEngineKey;
+	}
+
+	public String getAssociateId() {
+		return associateId;
+	}
+
+	public void setAssociateId(String associateId) {
+		this.associateId = associateId;
 	}
 
 	public List<ItemToRead> getItemsToRead() {

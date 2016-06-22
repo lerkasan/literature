@@ -67,4 +67,8 @@ public class ResourceServiceImpl implements ResourceService {
 		return resourceRepository.findByResponseFormatNot(format);
 	}
 
+	public Resource getByName(String string) {
+		return resourceRepository.findByName(string);
+	}
+
 }
