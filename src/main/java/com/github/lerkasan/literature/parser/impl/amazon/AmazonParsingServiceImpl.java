@@ -65,9 +65,12 @@ public class AmazonParsingServiceImpl implements ParsingService {
 				}
 				Node author = nodes.item(i);
 				if (author != null) {
-					book.setAuthor(author.getFirstChild().getNextSibling().getNextSibling().getNextSibling()
-							.getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getFirstChild()
-							.getTextContent());
+					String authorStr = author.getFirstChild().getNextSibling().getNextSibling().getNextSibling()
+							.getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling()
+							.getFirstChild().getTextContent();
+					if (!authorStr.contains("Product Description")) {
+						book.setAuthor(authorStr);
+					}
 				}
 				Node image = nodes.item(i);
 				if (image != null) {

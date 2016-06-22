@@ -25,7 +25,7 @@
 		<c:when test="${not empty amazonResults}">
 			<p align="center">Search results from Amazon:</p>
 			<div align="center">
-				<table>
+				<table width=80%>
 					<tr>
 						<th></th>
 						<th>Title</th>
