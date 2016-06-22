@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.github.lerkasan.literature.dao.ResourceRepository;
 import com.github.lerkasan.literature.entity.Resource;
 import com.github.lerkasan.literature.parser.AmazonBook;
+import com.github.lerkasan.literature.parser.AmazonItem;
 import com.github.lerkasan.literature.parser.ApiRequestPreparationService;
 import com.github.lerkasan.literature.parser.CrossrefApiJson;
 import com.github.lerkasan.literature.parser.GoogleApiJson;
@@ -57,6 +58,7 @@ public class SearchController {
 		List<GoogleApiJson> googleResults;
 		List<SpringerApiJson> springerResults;
 		List<CrossrefApiJson> crossrefResults;
+		List<AmazonItem> amazonResults;
 		String apiResponse = "";
 
 		if ((searchQuery != null) && (searchQuery != "")) {
@@ -84,8 +86,8 @@ public class SearchController {
 				}
 				case "Amazon": {
 					String amazonRequestUrl = amazonBookSearchService.prepareRequestUrl(preparedQuery);
-					amazonParsingService.parse(amazonRequestUrl);
-					// model.addAttribute("crossrefResults", crossrefResults);
+					amazonResults = amazonParsingService.parse(amazonRequestUrl);
+				    model.addAttribute("amazonResults", amazonResults);
 					break;
 				}
 				}

@@ -14,11 +14,44 @@
 <title>Search results:</title>
 </head>
 <body>
-<c:choose>
-		<c:when test="${(empty googleResults) && (empty springerResults) && (empty crossrefResults)}">
-		<p align="center">Nothing found.</p>
+	<c:choose>
+		<c:when
+			test="${(empty googleResults) && (empty springerResults) && (empty crossrefResults) && (empty amazonResults)}">
+			<p align="center">Nothing found.</p>
 		</c:when>
 	</c:choose>
+
+	<c:choose>
+		<c:when test="${not empty amazonResults}">
+			<p align="center">Search results from Amazon:</p>
+			<div align="center">
+				<table>
+					<tr>
+						<th></th>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Publish Date</th>
+						<th>Publisher</th>
+					</tr>
+
+					<c:set var="i" value="${1}" />
+					<c:forEach var="result" items="${amazonResults}">
+						<tr>
+							<td><img width="130" src="<c:out value='${result.imageUrl}'/>"></img></td>
+							<td><a href="<c:out value='${result.itemUrl}'/>"><c:out
+										value="${result.title}" /></a></td>
+							<td><c:out value="${result.author}"/></td>
+							<td><c:out value="${result.publicationDate}" /></td>
+							<td><c:out value="${result.publisher}" /></td>
+						</tr>
+						<c:set var="i" value="${i + 1}" />
+					</c:forEach>
+
+				</table>
+			</div>
+		</c:when>
+	</c:choose>
+
 	<c:choose>
 		<c:when test="${not empty googleResults}">
 			<p align="center">Search results from Google:</p>
@@ -47,6 +80,7 @@
 			</div>
 		</c:when>
 	</c:choose>
+
 	<c:choose>
 		<c:when test="${not empty springerResults}">
 			<br>
@@ -85,6 +119,7 @@
 			</div>
 		</c:when>
 	</c:choose>
+
 	<c:choose>
 		<c:when test="${not empty crossrefResults}">
 			<br>

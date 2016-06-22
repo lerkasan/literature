@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -14,27 +15,27 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.github.lerkasan.literature.parser.AmazonBook;
 import com.github.lerkasan.literature.parser.AmazonBooks;
+import com.github.lerkasan.literature.parser.AmazonItem;
 import com.github.lerkasan.literature.parser.ParsingService;
 
 @Service("AmazonParsingService")
 public class AmazonParsingServiceImpl implements ParsingService {
 
-	public List<AmazonBook> parse(String url) {
+	public List<AmazonItem> parse(String url) {
+		int nodesSize;
 		JAXBContext jc;
+		List<AmazonItem> books = new ArrayList<>();
 		ItemSearchResponse foundItems = new ItemSearchResponse();
 		try {
 			jc = JAXBContext.newInstance(ItemSearchResponse.class);
-			// System.out.println("EXCEPTION URL " + url);
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
 			URL xmlURL = new URL(url);
 			InputStream xml = xmlURL.openStream();
-			foundItems = (ItemSearchResponse) unmarshaller.unmarshal(xml);
-			// System.out.println("MOXy
-			// "+foundItems.getItems().getBooks().get(1));
 			xml.close();
 
 		} catch (JAXBException | MalformedURLException e) {
@@ -44,28 +45,10 @@ public class AmazonParsingServiceImpl implements ParsingService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// -------------
-
-		String title = null;
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(url);
-			// NodeList nodes = doc.getElementsByTagName("Item");
-			int nodesSize;
-			/*
-			 * for (int i = 0; i < nodesSize; i++) { title =
-			 * nodes.item(i).getTextContent(); }
-			 */
-			// System.out.println(" NodeValue:" +
-			// nodes.item(0).getFirstChild().getNextSibling().getNodeValue().toString());//.getNamedItem("Title").getTextContent());
-			System.out.println();
-			// System.out.println(" URL:" +
-			// nodes.item(0).getFirstChild().getNextSibling().getTextContent().toString());
-			// System.out.println(" IMG:" +
-			// nodes.item(0).getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getTextContent().toString());
-
 			NodeList nodes = doc.getElementsByTagName("Item");
 			NodeList nodesTitle = doc.getElementsByTagName("Title");
 			NodeList nodesImg = doc.getElementsByTagName("MediumImage");
@@ -74,28 +57,48 @@ public class AmazonParsingServiceImpl implements ParsingService {
 			NodeList nodesPublicationDate = doc.getElementsByTagName("PublicationDate");
 			NodeList nodesUrl = doc.getElementsByTagName("DetailPageURL");
 			nodesSize = nodesTitle.getLength();
-			System.out.println("AMAZON RESULTS: ");
 			for (int i = 0; i < nodesSize; i++) {
-					System.out.println(nodesTitle.item(i).getTextContent());
-					System.out.println(" Author:" + nodes.item(i).getFirstChild().getNextSibling().getNextSibling()
-							.getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling()
-							.getNextSibling().getFirstChild().getTextContent());
-					System.out.println(nodesImg.item(i).getFirstChild().getTextContent());
-				//	System.out.println(nodesIsbn.item(i).getTextContent());
-					System.out.println(nodesPublisher.item(i).getTextContent());
-					System.out.println(nodesPublicationDate.item(i).getTextContent());
-					System.out.println(nodesUrl.item(i).getTextContent());
-				System.out.println();
-
+				AmazonItem book = new AmazonItem();
+				Node title = nodesTitle.item(i);
+				if (title != null) {
+					book.setTitle(title.getTextContent());
+				}
+				Node author = nodes.item(i);
+				if (author != null) {
+					book.setAuthor(author.getFirstChild().getNextSibling().getNextSibling().getNextSibling()
+							.getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getFirstChild()
+							.getTextContent());
+				}
+				Node image = nodes.item(i);
+				if (image != null) {
+					// book.setImageUrl(image.getFirstChild().getTextContent());
+					book.setImageUrl(image.getFirstChild().getNextSibling().getNextSibling().getNextSibling()
+							.getNextSibling().getNextSibling().getFirstChild().getTextContent());
+				}
+				Node isbn = nodesIsbn.item(i);
+				if (isbn != null) {
+					book.setIsbn(isbn.getTextContent());
+				}
+				Node publisher = nodesPublisher.item(i);
+				if (publisher != null) {
+					book.setPublisher(publisher.getTextContent());
+				}
+				Node publicationDate = nodesPublicationDate.item(i);
+				if (publicationDate != null) {
+					book.setPublicationDate(publicationDate.getTextContent());
+				}
+				Node itemUrl = nodesUrl.item(i);
+				if (itemUrl != null) {
+					book.setItemUrl(itemUrl.getTextContent());
+				}
+				books.add(book);
 			}
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
-		// --------------
-
-		return foundItems.getItems().getBooks();
+		// return foundItems.getItems().getBooks();
+		return books;
 
 	}
 }
