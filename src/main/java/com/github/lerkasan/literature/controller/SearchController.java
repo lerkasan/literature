@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.lerkasan.literature.dao.ResourceRepository;
 import com.github.lerkasan.literature.entity.Resource;
@@ -24,11 +25,15 @@ import com.github.lerkasan.literature.parser.GoogleApiJson;
 import com.github.lerkasan.literature.parser.ParsingService;
 import com.github.lerkasan.literature.parser.SpringerApiJson;
 import com.github.lerkasan.literature.parser.impl.amazon.AmazonBookSearchService;
+import com.github.lerkasan.literature.service.ItemToReadService;
 import com.rometools.rome.feed.synd.SyndEntry;
 
 @Controller
 @RequestMapping("/search")
 public class SearchController {
+	
+	@Inject
+	ItemToReadService itemToReadService;
 
 	@Inject
 	ApiRequestPreparationService apiRequestPreparation;
@@ -150,5 +155,27 @@ public class SearchController {
 
 		return "searchResult";
 	}
+	
+/*	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public String saveRssNews(@RequestParam(value = "selectedItems", required = false) int[] selectedItemIds,
+			ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
+		/*
+		List<SyndEntry> rssNews = (List<SyndEntry>) request.getSession().getAttribute("rssNewsParam");
+		model.addAttribute("rssNews", rssNews);
+		List<Resource> rssList = (List<Resource>) request.getSession().getAttribute("rssList");
+		model.addAttribute("rssList", rssList);
+		String currentRssName = (String) request.getSession().getAttribute("currentRssName");
+		*/
+	/*	items = request.getSession().getAttribute("itemsParam");
+		String message = itemToReadService.saveRssNewsToDb(selectedItemIds, items);  */
+		
+	/*	request.getSession().setAttribute("message", message);
+		model.addAttribute("message", message);
+		return "savedItem/" + currentItemName;*/
+		// return "redirect:" + "/rss/" + currentRssName;
+
+	//}
 
 }

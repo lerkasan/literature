@@ -24,11 +24,13 @@ public class Literature extends ItemToRead implements Serializable {
 
 	private short volume;
 
-	private short year;
+	private int year;
 	
 	private String publishing;
 	
 	private String issueOrEditionNumber;
+	
+	private String imageUrl;
 	
 	//bi-directional one-to-one association to ItemToRead
 	@OneToOne
@@ -87,12 +89,12 @@ public class Literature extends ItemToRead implements Serializable {
 		this.volume = volume;
 	}
 
-	public short getYear() {
+	public int getYear() {
 		return this.year;
 	}
 
-	public void setYear(short year) {
-		this.year = year;
+	public void setYear(int i) {
+		this.year = i;
 	}
 
 	public ItemToRead getItemToRead() {
@@ -111,6 +113,13 @@ public class Literature extends ItemToRead implements Serializable {
 		this.publishing = publishing;
 	}
 	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	
 
 

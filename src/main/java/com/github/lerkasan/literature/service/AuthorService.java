@@ -12,4 +12,5 @@ public interface AuthorService {
 	Author getById(int id);
 	Author save(Author author);
 	Page<Author> getAll(Pageable pageable);
+	public String[] divideFullName(String fullName);
 }

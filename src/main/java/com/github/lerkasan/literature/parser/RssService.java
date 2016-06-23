@@ -8,5 +8,5 @@ import com.rometools.rome.feed.synd.SyndEntry;
 @Named
 public interface RssService {
 	public List<SyndEntry> read(Resource resource);
-	public String saveRssNewsToDb(int[] selectedRssNewsIds, List<SyndEntry> rssNews);
+	public String save(int[] selectedRssNewsIds, List<SyndEntry> rssNews);
 }

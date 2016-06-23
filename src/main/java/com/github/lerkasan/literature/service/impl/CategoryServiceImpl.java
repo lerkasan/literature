@@ -11,7 +11,7 @@ import com.github.lerkasan.literature.dao.CategoryRepository;
 import com.github.lerkasan.literature.entity.Category;
 import com.github.lerkasan.literature.service.CategoryService;
 
-@Service
+@Service("CategoryService")
 public class CategoryServiceImpl implements CategoryService {
 	
 	@Inject

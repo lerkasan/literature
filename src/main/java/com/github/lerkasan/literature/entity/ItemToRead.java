@@ -266,7 +266,6 @@ public class ItemToRead implements Serializable {
 	public Author addAuthor(Author author) {
 		getAuthors().add(author);
 		author.setItemToRead(this);
-
 		return author;
 	}
 

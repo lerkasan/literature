@@ -73,7 +73,7 @@ public class RssController {
 		List<Resource> rssList = (List<Resource>) request.getSession().getAttribute("rssList");
 		model.addAttribute("rssList", rssList);
 		String currentRssName = (String) request.getSession().getAttribute("currentRssName");
-		String message = rssService.saveRssNewsToDb(selectedRssNewsIds, rssNews);
+		String message = rssService.save(selectedRssNewsIds, rssNews);
 		request.getSession().setAttribute("message", message);
 		model.addAttribute("message", message);
 		return "savedRss/" + currentRssName;

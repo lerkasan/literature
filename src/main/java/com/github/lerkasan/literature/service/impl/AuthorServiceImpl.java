@@ -11,12 +11,12 @@ import com.github.lerkasan.literature.dao.AuthorRepository;
 import com.github.lerkasan.literature.entity.Author;
 import com.github.lerkasan.literature.service.AuthorService;
 
-@Service
+@Service("AuthorService")
 public class AuthorServiceImpl implements AuthorService {
-	
-	@Inject 
+
+	@Inject
 	private AuthorRepository authorRepository;
-	
+
 	public AuthorServiceImpl() {
 	}
 
@@ -28,7 +28,7 @@ public class AuthorServiceImpl implements AuthorService {
 	@Override
 	public void delete(int id) {
 		authorRepository.delete(id);
-		
+
 	}
 
 	@Override
@@ -56,6 +56,20 @@ public class AuthorServiceImpl implements AuthorService {
 	public Page<Author> getAll(Pageable pageable) {
 		return authorRepository.findAll(pageable);
 	}
-	
 
+	@Override
+	public String[] divideFullName(String fullName) {
+		String[] result = new String[2];
+		if ((fullName != null) && (fullName != "")) {
+			String[] fullNameParts = fullName.split(" ", 2);
+			if (fullNameParts.length > 1) {
+				result[0] = fullNameParts[0];
+				result[1] = fullNameParts[1];
+			} else {
+				result[0] = "";
+				result[1] = fullNameParts[0];
+			}
+		}
+		return result;
+	}
 }

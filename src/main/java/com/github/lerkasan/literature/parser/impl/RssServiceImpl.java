@@ -21,6 +21,8 @@ import com.github.lerkasan.literature.entity.ItemAccessType;
 import com.github.lerkasan.literature.entity.ItemToRead;
 import com.github.lerkasan.literature.entity.ItemType;
 import com.github.lerkasan.literature.entity.Resource;
+import com.github.lerkasan.literature.parser.ConvertableToItemToRead;
+import com.github.lerkasan.literature.parser.RssEntry;
 import com.github.lerkasan.literature.parser.RssService;
 import com.github.lerkasan.literature.service.AuthorService;
 import com.github.lerkasan.literature.service.ItemToReadService;
@@ -33,12 +35,12 @@ import com.rometools.rome.io.XmlReader;
 
 @Service("RssService")
 public class RssServiceImpl implements RssService {
-	
+
 	@Inject
-	ItemToReadService itemToReadService;
-	
+	private ItemToReadService itemToReadService;
+
 	@Inject
-	AuthorService authorService;
+	private AuthorService authorService;
 
 	public RssServiceImpl() {
 	}
@@ -88,22 +90,27 @@ public class RssServiceImpl implements RssService {
 
 		return null;
 	}
-	
-	public String saveRssNewsToDb(int[] selectedRssNewsIds, List<SyndEntry> rssNews) {
-		String givenName;
-		String familyName;
+
+	public String save(int[] selectedRssNewsIds, List<SyndEntry> rssNews) {
+		
 		boolean oldItemsFlag = false;
 		if (selectedRssNewsIds != null) {
 			for (int i : selectedRssNewsIds) {
-				SyndEntry pieceOfNews = rssNews.get(i);
+				SyndEntry pieceOfNewsSynd = rssNews.get(i);
+				RssEntry pieceOfNews = new RssEntry(pieceOfNewsSynd);
 				String url = pieceOfNews.getLink();
-				ItemToRead item = itemToReadService.getByUrl(url); //  itemToReadRepository.findByUrl(url) worked fine
-				if (item == null) {
-					item = new ItemToRead();
+				ItemToRead foundItem = itemToReadService.getByUrl(url); 
+				if (foundItem == null) {
+					ItemToRead item = pieceOfNews.convertToItem(); 
+					item.setAddedAt(LocalDate.now()); 
+					itemToReadService.save(item);
+				/*	item = new ItemToRead();
 					if (!pieceOfNews.getAuthors().isEmpty()) {
 						for (SyndPerson syndAuthor : pieceOfNews.getAuthors()) {
 							String[] fullNameParts = syndAuthor.getName().split(" ", 2);
-							Author rssAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]); //  authorRepository.getByFullName(...)  worked fine
+							Author rssAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]); // authorRepository.getByFullName(...)
+																												// worked
+																												// fine
 							if (rssAuthor == null) {
 								rssAuthor = new Author(fullNameParts[0], fullNameParts[1]);
 								authorService.save(rssAuthor);
@@ -113,15 +120,8 @@ public class RssServiceImpl implements RssService {
 					} else {
 						String authorStr = pieceOfNews.getAuthor();
 						if ((authorStr != null) && (authorStr != "")) {
-							String[] fullNameParts = pieceOfNews.getAuthor().split(" ", 2);
-							if (fullNameParts.length > 1) {
-								givenName = fullNameParts[0];
-								familyName = fullNameParts[1];
-							} else {
-								givenName = "";
-								familyName = fullNameParts[0];
-							}
-							Author rssAuthor = authorService.getByFullName(givenName, familyName);
+							String[] fullNameParts = authorService.divideFullName(authorStr);
+							Author rssAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 							if (rssAuthor == null) {
 								rssAuthor = new Author(fullNameParts[0], fullNameParts[1]);
 								authorService.save(rssAuthor);
@@ -137,17 +137,18 @@ public class RssServiceImpl implements RssService {
 					Date publDate = pieceOfNews.getPublishedDate();
 					LocalDate publishDate = publDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 					item.setPublishDate(publishDate);
-					item.setAddedAt(LocalDate.now());
-					itemToReadService.save(item);
+					item.setAddedAt(LocalDate.now()); 
+					itemToReadService.save(item);*/
 				} else {
 					oldItemsFlag = true;
 				}
-				
-				
+
 				// redirectAttributes.addFlashAttribute("message", message);
 			}
 		}
 		return oldItemsFlag ? Messages.SOME_ITEMS_ALREADY_IN_DB : Messages.SUCCESSFUL_SAVE;
 	}
+
+	
 
 }

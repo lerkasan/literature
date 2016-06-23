@@ -1,6 +1,18 @@
 package com.github.lerkasan.literature.parser;
 
-public class SpringerApiJson {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
+import javax.persistence.Lob;
+
+import com.github.lerkasan.literature.entity.Author;
+import com.github.lerkasan.literature.entity.ItemAccessType;
+import com.github.lerkasan.literature.entity.ItemToRead;
+import com.github.lerkasan.literature.entity.ItemType;
+import com.github.lerkasan.literature.entity.Literature;
+
+public class SpringerApiJson implements ConvertableToItemToRead {
 	private String identifier;
 	private String title;
 	private String publicationName;
@@ -9,12 +21,12 @@ public class SpringerApiJson {
 	private String doi;
 	private String publisher;
 	private String publicationDate;
-	private String volume; //not int - because json field value could be empty string
-	private String number; //not int - because json field value could be empty string
-	private String startingPage; //not int - because json field value could be empty string
+	private String volume;
+	private String number;
+	private String startingPage;
 	private String url;
 	private String copyright;
-	
+
 	public SpringerApiJson() {
 	}
 
@@ -121,7 +133,29 @@ public class SpringerApiJson {
 	public void setCopyright(String copyright) {
 		this.copyright = copyright;
 	}
-	
-	
+
+	@Override
+	public Literature convertToItem() {
+		Literature literatureItem = new Literature();
+		literatureItem.setTitle(title);
+		literatureItem.setPublishing(publisher);
+		literatureItem.setIsbn(isbn);
+		literatureItem.setIssn(issn);
+		literatureItem.setUrl(url);
+		if ((publicationDate != null) && (publicationDate != "")) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate date = LocalDate.parse(publicationDate, formatter);
+			literatureItem.setPublishDate(date);
+			literatureItem.setYear(date.getYear());
+		}
+		literatureItem.setDoi(doi);
+		literatureItem.setVolume(Short.parseShort(volume));
+		literatureItem.setIssueOrEditionNumber(number);
+		literatureItem.setAccessType(ItemAccessType.FREE);
+		literatureItem.setItemType(ItemType.JOURNAL_ARTICLE);
+		literatureItem.setAuthors(new ArrayList<Author>());
+
+		return literatureItem;
+	}
 
 }

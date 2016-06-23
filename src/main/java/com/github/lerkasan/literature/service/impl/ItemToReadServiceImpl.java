@@ -1,5 +1,7 @@
 package com.github.lerkasan.literature.service.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.data.domain.Page;
@@ -8,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.lerkasan.literature.dao.ItemToReadRepository;
+import com.github.lerkasan.literature.entity.Author;
 import com.github.lerkasan.literature.entity.ItemToRead;
+import com.github.lerkasan.literature.service.AuthorService;
 import com.github.lerkasan.literature.service.ItemToReadService;
 
 @Service
@@ -16,6 +20,9 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 
 	@Inject
 	private ItemToReadRepository itemToReadRepository;
+	
+	@Inject
+	private AuthorService authorService;
 	
 	public ItemToReadServiceImpl() {
 	}
@@ -28,7 +35,6 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 	@Override
 	public void delete(int id) {
 		itemToReadRepository.delete(id);
-
 	}
 
 	@Override
@@ -39,6 +45,16 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 	@Override
 	@Transactional
 	public ItemToRead save(ItemToRead itemToRead) {
+		//category also should be worked out
+		List<Author> authors = itemToRead.getAuthors();
+		if ((authors != null) && (!authors.isEmpty())) {
+			for (Author author : authors) {
+				Author foundAuthor = authorService.getByFullName(author.getGivenName(), author.getFamilyName());
+				if (foundAuthor == null) {
+					authorService.save(author);
+				}
+			}
+		}
 		return itemToReadRepository.save(itemToRead);
 	}
 
