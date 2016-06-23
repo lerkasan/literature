@@ -38,12 +38,6 @@
 
 </head>
 <body>
-	<div align="center">
-		<form action="search" method="POST">
-			<input type="text" name="searchQuery" placeholder="Keywords separator: comma">&nbsp;<input
-				type="submit" id="searchButton" value="Search" />
-		</form>
-	</div>
 
 	<div align="center">
 

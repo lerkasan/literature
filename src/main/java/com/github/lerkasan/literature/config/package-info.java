@@ -3,7 +3,7 @@
     elementFormDefault = XmlNsForm.QUALIFIED)
 @XmlAccessorType(XmlAccessType.FIELD)
 
-package com.github.lerkasan.literature;
+package com.github.lerkasan.literature.config;
 
 import javax.xml.bind.annotation.XmlNsForm;
 import javax.xml.bind.annotation.XmlSchema;

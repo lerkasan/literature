@@ -37,13 +37,7 @@
 </style>
 </head>
 <body>
-	<div align="center">
-		<form action="search" method="POST">
-			<input type="text" name="searchQuery" placeholder="Search...">&nbsp;<input
-				type="submit" id="searchButton" value="Search" />
-		</form>
-	</div>
-
+	
 	<div align="center">
 
 		<ul class="tabrow">

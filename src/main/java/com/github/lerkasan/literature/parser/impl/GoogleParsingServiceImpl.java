@@ -34,19 +34,27 @@ public class GoogleParsingServiceImpl implements ParsingService {
 				GoogleApiJson articleJson = json.fromJson(item, GoogleApiJson.class);
 				JsonObject pagemap = item.getAsJsonObject().get("pagemap").getAsJsonObject();
 
-			/*	if (pagemap.has("person")) {   //TO DO !!!
+				if (pagemap.has("person")) { // TO DO !!!
 					JsonArray persons = pagemap.getAsJsonArray("person");
 					if (persons != null) {
+						articleJson.setAuthors(new ArrayList<String>());
 						for (JsonElement person : persons) {
-							String name = person.getAsJsonObject().get("name").getAsString();
-							articleJson.getAuthors().add(name);
+							JsonElement personElement = person.getAsJsonObject().get("name");
+							if (personElement != null) {
+								String name = personElement.getAsString();
+								articleJson.getAuthors().add(name);
+							}
 						}
 					}
-				} */
+				}
 				if (pagemap.has("blogposting")) {
 					JsonElement blogposting = pagemap.getAsJsonArray("blogposting").get(0);
 					if (blogposting.getAsJsonObject().has("datepublished")) {
-						String date = blogposting.getAsJsonObject().get("datepublished").getAsString();
+						JsonElement dateElement = blogposting.getAsJsonObject().get("datepublished");
+						if (dateElement != null) {
+							String date = dateElement.getAsString();
+							articleJson.setPublishDate(date);
+						}
 						/*
 						 * date = date.substring(0, 10); DateTimeFormatter
 						 * formatter =
@@ -54,20 +62,19 @@ public class GoogleParsingServiceImpl implements ParsingService {
 						 * publishDate = LocalDate.parse(date, formatter);
 						 * articleJson.setPublishDate(publishDate);
 						 */
-						articleJson.setPublishDate(date);
+
 					}
 					if (blogposting.getAsJsonObject().has("keywords")) {
-						String keywords = blogposting.getAsJsonObject().get("keywords").getAsString();
-						articleJson.setKeywords(keywords);
+						JsonElement keywordsElement = blogposting.getAsJsonObject().get("keywords");
+						if (keywordsElement != null) {
+							String keywords = keywordsElement.getAsString();
+							articleJson.setKeywords(keywords);
+						}
 					}
 				}
 				articleList.add(articleJson);
 			}
 		}
-		// System.out.println("my result #3" + articleList.get(3).getTitle()+"
-		// "+articleList.get(3).getAuthors().get(0)+"
-		// "+articleList.get(3).getPublishDate()+"
-		// "+articleList.get(3).getKeywords());
 		return articleList;
 	}
 

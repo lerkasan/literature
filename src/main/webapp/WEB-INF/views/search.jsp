@@ -8,12 +8,32 @@
 <html>
 <head>
 <style>
+.tabrow a {
+	color: #555;
+	text-decoration: none;
+}
 </style>
 <link rel="stylesheet" href="/literature/resources/css/style.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Search results:</title>
 </head>
 <body>
+
+	<div align="center">
+		<ul class="tabrow">
+			<c:choose>
+				<c:when test="${not empty searchEngineList}">
+					<c:forEach var="engine" items="${searchEngineList}">
+						<li
+							<c:if test="${engine.name}==${engineName}"><c:out value="class='selected'"/></c:if>>
+							<a href="<c:out value='/literature/search/${engine.name}'/>"><c:out
+									value="${engine.name}" /></a>
+						</li>
+					</c:forEach>
+				</c:when>
+			</c:choose>
+		</ul>
+	</div>
 	<c:choose>
 		<c:when
 			test="${(empty googleResults) && (empty springerResults) && (empty crossrefResults) && (empty amazonResults)}">
@@ -37,10 +57,11 @@
 					<c:set var="i" value="${1}" />
 					<c:forEach var="result" items="${amazonResults}">
 						<tr>
-							<td><img width="130" src="<c:out value='${result.imageUrl}'/>"></img></td>
+							<td><img width="130"
+								src="<c:out value='${result.imageUrl}'/>"></img></td>
 							<td><a href="<c:out value='${result.itemUrl}'/>"><c:out
 										value="${result.title}" /></a></td>
-							<td><c:out value="${result.author}"/></td>
+							<td><c:out value="${result.author}" /></td>
 							<td><c:out value="${result.publicationDate}" /></td>
 							<td><c:out value="${result.publisher}" /></td>
 						</tr>
@@ -70,7 +91,9 @@
 							<td><c:out value="${i}" /></td>
 							<td><a href="<c:out value='${result.link}'/>"><c:out
 										value="${result.title}" /></a></td>
-							<td>Author name</td>
+							<td><c:forEach var="author" items="${result.authors}">
+									<c:out value="${author}" />&nbsp;
+								</c:forEach></td>
 							<td><c:out value="${result.publishDate}" /></td>
 						</tr>
 						<c:set var="i" value="${i + 1}" />
