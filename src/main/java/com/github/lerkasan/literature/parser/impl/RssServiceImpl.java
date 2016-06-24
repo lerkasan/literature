@@ -58,21 +58,6 @@ public class RssServiceImpl implements RssService {
 				HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
 				SyndFeedInput input = new SyndFeedInput();
 				SyndFeed feed = input.build(new XmlReader(httpcon));
-				/*
-				 * List entries = feed.getEntries(); Iterator itEntries =
-				 * entries.iterator();
-				 * 
-				 * while (itEntries.hasNext()) { SyndEntry entry = (SyndEntry)
-				 * itEntries.next(); System.out.println(
-				 * "-------------------------------------------------");
-				 * System.out.println("Title: " + entry.getTitle());
-				 * System.out.println("Link: " + entry.getLink());
-				 * System.out.println("Author: " + entry.getAuthor());
-				 * System.out.println("Publish Date: " +
-				 * entry.getPublishedDate()); //System.out.println(
-				 * "Description: " + entry.getDescription().getValue());
-				 * System.out.println(); }
-				 */
 				httpcon.disconnect();
 				return feed.getEntries();
 			} catch (MalformedURLException e) {
@@ -98,7 +83,7 @@ public class RssServiceImpl implements RssService {
 	public String save(int[] selectedRssNewsIds, List<SyndEntry> rssNews) {
 		
 		boolean oldItemsFlag = false;
-		if ((selectedRssNewsIds != null) && (rssNews != null)) { //  why rssNews are null??
+		if ((selectedRssNewsIds != null) && (rssNews != null)) {
 			for (int i : selectedRssNewsIds) {
 				SyndEntry pieceOfNewsSynd = rssNews.get(i);
 				
@@ -111,46 +96,9 @@ public class RssServiceImpl implements RssService {
 					ItemToRead item = pieceOfNews.convertToItem(); 
 					item.setAddedAt(LocalDate.now()); 
 					itemToReadService.save(item);
-				/*	item = new ItemToRead();
-					if (!pieceOfNews.getAuthors().isEmpty()) {
-						for (SyndPerson syndAuthor : pieceOfNews.getAuthors()) {
-							String[] fullNameParts = syndAuthor.getName().split(" ", 2);
-							Author rssAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]); // authorRepository.getByFullName(...)
-																												// worked
-																												// fine
-							if (rssAuthor == null) {
-								rssAuthor = new Author(fullNameParts[0], fullNameParts[1]);
-								authorService.save(rssAuthor);
-							}
-							item.addAuthor(rssAuthor);
-						}
-					} else {
-						String authorStr = pieceOfNews.getAuthor();
-						if ((authorStr != null) && (authorStr != "")) {
-							String[] fullNameParts = authorService.divideFullName(authorStr);
-							Author rssAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
-							if (rssAuthor == null) {
-								rssAuthor = new Author(fullNameParts[0], fullNameParts[1]);
-								authorService.save(rssAuthor);
-							}
-							item.setAuthors(new ArrayList<Author>());
-							item.addAuthor(rssAuthor);
-						}
-					}
-					item.setUrl(url);
-					item.setTitle(pieceOfNews.getTitle());
-					item.setAccessType(ItemAccessType.FREE);
-					item.setItemType(ItemType.INTERNET_ARTICLE);
-					Date publDate = pieceOfNews.getPublishedDate();
-					LocalDate publishDate = publDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-					item.setPublishDate(publishDate);
-					item.setAddedAt(LocalDate.now()); 
-					itemToReadService.save(item);*/
 				} else {
 					oldItemsFlag = true;
 				}
-
-				// redirectAttributes.addFlashAttribute("message", message);
 			}
 		}
 		return oldItemsFlag ? Messages.SOME_ITEMS_ALREADY_IN_DB : Messages.SUCCESSFUL_SAVE;
@@ -160,7 +108,6 @@ public class RssServiceImpl implements RssService {
 	public ItemToRead convertToItem(RssEntry rssItem) {
 
 		ItemToRead item = new ItemToRead();
-	//	item.setAuthors(new ArrayList<Author>());
 		item.setUrl(rssItem.getLink());
 		item.setTitle(rssItem.getTitle());
 		item.setAccessType(ItemAccessType.FREE);
@@ -185,7 +132,6 @@ public class RssServiceImpl implements RssService {
 				Author rssAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 				if (rssAuthor == null) {
 					rssAuthor = new Author(fullNameParts[0], fullNameParts[1]);
-					//authorService.save(rssAuthor);
 				}
 				item.addAuthor(rssAuthor);
 			}
