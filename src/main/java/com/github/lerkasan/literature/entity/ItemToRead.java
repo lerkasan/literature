@@ -47,7 +47,7 @@ public class ItemToRead implements Serializable {
 	
 	private String keywords;
 
-	@ManyToMany(cascade=CascadeType.PERSIST)
+	@ManyToMany
 	@JoinTable(name="user_categories",
 		joinColumns=@JoinColumn(name="itemToReadId"),
 		inverseJoinColumns=@JoinColumn(name="categoryId"))
@@ -58,7 +58,7 @@ public class ItemToRead implements Serializable {
 	private List<Comment> comments;
 
 	//bi-directional many-to-many association to Author
-	@ManyToMany(cascade=CascadeType.PERSIST)
+	@ManyToMany 
 	@JoinTable(name="item_authors", 
 		joinColumns=@JoinColumn(name="itemToReadId"), 
 		inverseJoinColumns=@JoinColumn(name="authorId"))
