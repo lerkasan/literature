@@ -7,6 +7,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type="text/javascript">
 	function toggle(source) {
 		checkboxes = document.getElementsByName('selectedItems');
@@ -19,6 +20,9 @@
 .tabrow a {
 	color: #555;
 	text-decoration: none;
+}
+.message_div {
+	display: none;
 }
 </style>
 <link rel="stylesheet" href="/literature/resources/css/style.css" />
@@ -52,7 +56,7 @@
 		<c:when test="${not empty amazonResults}">
 			<p align="center">Search results from Amazon:</p>
 			<div align="center">
-				<form action="save/Amazon" method="POST">
+				<form action="/literature/search/save/Amazon" method="POST">
 					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
 					All
 
@@ -70,7 +74,7 @@
 						<c:forEach var="result" items="${amazonResults}">
 							<tr>
 								<td><input type="checkbox" name="selectedItems"
-									value="${i+1}" /></td>
+									value="${i}" /></td>
 								<td><img width="130"
 									src="<c:out value='${result.imageUrl}'/>"></img></td>
 								<td><a href="<c:out value='${result.itemUrl}'/>"><c:out
@@ -96,7 +100,7 @@
 			<p align="center">Search results from Google:</p>
 
 			<div align="center">
-				<form action="save/Google" method="POST">
+				<form action="/literature/search/save/Google" method="POST">
 					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
 					All
 					<table class="list" id="list">
@@ -138,7 +142,7 @@
 			<br>
 			<p align="center">Search results from SpringerOpen:</p>
 			<div align="center">
-				<form action="save/Springer" method="POST">
+				<form action="/literature/search/save/Springer" method="POST">
 					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
 					All
 					<table class="list" id="list">
@@ -187,7 +191,7 @@
 			<br>
 			<p align="center">Search results from Crossref:</p>
 			<div align="center">
-				<form action="save/Crossref" method="POST">
+				<form action="/literature/search/save/Crossref" method="POST">
 					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
 					All
 					<table class="list" id="list">
@@ -227,7 +231,7 @@
 	</c:choose>
 	<c:choose>
 		<c:when test="${message != ''}">
-			<div id="message_div" hidden=true>${message}</div>
+			<div  hidden=true id="message_div">${message}</div>
 			<script type="text/javascript">
 				var alert_message = $('#message_div').html();
 				alert(alert_message);

@@ -11,6 +11,9 @@ import javax.inject.Inject;
 import javax.persistence.AccessType;
 import javax.persistence.Lob;
 
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.stereotype.Service;
+
 import com.github.lerkasan.literature.entity.Author;
 import com.github.lerkasan.literature.entity.ItemAccessType;
 import com.github.lerkasan.literature.entity.ItemToRead;
@@ -18,7 +21,7 @@ import com.github.lerkasan.literature.entity.ItemType;
 import com.github.lerkasan.literature.entity.Literature;
 import com.github.lerkasan.literature.service.AuthorService;
 
-public class AmazonItem implements  ConvertableToItemToRead {
+public class AmazonItem implements ConvertableToItemToRead {
 	private String title;
 	private String author;
 	private String imageUrl;
@@ -29,6 +32,9 @@ public class AmazonItem implements  ConvertableToItemToRead {
 
 	@Inject
 	private AuthorService authorService;
+	
+	/*@Inject
+	private AutowireCapableBeanFactory beanFactory;*/
 
 	public AmazonItem() {
 	}
@@ -92,6 +98,7 @@ public class AmazonItem implements  ConvertableToItemToRead {
 	@Override
 	public Literature convertToItem() {
 		Literature literatureItem = new Literature();
+	//	beanFactory.autowireBean(literatureItem);
 		literatureItem.setTitle(title);
 		literatureItem.setImageUrl(imageUrl);
 		literatureItem.setPublishing(publisher);
@@ -105,7 +112,6 @@ public class AmazonItem implements  ConvertableToItemToRead {
 		}
 		literatureItem.setAccessType(ItemAccessType.PAID);
 		literatureItem.setItemType(ItemType.BOOK);
-		literatureItem.setAuthors(new ArrayList<Author>());
 		String[] fullNameParts = authorService.divideFullName(author);
 		Author itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 		if (itemAuthor == null) {

@@ -149,7 +149,9 @@ public class SpringerApiJson implements ConvertableToItemToRead {
 			literatureItem.setYear(date.getYear());
 		}
 		literatureItem.setDoi(doi);
-		literatureItem.setVolume(Short.parseShort(volume));
+		if ((volume != null) && (volume != "")) {
+			literatureItem.setVolume(Short.parseShort(volume));
+		}
 		literatureItem.setIssueOrEditionNumber(number);
 		literatureItem.setAccessType(ItemAccessType.FREE);
 		literatureItem.setItemType(ItemType.JOURNAL_ARTICLE);

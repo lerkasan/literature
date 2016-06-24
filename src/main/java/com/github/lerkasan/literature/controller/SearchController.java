@@ -76,6 +76,7 @@ public class SearchController {
 		List<CrossrefApiJson> crossrefResults;
 		List<AmazonItem> amazonResults;
 		String apiResponse = "";
+		model.addAttribute("message", "");
 
 		List<Resource> searchEngineList = new ArrayList<>();
 		Iterable<Resource> engineIterable = resourceRepository.findByResponseFormatNot("rss");
@@ -100,6 +101,16 @@ public class SearchController {
 			String preparedQuery = apiRequestPreparation.prepareQuery(searchApi, searchedWords);
 			apiResponse = apiRequestPreparation.passRequestToApi(searchApi, preparedQuery);
 
+			model.addAttribute("googleResults", null);
+			request.getSession().setAttribute("googleResults", null);
+			model.addAttribute("amazonResults", null);
+			request.getSession().setAttribute("amazonResults", null);
+			model.addAttribute("springerResults", null);
+			request.getSession().setAttribute("springerResults", null);
+			model.addAttribute("crossrefResults", null);
+			request.getSession().setAttribute("crossrefResults", null);
+			
+			
 			request.getSession().setAttribute("currentEngineName", engineName);
 			switch (engineName) {
 			case "Google": {

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import javax.persistence.Lob;
 
+import org.springframework.stereotype.Service;
+
 import com.github.lerkasan.literature.entity.Author;
 import com.github.lerkasan.literature.entity.ItemAccessType;
 import com.github.lerkasan.literature.entity.ItemToRead;
@@ -78,8 +80,10 @@ public class CrossrefApiJson implements ConvertableToItemToRead {
 		literatureItem.setPublishing(publisher);
 		literatureItem.setIsbn(isbn);
 		literatureItem.setUrl(URL);
-		literatureItem.setPublishDate(publishDate);
-		literatureItem.setYear(publishDate.getYear());
+		if (publishDate != null) {
+			literatureItem.setPublishDate(publishDate);
+			literatureItem.setYear(publishDate.getYear());
+		}
 		literatureItem.setDoi(DOI);
 		literatureItem.setAccessType(ItemAccessType.PAID);
 		literatureItem.setItemType(ItemType.JOURNAL_ARTICLE);

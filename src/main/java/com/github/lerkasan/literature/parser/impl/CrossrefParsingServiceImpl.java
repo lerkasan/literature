@@ -55,7 +55,9 @@ public class CrossrefParsingServiceImpl extends ParsingServiceImpl implements Pa
 					isbn = isbn.substring(32);
 					itemJson.setIsbn(isbn);
 				}
-				itemList.add(itemJson);
+				if ((itemJson.getItemTitle() != null) && (itemJson.getItemTitle() != "")) {
+					itemList.add(itemJson);
+				}
 			}
 		}
 	
