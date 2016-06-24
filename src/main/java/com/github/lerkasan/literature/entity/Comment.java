@@ -4,11 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the Comment database table.
- * 
- */
 @Entity(name="comment")
 @NamedQuery(name="Comment.findAll", query="SELECT c FROM comment c")
 public class Comment implements Serializable {

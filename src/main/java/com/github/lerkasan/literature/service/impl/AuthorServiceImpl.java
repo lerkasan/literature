@@ -24,7 +24,6 @@ public class AuthorServiceImpl implements AuthorService {
 	public Author add(Author author) {
 		return authorRepository.save(author);
 	}
-
 	@Override
 	public void delete(int id) {
 		authorRepository.delete(id);

@@ -5,10 +5,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-/**
- * The persistent class for the Category database table.
- * 
- */
 @Entity(name="category")
 @NamedQuery(name="Category.findAll", query="SELECT c FROM category c")
 public class Category implements Serializable {
@@ -26,7 +22,7 @@ public class Category implements Serializable {
 	private User user;
 	
 	//bi-directional many-to-many association to ItemToRead
-	@ManyToMany(mappedBy="categories")
+	@ManyToMany(mappedBy="categories", cascade=CascadeType.PERSIST)
 	private List<ItemToRead> itemsToRead;
 
 	public Category() {

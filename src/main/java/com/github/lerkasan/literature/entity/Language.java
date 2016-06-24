@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the Language database table.
- * 
- */
 @Entity(name="language")
 @NamedQuery(name="Language.findAll", query="SELECT l FROM language l")
 public class Language implements Serializable {
@@ -21,7 +16,7 @@ public class Language implements Serializable {
 	private String name;
 
 	//bi-directional many-to-one association to ItemToRead
-	@OneToMany(mappedBy="language")
+	@OneToMany(mappedBy="language", cascade=CascadeType.PERSIST)
 	private List<ItemToRead> itemsToRead;
 
 	public Language() {

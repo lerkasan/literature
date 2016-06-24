@@ -2,13 +2,10 @@ package com.github.lerkasan.literature.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * The persistent class for the Author database table.
- * 
- */
 @Entity(name="author")
 @NamedQuery(name="Author.findAll", query="SELECT a FROM author a")
 public class Author implements Serializable {
@@ -23,15 +20,17 @@ public class Author implements Serializable {
 	private String givenName;
 
 	//bi-directional many-to-many association to ItemToRead
-	@ManyToMany(mappedBy="authors")
+	@ManyToMany(mappedBy="authors", cascade=CascadeType.PERSIST)
 	private List<ItemToRead> itemsToRead;
 
 	public Author() {
+		itemsToRead = new ArrayList<>();
 	}
 	
 	public Author(String givenName, String familyName) {
 		this.givenName = givenName;
 		this.familyName = familyName;
+		itemsToRead = new ArrayList<>();
 	}
 
 	public Integer getId() {
@@ -66,15 +65,15 @@ public class Author implements Serializable {
 		this.itemsToRead = itemToReads;
 	}
 
-	public void setItemToRead(ItemToRead itemToRead) {
+	public void addItemToRead(ItemToRead itemToRead) {
 		this.itemsToRead.add(itemToRead);
 		
 	}
 	
-	public static String[] parseFullName(String fullName) {
+	/*public static String[] parseFullName(String fullName) {
 		String[] fullNameParts = fullName.split(" ", 2);
 		return fullNameParts;
-	}
+	}*/
 	
 	
 

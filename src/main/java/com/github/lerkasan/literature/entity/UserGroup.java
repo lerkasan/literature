@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the UserGroup database table.
- * 
- */
 @Entity(name="user_group")
 @NamedQuery(name="UserGroup.findAll", query="SELECT u FROM user_group u")
 public class UserGroup implements Serializable {
@@ -21,7 +16,7 @@ public class UserGroup implements Serializable {
 	private String name;
 
 	//bi-directional many-to-one association to User
-	@OneToMany(mappedBy="userGroup")
+	@OneToMany(mappedBy="userGroup", cascade=CascadeType.PERSIST)
 	private List<User> users;
 
 	public UserGroup() {

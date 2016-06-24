@@ -7,11 +7,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * The persistent class for the ItemToRead database table.
- * 
- */
 @Entity(name="item_to_read")
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name="dtype", discriminatorType=DiscriminatorType.STRING)
@@ -52,18 +47,18 @@ public class ItemToRead implements Serializable {
 	
 	private String keywords;
 
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.PERSIST)
 	@JoinTable(name="user_categories",
 		joinColumns=@JoinColumn(name="itemToReadId"),
 		inverseJoinColumns=@JoinColumn(name="categoryId"))
 	private List<Category> categories;
 
 	//bi-directional many-to-one association to Comment
-	@OneToMany(mappedBy="itemToRead")
+	@OneToMany(mappedBy="itemToRead", cascade=CascadeType.PERSIST)
 	private List<Comment> comments;
 
 	//bi-directional many-to-many association to Author
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.PERSIST)
 	@JoinTable(name="item_authors", 
 		joinColumns=@JoinColumn(name="itemToReadId"), 
 		inverseJoinColumns=@JoinColumn(name="authorId"))
@@ -90,13 +85,13 @@ public class ItemToRead implements Serializable {
 	private User user;
 
 	//bi-directional one-to-one association to Literature
-	@OneToOne(mappedBy="itemToRead")
+	@OneToOne(mappedBy="itemToRead", cascade=CascadeType.PERSIST)
 	private Literature literature;
 
 	public ItemToRead() {
-	/*	List<Category> categories = new ArrayList<>();
-		List<Comment> comments = new ArrayList<>();
-		List<Author> authors = new ArrayList<>(); */
+		categories = new ArrayList<>();
+		comments = new ArrayList<>();
+		authors = new ArrayList<>(); 
 	}
 
 	public Integer getId() {
@@ -265,13 +260,13 @@ public class ItemToRead implements Serializable {
 	
 	public Author addAuthor(Author author) {
 		getAuthors().add(author);
-		author.setItemToRead(this);
+		author.addItemToRead(this);
 		return author;
 	}
 
 	public Author removeAuthor(Author author) {
 		getAuthors().remove(author);
-		author.setItemToRead(null);
+		author.addItemToRead(null);
 
 		return author;
 	}

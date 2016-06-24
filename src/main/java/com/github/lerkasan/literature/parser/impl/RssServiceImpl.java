@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Service;
 
 import com.github.lerkasan.literature.controller.Messages;
@@ -41,6 +42,9 @@ public class RssServiceImpl implements RssService {
 
 	@Inject
 	private AuthorService authorService;
+	
+	@Inject
+	private AutowireCapableBeanFactory beanFactory;
 
 	public RssServiceImpl() {
 	}
@@ -94,10 +98,13 @@ public class RssServiceImpl implements RssService {
 	public String save(int[] selectedRssNewsIds, List<SyndEntry> rssNews) {
 		
 		boolean oldItemsFlag = false;
-		if (selectedRssNewsIds != null) {
+		if ((selectedRssNewsIds != null) && (rssNews != null)) { //  why rssNews are null??
 			for (int i : selectedRssNewsIds) {
 				SyndEntry pieceOfNewsSynd = rssNews.get(i);
+				
 				RssEntry pieceOfNews = new RssEntry(pieceOfNewsSynd);
+				beanFactory.autowireBean(pieceOfNews);
+				
 				String url = pieceOfNews.getLink();
 				ItemToRead foundItem = itemToReadService.getByUrl(url); 
 				if (foundItem == null) {
@@ -149,6 +156,42 @@ public class RssServiceImpl implements RssService {
 		return oldItemsFlag ? Messages.SOME_ITEMS_ALREADY_IN_DB : Messages.SUCCESSFUL_SAVE;
 	}
 
-	
+	@Override
+	public ItemToRead convertToItem(RssEntry rssItem) {
+
+		ItemToRead item = new ItemToRead();
+	//	item.setAuthors(new ArrayList<Author>());
+		item.setUrl(rssItem.getLink());
+		item.setTitle(rssItem.getTitle());
+		item.setAccessType(ItemAccessType.FREE);
+		item.setItemType(ItemType.INTERNET_ARTICLE);
+		Date publDate = rssItem.getPublishedDate();
+		LocalDate publishDate = publDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		item.setPublishDate(publishDate);
+		if (!rssItem.getAuthors().isEmpty()) {
+			for (SyndPerson syndAuthor : rssItem.getAuthors()) {
+				String[] fullNameParts = authorService.divideFullName(syndAuthor.getName());
+				Author itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
+			//	Author itemAuthor = authorRepository.findByFullName(fullNameParts[0], fullNameParts[1]);
+				if (itemAuthor == null) {
+					itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
+				}
+				item.addAuthor(itemAuthor);
+			}
+		} else {
+			String authorStr = rssItem.getAuthor();
+			if ((authorStr != null) && (authorStr != "")) {
+				String[] fullNameParts = authorService.divideFullName(authorStr);
+				Author rssAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
+				if (rssAuthor == null) {
+					rssAuthor = new Author(fullNameParts[0], fullNameParts[1]);
+					//authorService.save(rssAuthor);
+				}
+				item.addAuthor(rssAuthor);
+			}
+		}
+		
+		return item;
+	}
 
 }

@@ -7,11 +7,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.List;
 
-
-/**
- * The persistent class for the Resource database table.
- * 
- */
 @Entity(name="resource")
 @NamedQuery(name="Resource.findAll", query="SELECT r FROM resource r")
 public class Resource implements Serializable {
@@ -42,7 +37,7 @@ public class Resource implements Serializable {
 	private String associateId;
 
 	//bi-directional many-to-one association to ItemToRead
-	@OneToMany(mappedBy="resource")
+	@OneToMany(mappedBy="resource", cascade=CascadeType.PERSIST)
 	private List<ItemToRead> itemsToRead;
 
 	//bi-directional many-to-one association to User

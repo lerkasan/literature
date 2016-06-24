@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the Country database table.
- * 
- */
 @Entity(name="country")
 @NamedQuery(name="Country.findAll", query="SELECT c FROM country c")
 public class Country implements Serializable {
@@ -21,7 +16,7 @@ public class Country implements Serializable {
 	private String name;
 
 	//bi-directional many-to-one association to User
-	@OneToMany(mappedBy="country")
+	@OneToMany(mappedBy="country", cascade=CascadeType.PERSIST)
 	private List<User> users;
 
 	public Country() {

@@ -7,11 +7,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * The persistent class for the User database table.
- * 
- */
 @Entity(name="user")
 @NamedQuery(name="User.findAll", query="SELECT u FROM user u")
 public class User implements Serializable {
@@ -37,19 +32,19 @@ public class User implements Serializable {
 	private String username;
 
 	//bi-directional many-to-one association to Category
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", cascade=CascadeType.PERSIST)
 	private List<Category> categories;
 
 	//bi-directional many-to-one association to Comment
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", cascade=CascadeType.PERSIST)
 	private List<Comment> comments;
 
 	//bi-directional many-to-one association to ItemToRead
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", cascade=CascadeType.PERSIST)
 	private List<ItemToRead> itemsToRead;
 
 	//bi-directional many-to-one association to Resource
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", cascade=CascadeType.PERSIST)
 	private List<Resource> resources;
 
 	//bi-directional many-to-one association to Country

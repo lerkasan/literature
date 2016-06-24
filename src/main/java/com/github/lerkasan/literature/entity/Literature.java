@@ -3,11 +3,6 @@ package com.github.lerkasan.literature.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the Literature database table.
- * 
- */
 @Entity(name="literature")
 @DiscriminatorValue("literature")
 @NamedQuery(name="Literature.findAll", query="SELECT l FROM literature l")
@@ -33,7 +28,7 @@ public class Literature extends ItemToRead implements Serializable {
 	private String imageUrl;
 	
 	//bi-directional one-to-one association to ItemToRead
-	@OneToOne
+	@OneToOne(cascade=CascadeType.PERSIST)
 	//@PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
 	@JoinColumn(name="id", referencedColumnName="id")
 	private ItemToRead itemToRead;
@@ -120,7 +115,5 @@ public class Literature extends ItemToRead implements Serializable {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-	
-
 
 }

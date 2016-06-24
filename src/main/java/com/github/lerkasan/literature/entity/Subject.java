@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the Subject database table.
- * 
- */
 @Entity(name="subject")
 @NamedQuery(name="Subject.findAll", query="SELECT s FROM subject s")
 public class Subject implements Serializable {
@@ -21,7 +16,7 @@ public class Subject implements Serializable {
 	private String name;
 
 	//bi-directional many-to-one association to ItemToRead
-	@OneToMany(mappedBy="subject")
+	@OneToMany(mappedBy="subject", cascade=CascadeType.PERSIST)
 	private List<ItemToRead> itemsToRead;
 
 	public Subject() {
