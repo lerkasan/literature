@@ -57,4 +57,9 @@ public class RssEntry extends SyndEntryImpl implements ConvertableToItemToRead {
 		return item;
 	}
 
+	@Override
+	public String getUrl() {
+		return getLink();
+	}
+
 }

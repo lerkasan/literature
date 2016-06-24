@@ -35,4 +35,8 @@
         <put-attribute name="title" value="Tech literature | Search Results"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/search.jsp"></put-attribute>
     </definition>
+    <definition name="searchResult/*" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Search Results"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/search.jsp"></put-attribute>
+    </definition>
 </tiles-definitions>

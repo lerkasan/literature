@@ -109,4 +109,9 @@ public class GoogleApiJson implements ConvertableToItemToRead {
 		return item;
 	}
 
+	@Override
+	public String getUrl() {
+		return getLink();
+	}
+
 }

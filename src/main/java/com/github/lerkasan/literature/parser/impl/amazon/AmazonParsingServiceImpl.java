@@ -22,9 +22,10 @@ import com.github.lerkasan.literature.parser.AmazonBook;
 import com.github.lerkasan.literature.parser.AmazonBooks;
 import com.github.lerkasan.literature.parser.AmazonItem;
 import com.github.lerkasan.literature.parser.ParsingService;
+import com.github.lerkasan.literature.parser.impl.ParsingServiceImpl;
 
 @Service("AmazonParsingService")
-public class AmazonParsingServiceImpl implements ParsingService {
+public class AmazonParsingServiceImpl extends ParsingServiceImpl implements ParsingService {
 
 	public List<AmazonItem> parse(String url) {
 		int nodesSize;

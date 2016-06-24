@@ -19,7 +19,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 @Service("GoogleParsingService")
-public class GoogleParsingServiceImpl implements ParsingService {
+public class GoogleParsingServiceImpl extends ParsingServiceImpl implements ParsingService {
 
 	@Override
 	public List<GoogleApiJson> parse(String input) {

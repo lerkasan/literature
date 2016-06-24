@@ -36,6 +36,7 @@ import com.rometools.rome.feed.synd.SyndPerson;
 public class RssController {
 	@Inject
 	RssService rssService;
+	
 	@Inject
 	ResourceRepository resourceService;
 	/*

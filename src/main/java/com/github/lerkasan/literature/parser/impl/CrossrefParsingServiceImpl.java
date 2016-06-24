@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.github.lerkasan.literature.parser.ConvertableToItemToRead;
 import com.github.lerkasan.literature.parser.CrossrefApiJson;
 import com.github.lerkasan.literature.parser.ParsingService;
 import com.google.gson.Gson;
@@ -18,7 +19,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 @Service("CrossrefParsingService")
-public class CrossrefParsingServiceImpl implements ParsingService {
+public class CrossrefParsingServiceImpl extends ParsingServiceImpl implements ParsingService {
 
 	@Override
 	public List<CrossrefApiJson> parse(String input) {
@@ -57,10 +58,7 @@ public class CrossrefParsingServiceImpl implements ParsingService {
 				itemList.add(itemJson);
 			}
 		}
-		System.out.println(
-				itemList.get(5).getDOI() + " " + itemList.get(5).getItemTitle() + " " + itemList.get(5).getIsbn());
-		System.out.println(
-				itemList.get(6).getDOI() + " " + itemList.get(6).getItemTitle() + " " + itemList.get(6).getIsbn());
+	
 		return itemList;
 
 	}

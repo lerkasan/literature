@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,18 +21,21 @@ import com.github.lerkasan.literature.entity.Resource;
 import com.github.lerkasan.literature.parser.AmazonBook;
 import com.github.lerkasan.literature.parser.AmazonItem;
 import com.github.lerkasan.literature.parser.ApiRequestPreparationService;
+import com.github.lerkasan.literature.parser.ConvertableToItemToRead;
 import com.github.lerkasan.literature.parser.CrossrefApiJson;
 import com.github.lerkasan.literature.parser.GoogleApiJson;
 import com.github.lerkasan.literature.parser.ParsingService;
+import com.github.lerkasan.literature.parser.RssService;
 import com.github.lerkasan.literature.parser.SpringerApiJson;
 import com.github.lerkasan.literature.parser.impl.amazon.AmazonBookSearchService;
 import com.github.lerkasan.literature.service.ItemToReadService;
 import com.rometools.rome.feed.synd.SyndEntry;
 
 @Controller
+@Scope("session")
 @RequestMapping("/search")
 public class SearchController {
-	
+
 	@Inject
 	ItemToReadService itemToReadService;
 
@@ -86,7 +90,7 @@ public class SearchController {
 		if ((searchQuery == null) || (searchQuery == "")) {
 			searchQuery = (String) request.getSession().getAttribute("searchQuery");
 		}
-		
+
 		if ((searchQuery != null) && (searchQuery != "")) {
 			request.getSession().setAttribute("searchQuery", searchQuery);
 			String[] searchedWords = apiRequestPreparation.deleteSpecialsAndSplit(searchQuery);
@@ -96,86 +100,77 @@ public class SearchController {
 			String preparedQuery = apiRequestPreparation.prepareQuery(searchApi, searchedWords);
 			apiResponse = apiRequestPreparation.passRequestToApi(searchApi, preparedQuery);
 
+			request.getSession().setAttribute("currentEngineName", engineName);
 			switch (engineName) {
 			case "Google": {
-				googleResults = googleParsingService.parse(apiResponse);
+				googleResults = (List<GoogleApiJson>) googleParsingService.parse(apiResponse);
 				model.addAttribute("googleResults", googleResults);
+				request.getSession().setAttribute("googleResults", googleResults);
+				//request.getSession().setAttribute("currentRssName", rssName);
 				break;
 			}
 			case "Springer": {
-				springerResults = springerParsingService.parse(apiResponse);
+				springerResults = (List<SpringerApiJson>) springerParsingService.parse(apiResponse);
 				model.addAttribute("springerResults", springerResults);
+				request.getSession().setAttribute("springerResults", springerResults);
 				break;
 			}
 			case "Crossref": {
-				crossrefResults = crossrefParsingService.parse(apiResponse);
+				crossrefResults = (List<CrossrefApiJson>) crossrefParsingService.parse(apiResponse);
 				model.addAttribute("crossrefResults", crossrefResults);
+				request.getSession().setAttribute("crossrefResults", crossrefResults);
 				break;
 			}
 			case "Amazon": {
 				String amazonRequestUrl = amazonBookSearchService.prepareRequestUrl(preparedQuery);
-				amazonResults = amazonParsingService.parse(amazonRequestUrl);
+				amazonResults = (List<AmazonItem>) amazonParsingService.parse(amazonRequestUrl);
 				model.addAttribute("amazonResults", amazonResults);
+				request.getSession().setAttribute("amazonResults", amazonResults);
 				break;
 			}
 			}
-
-			/*
-			 * request.getSession().setAttribute("rssNewsParam", rssNews);
-			 * request.getSession().setAttribute("currentRssName", rssName);
-			 */
-
-			/*
-			 * for (Resource api : foundApi) { String preparedQuery =
-			 * apiRequestPreparation.prepareQuery(api, searchedWords);
-			 * apiResponse = apiRequestPreparation.passRequestToApi(api,
-			 * preparedQuery); switch (api.getName()) { case "Google": {
-			 * googleResults = googleParsingService.parse(apiResponse);
-			 * model.addAttribute("googleResults", googleResults); break; } case
-			 * "Springer": { springerResults =
-			 * springerParsingService.parse(apiResponse);
-			 * model.addAttribute("springerResults", springerResults); break; }
-			 * case "Crossref": { crossrefResults =
-			 * crossrefParsingService.parse(apiResponse);
-			 * model.addAttribute("crossrefResults", crossrefResults); break; }
-			 * case "Amazon": { String amazonRequestUrl =
-			 * amazonBookSearchService.prepareRequestUrl(preparedQuery);
-			 * amazonResults = amazonParsingService.parse(amazonRequestUrl);
-			 * model.addAttribute("amazonResults", amazonResults); break; } }
-			 * 
-			 * }
-			 */
 		}
-		/*
-		 * String amazonRequestUrl =
-		 * amazonBookSearchService.prepareRequestUrl(preparedQuery);
-		 * List<AmazonBook> books =
-		 * amazonParsingService.parse(amazonRequestUrl);
-		 */
-
 		return "searchResult";
 	}
-	
-/*	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveRssNews(@RequestParam(value = "selectedItems", required = false) int[] selectedItemIds,
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/save/{engineName}", method = RequestMethod.POST)
+	public String saveItem(@PathVariable String engineName, @RequestParam(value = "selectedItems", required = false) int[] selectedItemsIds,
 			ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
-		/*
-		List<SyndEntry> rssNews = (List<SyndEntry>) request.getSession().getAttribute("rssNewsParam");
-		model.addAttribute("rssNews", rssNews);
-		List<Resource> rssList = (List<Resource>) request.getSession().getAttribute("rssList");
-		model.addAttribute("rssList", rssList);
-		String currentRssName = (String) request.getSession().getAttribute("currentRssName");
-		*/
-	/*	items = request.getSession().getAttribute("itemsParam");
-		String message = itemToReadService.saveRssNewsToDb(selectedItemIds, items);  */
+		String message = "";
+		List<ConvertableToItemToRead> itemsToRead = null;
+		List<Resource> searchEngineList = (List<Resource>) request.getSession().getAttribute("searchEngineList");
+		model.addAttribute("searchEngineList", searchEngineList);
+	/*	String currentEngineName = (String) request.getSession().getAttribute("currentEngineName");
+		switch (currentEngineName) { */
 		
-	/*	request.getSession().setAttribute("message", message);
+		switch (engineName) {
+		case "Google": {
+			itemsToRead = (List<ConvertableToItemToRead>) request.getSession().getAttribute("googleResults");
+			message = googleParsingService.save(selectedItemsIds, itemsToRead);
+			break;
+		}
+		case "Springer": {
+			itemsToRead = (List<ConvertableToItemToRead>) request.getSession().getAttribute("springerResults");
+			message = springerParsingService.save(selectedItemsIds, itemsToRead);
+			break;
+		}
+		case "Crossref": {
+			itemsToRead = (List<ConvertableToItemToRead>) request.getSession().getAttribute("crossrefResults");
+			message = crossrefParsingService.save(selectedItemsIds, itemsToRead);
+			break;
+		}
+		case "Amazon": {
+			itemsToRead = (List<ConvertableToItemToRead>) request.getSession().getAttribute("amazonResults");
+			message = amazonParsingService.save(selectedItemsIds, itemsToRead);
+			break;
+		}
+		}
+		model.addAttribute("itemsToRead", itemsToRead);
+		request.getSession().setAttribute("message", message);
 		model.addAttribute("message", message);
-		return "savedItem/" + currentItemName;*/
-		// return "redirect:" + "/rss/" + currentRssName;
-
-	//}
-
+		//return "searchResult/" + currentEngineName;
+		return "searchResult/" + engineName;
+	}
 }

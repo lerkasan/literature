@@ -87,4 +87,9 @@ public class CrossrefApiJson implements ConvertableToItemToRead {
 		return literatureItem;
 	}
 
+	@Override
+	public String getUrl() {
+		return getURL();
+	}
+
 }

@@ -48,15 +48,11 @@
 		</c:when>
 	</c:choose>
 
-
-
-
-
 	<c:choose>
 		<c:when test="${not empty amazonResults}">
 			<p align="center">Search results from Amazon:</p>
 			<div align="center">
-				<form action="save" method="POST">
+				<form action="save/Amazon" method="POST">
 					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
 					All
 
@@ -70,12 +66,11 @@
 							<th>Publisher</th>
 						</tr>
 
-						<c:set var="i" value="${1}" />
+						<c:set var="i" value="${0}" />
 						<c:forEach var="result" items="${amazonResults}">
-							<c:set var="i" value="${1}" />
 							<tr>
 								<td><input type="checkbox" name="selectedItems"
-									value="${i}" /></td>
+									value="${i+1}" /></td>
 								<td><img width="130"
 									src="<c:out value='${result.imageUrl}'/>"></img></td>
 								<td><a href="<c:out value='${result.itemUrl}'/>"><c:out
@@ -101,7 +96,7 @@
 			<p align="center">Search results from Google:</p>
 
 			<div align="center">
-				<form action="save" method="POST">
+				<form action="save/Google" method="POST">
 					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
 					All
 					<table class="list" id="list">
@@ -113,12 +108,12 @@
 							<th>Publish Date</th>
 						</tr>
 
-						<c:set var="i" value="${1}" />
+						<c:set var="i" value="${0}" />
 						<c:forEach var="result" items="${googleResults}">
 							<tr>
 								<td><input type="checkbox" name="selectedItems"
 									value="${i}" /></td>
-								<td><c:out value="${i}" /></td>
+								<td><c:out value="${i+1}" /></td>
 								<td><a href="<c:out value='${result.link}'/>"><c:out
 											value="${result.title}" /></a></td>
 								<td><c:forEach var="author" items="${result.authors}">
@@ -143,7 +138,7 @@
 			<br>
 			<p align="center">Search results from SpringerOpen:</p>
 			<div align="center">
-				<form action="save" method="POST">
+				<form action="save/Springer" method="POST">
 					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
 					All
 					<table class="list" id="list">
@@ -159,12 +154,12 @@
 							<th>Volume</th>
 							<th>Number</th>
 						</tr>
-						<c:set var="i" value="${1}" />
+						<c:set var="i" value="${0}" />
 						<c:forEach var="result" items="${springerResults}">
 							<tr>
 								<td><input type="checkbox" name="selectedItems"
 									value="${i}" /></td>
-								<td><c:out value="${i}" /></td>
+								<td><c:out value="${i+1}" /></td>
 								<td><a href="<c:out value='${result.url}'/>"><c:out
 											value="${result.title}" /></a></td>
 								<td><c:out value="${result.publicationName}" /></td>
@@ -192,7 +187,7 @@
 			<br>
 			<p align="center">Search results from Crossref:</p>
 			<div align="center">
-				<form action="save" method="POST">
+				<form action="save/Crossref" method="POST">
 					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
 					All
 					<table class="list" id="list">
@@ -206,12 +201,12 @@
 							<th>DOI</th>
 						</tr>
 
-						<c:set var="i" value="${1}" />
+						<c:set var="i" value="${0}" />
 						<c:forEach var="result" items="${crossrefResults}">
 							<tr>
 								<td><input type="checkbox" name="selectedItems"
 									value="${i}" /></td>
-								<td><c:out value="${i}" /></td>
+								<td><c:out value="${i+1}" /></td>
 								<td><a href="<c:out value='${result.URL}'/>"><c:out
 											value="${result.itemTitle}" /></a></td>
 								<td><c:out value="${result.publisher}" /></td>
@@ -228,6 +223,15 @@
 					</table>
 				</form>
 			</div>
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${message != ''}">
+			<div id="message_div" hidden=true>${message}</div>
+			<script type="text/javascript">
+				var alert_message = $('#message_div').html();
+				alert(alert_message);
+			</script>
 		</c:when>
 	</c:choose>
 </body>

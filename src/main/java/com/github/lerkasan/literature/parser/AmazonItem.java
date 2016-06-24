@@ -115,4 +115,9 @@ public class AmazonItem implements  ConvertableToItemToRead {
 		return literatureItem;
 	}
 
+	@Override
+	public String getUrl() {
+		return getItemUrl();
+	}
+
 }
