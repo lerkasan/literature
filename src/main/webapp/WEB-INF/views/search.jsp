@@ -53,7 +53,7 @@
 	</c:choose>
 
 	<c:choose>
-		<c:when test="${not empty amazonResults}">
+		<c:when test="${ (currentEngineName == 'Amazon') && (not empty amazonResults) }">
 			<p align="center">Search results from Amazon:</p>
 			<div align="center">
 				<form action="/literature/search/save/Amazon" method="POST">
@@ -96,7 +96,7 @@
 	</c:choose>
 
 	<c:choose>
-		<c:when test="${not empty googleResults}">
+		<c:when test="${ (currentEngineName == 'Google') && (not empty googleResults) }">
 			<p align="center">Search results from Google:</p>
 
 			<div align="center">
@@ -138,7 +138,7 @@
 	</c:choose>
 
 	<c:choose>
-		<c:when test="${not empty springerResults}">
+		<c:when test="${ (currentEngineName == 'Springer') && (not empty springerResults) }">
 			<br>
 			<p align="center">Search results from SpringerOpen:</p>
 			<div align="center">
@@ -187,7 +187,7 @@
 	</c:choose>
 
 	<c:choose>
-		<c:when test="${not empty crossrefResults}">
+		<c:when test="${ (currentEngineName == 'Crossref') && (not empty crossrefResults) }">
 			<br>
 			<p align="center">Search results from Crossref:</p>
 			<div align="center">

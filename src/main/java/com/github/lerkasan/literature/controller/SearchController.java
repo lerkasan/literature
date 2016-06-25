@@ -18,18 +18,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.lerkasan.literature.dao.ResourceRepository;
 import com.github.lerkasan.literature.entity.Resource;
-import com.github.lerkasan.literature.parser.AmazonBook;
 import com.github.lerkasan.literature.parser.AmazonItem;
 import com.github.lerkasan.literature.parser.ApiRequestPreparationService;
 import com.github.lerkasan.literature.parser.ConvertableToItemToRead;
 import com.github.lerkasan.literature.parser.CrossrefApiJson;
 import com.github.lerkasan.literature.parser.GoogleApiJson;
 import com.github.lerkasan.literature.parser.ParsingService;
-import com.github.lerkasan.literature.parser.RssService;
 import com.github.lerkasan.literature.parser.SpringerApiJson;
 import com.github.lerkasan.literature.parser.impl.amazon.AmazonBookSearchService;
 import com.github.lerkasan.literature.service.ItemToReadService;
-import com.rometools.rome.feed.synd.SyndEntry;
 
 @Controller
 @Scope("session")
@@ -101,7 +98,7 @@ public class SearchController {
 			String preparedQuery = apiRequestPreparation.prepareQuery(searchApi, searchedWords);
 			apiResponse = apiRequestPreparation.passRequestToApi(searchApi, preparedQuery);
 
-			model.addAttribute("googleResults", null);
+		/*	model.addAttribute("googleResults", null);
 			request.getSession().setAttribute("googleResults", null);
 			model.addAttribute("amazonResults", null);
 			request.getSession().setAttribute("amazonResults", null);
@@ -109,15 +106,15 @@ public class SearchController {
 			request.getSession().setAttribute("springerResults", null);
 			model.addAttribute("crossrefResults", null);
 			request.getSession().setAttribute("crossrefResults", null);
+			*/
 			
-			
+			model.addAttribute("currentEngineName", engineName);
 			request.getSession().setAttribute("currentEngineName", engineName);
 			switch (engineName) {
 			case "Google": {
 				googleResults = (List<GoogleApiJson>) googleParsingService.parse(apiResponse);
 				model.addAttribute("googleResults", googleResults);
 				request.getSession().setAttribute("googleResults", googleResults);
-				//request.getSession().setAttribute("currentRssName", rssName);
 				break;
 			}
 			case "Springer": {
@@ -153,8 +150,6 @@ public class SearchController {
 		List<ConvertableToItemToRead> itemsToRead = null;
 		List<Resource> searchEngineList = (List<Resource>) request.getSession().getAttribute("searchEngineList");
 		model.addAttribute("searchEngineList", searchEngineList);
-	/*	String currentEngineName = (String) request.getSession().getAttribute("currentEngineName");
-		switch (currentEngineName) { */
 		
 		switch (engineName) {
 		case "Google": {
@@ -181,7 +176,6 @@ public class SearchController {
 		model.addAttribute("itemsToRead", itemsToRead);
 		request.getSession().setAttribute("message", message);
 		model.addAttribute("message", message);
-		//return "searchResult/" + currentEngineName;
 		return "searchResult/" + engineName;
 	}
 }

@@ -1,9 +1,6 @@
 package com.github.lerkasan.literature.controller;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,17 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.github.lerkasan.literature.dao.AuthorRepository;
-import com.github.lerkasan.literature.dao.ItemToReadRepository;
 import com.github.lerkasan.literature.dao.ResourceRepository;
-import com.github.lerkasan.literature.entity.Author;
-import com.github.lerkasan.literature.entity.ItemAccessType;
-import com.github.lerkasan.literature.entity.ItemToRead;
-import com.github.lerkasan.literature.entity.ItemType;
 import com.github.lerkasan.literature.entity.Resource;
 import com.github.lerkasan.literature.parser.RssService;
 import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndPerson;
 
 @Controller
 @Scope("session")
@@ -39,11 +29,6 @@ public class RssController {
 	
 	@Inject
 	ResourceRepository resourceService;
-	/*
-	 * @Inject AuthorRepository authorService;
-	 * 
-	 * @Inject ItemToReadRepository itemToReadService;
-	 */
 
 	@RequestMapping(value = "/{rssName}", method = RequestMethod.GET)
 	public String showRssNewsByRssName(@PathVariable String rssName, ModelMap model, HttpServletRequest request) {
@@ -81,9 +66,6 @@ public class RssController {
 		request.getSession().setAttribute("message", message);
 		model.addAttribute("message", message);
 		return "rss/" + currentRssName;
-		//return "savedRss/" + currentRssName;
-		// return "redirect:" + "/rss/" + currentRssName;
-
 	}
 
 }

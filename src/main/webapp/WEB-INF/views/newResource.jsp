@@ -20,28 +20,29 @@
 	type="text/css">
 </head>
 <body>
+<br>
 	<cf:form method="POST" action="add" modelAttribute="resource">
 		<div align="center">
 			<table id="fill">
 			<tr><th colspan="2"><center>Enter properties of new RSS resource:</center></th></tr>
 				<tr>
 					<td><cf:label path="name">Name:</cf:label></td>
-					<td><cf:input path="name" /><br /> <cf:errors path="name"
+					<td><cf:input path="name" size="70"/><br /> <cf:errors path="name"
 							cssClass="error" /></td>
 				</tr>
 				<tr>
 					<td><cf:label path="url">URL:</cf:label></td>
-					<td><cf:input path="url" /><br /> <cf:errors path="url"
+					<td><cf:input path="url" size="70"/><br /> <cf:errors path="url"
 							cssClass="error" /></td>
 				</tr>
 				<tr>
 					<td><cf:label path="domain">Domain:</cf:label></td>
-					<td><cf:input path="domain" /><br /> <cf:errors
+					<td><cf:input path="domain" size="70"/><br /> <cf:errors
 							path="domain" cssClass="error" /></td>
 				</tr>
 				<tr>
 					<td><cf:label path="responseFormat">Response format</cf:label></td>
-					<td><cf:input path="responseFormat" value="rss" readonly="true"/><br /> <cf:errors
+					<td><cf:input path="responseFormat" value="rss" size="70" readonly="true"/><br /> <cf:errors
 							path="responseFormat" cssClass="error" /></td>
 				</tr>
 				<tr align="right">

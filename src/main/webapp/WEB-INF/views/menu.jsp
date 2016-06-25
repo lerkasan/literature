@@ -33,7 +33,7 @@
         <footer>
         <div align="center">
 		<form action="/literature/search/Amazon" method="POST">
-			<input type="text" name="searchQuery" placeholder="Search...">&nbsp;<input
+			<input type="text" name="searchQuery" size="90" placeholder=" Enter comma separated keywords or phrases">&nbsp;<input
 				type="submit" id="searchButton" value="Search" />
 		</form>
 	</div>
