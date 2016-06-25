@@ -48,7 +48,10 @@ public class AuthorServiceImpl implements AuthorService {
 	@Override
 	@Transactional
 	public Author save(Author author) {
-		return authorRepository.save(author);
+		if ((author.getGivenName() != null) && (author.getFamilyName() != null)) {
+			return authorRepository.save(author);
+		}
+		else return null;
 	}
 
 	@Override

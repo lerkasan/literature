@@ -87,7 +87,7 @@ public class CrossrefApiJson implements ConvertableToItemToRead {
 		literatureItem.setDoi(DOI);
 		literatureItem.setAccessType(ItemAccessType.PAID);
 		literatureItem.setItemType(ItemType.JOURNAL_ARTICLE);
-		literatureItem.setAuthors(new ArrayList<Author>());
+		//literatureItem.setAuthors(new ArrayList<Author>());
 		return literatureItem;
 	}
 

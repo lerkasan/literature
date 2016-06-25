@@ -37,7 +37,7 @@
 </style>
 </head>
 <body>
-
+	
 	<div align="center">
 
 		<ul class="tabrow">
@@ -59,8 +59,9 @@
 		<form action="save" method="POST">
 			<table>
 				<tr>
-					<td colspan=4><input type="checkbox" onClick="toggle(this)" />
-						Check/Uncheck All &nbsp; <a href="/literature/resource/new"><img
+					<td><input type="checkbox" onClick="toggle(this)" /></td>
+					<td colspan=3>Check/Uncheck All &nbsp;&nbsp;&nbsp; <a
+						href="/literature/resource/new"> <img
 							src="/literature/resources/img/add_rss.png" alt="Add new RSS" /></a>
 					</td>
 				</tr>
@@ -87,14 +88,5 @@
 			</table>
 		</form>
 	</div>
-	<c:choose>
-		<c:when test="${message != ''}">
-			<div id="message_div" hidden=true>${message}</div>
-			<script type="text/javascript">
-				var alert_message = $('#message_div').html();
-				alert(alert_message);
-			</script>
-		</c:when>
-	</c:choose>
 </body>
 </html>

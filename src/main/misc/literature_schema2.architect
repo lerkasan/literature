@@ -258,7 +258,7 @@
     <column id="COL70" populated="true" UUID="d86fb6c7-bc05-4720-8707-e72cffd9d8ed" autoIncrement="false" autoIncrementSequenceName="author_givenName_seq" defaultValue="" name="givenName" nullable="0" physicalName="givenName" precision="255" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL71" populated="true" UUID="69bb525c-ebd9-4074-b3f4-8b0ff59ff4ac" autoIncrement="false" autoIncrementSequenceName="author_familyName_seq" defaultValue="" name="familyName" nullable="0" physicalName="familyName" precision="255" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL71" populated="true" UUID="69bb525c-ebd9-4074-b3f4-8b0ff59ff4ac" autoIncrement="false" autoIncrementSequenceName="author_familyName_seq" defaultValue="" name="familyName" nullable="1" physicalName="familyName" precision="255" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>

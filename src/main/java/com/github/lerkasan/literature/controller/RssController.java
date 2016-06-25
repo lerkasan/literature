@@ -47,6 +47,7 @@ public class RssController {
 
 	@RequestMapping(value = "/{rssName}", method = RequestMethod.GET)
 	public String showRssNewsByRssName(@PathVariable String rssName, ModelMap model, HttpServletRequest request) {
+		String message="";
 		Resource rss = resourceService.findByName(rssName);
 		List<SyndEntry> rssNews = rssService.read(rss);
 		List<Resource> rssList = new ArrayList<>();
@@ -61,6 +62,8 @@ public class RssController {
 		}
 		request.getSession().setAttribute("rssNewsParam", rssNews);
 		request.getSession().setAttribute("currentRssName", rssName);
+		request.getSession().setAttribute("message", message);
+		model.addAttribute("message", message);
 		return "rss";
 	}
 
@@ -77,7 +80,8 @@ public class RssController {
 		String message = rssService.save(selectedRssNewsIds, rssNews);
 		request.getSession().setAttribute("message", message);
 		model.addAttribute("message", message);
-		return "savedRss/" + currentRssName;
+		return "rss/" + currentRssName;
+		//return "savedRss/" + currentRssName;
 		// return "redirect:" + "/rss/" + currentRssName;
 
 	}

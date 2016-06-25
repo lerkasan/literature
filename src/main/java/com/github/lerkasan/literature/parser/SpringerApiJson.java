@@ -155,7 +155,7 @@ public class SpringerApiJson implements ConvertableToItemToRead {
 		literatureItem.setIssueOrEditionNumber(number);
 		literatureItem.setAccessType(ItemAccessType.FREE);
 		literatureItem.setItemType(ItemType.JOURNAL_ARTICLE);
-		literatureItem.setAuthors(new ArrayList<Author>());
+	//	literatureItem.setAuthors(new ArrayList<Author>());
 
 		return literatureItem;
 	}

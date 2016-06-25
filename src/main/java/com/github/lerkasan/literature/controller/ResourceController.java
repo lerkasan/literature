@@ -24,11 +24,11 @@ import com.github.lerkasan.literature.service.impl.ResourceServiceImpl;
 @RequestMapping("/resource")
 public class ResourceController {
 	@Inject
-	ResourceService service;
+	ResourceService resourceService;
 
 	@RequestMapping(value = "/list/{pageNumber}", method = RequestMethod.GET)
 	public String getPage(@PathVariable Integer pageNumber, ModelMap model) {
-		Page<Resource> page = service.getAll(pageNumber);
+		Page<Resource> page = resourceService.getAll(pageNumber);
 
 		int current = page.getNumber() + 1;
 		int begin = Math.max(1, current - 5);
@@ -52,7 +52,7 @@ public class ResourceController {
 		if (bindingResult.hasErrors()) {
 			return "newResource";
 		}
-		service.save(resource);
+		resourceService.save(resource);
 		return getPage(1, model);
 	}
 

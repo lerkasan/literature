@@ -22,6 +22,8 @@ import com.github.lerkasan.literature.entity.Literature;
 import com.github.lerkasan.literature.service.AuthorService;
 
 public class AmazonItem implements ConvertableToItemToRead {
+	private final String[] DATE_FORMAT_STRINGS = { "yyyy-MM-dd", "yyyy-MM", "yyyy" };
+	
 	private String title;
 	private String author;
 	private String imageUrl;
@@ -32,9 +34,6 @@ public class AmazonItem implements ConvertableToItemToRead {
 
 	@Inject
 	private AuthorService authorService;
-	
-	/*@Inject
-	private AutowireCapableBeanFactory beanFactory;*/
 
 	public AmazonItem() {
 	}
@@ -98,26 +97,34 @@ public class AmazonItem implements ConvertableToItemToRead {
 	@Override
 	public Literature convertToItem() {
 		Literature literatureItem = new Literature();
-	//	beanFactory.autowireBean(literatureItem);
 		literatureItem.setTitle(title);
 		literatureItem.setImageUrl(imageUrl);
 		literatureItem.setPublishing(publisher);
 		literatureItem.setIsbn(isbn);
 		literatureItem.setUrl(itemUrl);
 		if ((publicationDate != null) && (publicationDate != "")) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			LocalDate date = LocalDate.parse(publicationDate, formatter);
-			literatureItem.setPublishDate(date);
-			literatureItem.setYear(date.getYear());
+
+			for (String formatString : DATE_FORMAT_STRINGS) {
+				try {
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatString);
+					LocalDate date = LocalDate.parse(publicationDate, formatter);
+					literatureItem.setPublishDate(date);
+					literatureItem.setYear(date.getYear());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}			
 		}
 		literatureItem.setAccessType(ItemAccessType.PAID);
 		literatureItem.setItemType(ItemType.BOOK);
-		String[] fullNameParts = authorService.divideFullName(author);
-		Author itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
-		if (itemAuthor == null) {
-			itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
+		if ((author != null) && (author != "")) {
+			String[] fullNameParts = authorService.divideFullName(author);
+			Author itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
+			if (itemAuthor == null) {
+				itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
+			}
+			literatureItem.addAuthor(itemAuthor);
 		}
-		literatureItem.addAuthor(itemAuthor);
 		return literatureItem;
 	}
 

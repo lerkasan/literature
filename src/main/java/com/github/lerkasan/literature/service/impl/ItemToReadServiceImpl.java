@@ -49,9 +49,11 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 		List<Author> authors = itemToRead.getAuthors();
 		if ((authors != null) && (!authors.isEmpty())) {
 			for (Author author : authors) {
-				Author foundAuthor = authorService.getByFullName(author.getGivenName(), author.getFamilyName());
-				if (foundAuthor == null) {
-					authorService.save(author);
+				if ((author.getGivenName() != null) && (author.getFamilyName() != null)) {
+					Author foundAuthor = authorService.getByFullName(author.getGivenName(), author.getFamilyName());
+					if (foundAuthor == null) {
+						authorService.save(author);
+					}
 				}
 			}
 		}
