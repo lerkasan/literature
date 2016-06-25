@@ -4,7 +4,7 @@ import com.github.lerkasan.literature.entity.Resource;
 
 public interface ApiRequestPreparationService {
 	//public static final String[] SPECIAL_CHARS = { "\"", "\'", ";", "`", "^", "&", "|", "\\" };
-	public static final String[] SPECIAL_CHARS = { ";", "`", "^", "&", "|"};
+	public static final String[] SPECIAL_CHARS = { ";", "`", "^", "&", "|", ":"};
 	public static final String SPRINGER_SUBJECT = "subject:\"Computer Science\" AND (";
 	public static final String KEYWORD = "keyword:";
 	public static final String TITLE = "title:";

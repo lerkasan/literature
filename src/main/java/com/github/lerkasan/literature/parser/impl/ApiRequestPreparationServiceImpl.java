@@ -75,7 +75,7 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 	@Override
 	public String[] deleteSpecialsAndSplit(String keywords) {
 		for (String special : SPECIAL_CHARS) {
-			keywords.replaceAll(special, "");
+			keywords = keywords.replaceAll(special, "");
 		}
 		// keywords.replaceAll(" ", "%20");
 		if (keywords == null || keywords.equals("")) {

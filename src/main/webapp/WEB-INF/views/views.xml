@@ -23,14 +23,6 @@
         <put-attribute name="title" value="Tech literature | Rss News"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/rss.jsp"></put-attribute>
     </definition>
-    <definition name="savedRss" extends="base.definition">
-        <put-attribute name="title" value="Tech literature | Rss News"></put-attribute>
-        <put-attribute name="body" value="/WEB-INF/views/savedRss.jsp"></put-attribute>
-    </definition>
-     <definition name="savedRss/*" extends="base.definition">
-        <put-attribute name="title" value="Tech literature | Rss News"></put-attribute>
-        <put-attribute name="body" value="/WEB-INF/views/savedRss.jsp"></put-attribute>
-    </definition>
     <definition name="searchResult" extends="base.definition">
         <put-attribute name="title" value="Tech literature | Search Results"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/search.jsp"></put-attribute>

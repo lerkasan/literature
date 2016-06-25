@@ -21,6 +21,7 @@ public class Author implements Serializable {
 
 	//bi-directional many-to-many association to ItemToRead
 	@ManyToMany(mappedBy="authors", cascade=CascadeType.PERSIST)
+	//@ManyToMany(mappedBy="authors")
 	private List<ItemToRead> itemsToRead;
 
 	public Author() {

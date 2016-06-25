@@ -85,28 +85,12 @@ public class GoogleApiJson implements ConvertableToItemToRead {
 		if (snippet != null) {
 			item.setContents(snippet);
 		}
-		if ((publishDate != null) && (publishDate != "")) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // !!!
-																						// in
-																						// reality
-																						// Google
-																						// provide
-																						// -
-																						// different
-																						// formats
-																						// for
-																						// different
-																						// articles
-			LocalDate date = LocalDate.parse(publishDate, formatter);
-			item.setPublishDate(date);
-		}
 		if (keywords != null) {
 			item.setKeywords(keywords);
 		}
 		item.setAccessType(ItemAccessType.FREE);
 		item.setItemType(ItemType.INTERNET_ARTICLE);
 
-		item.setAuthors(new ArrayList<Author>());
 		for (String author : authors) {
 			if ((author != null) && (author != "")) {
 				String[] fullNameParts = authorService.divideFullName(author);
@@ -115,6 +99,7 @@ public class GoogleApiJson implements ConvertableToItemToRead {
 					itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
 				}
 				item.addAuthor(itemAuthor);
+				itemAuthor.addItemToRead(item);   //wasn't there
 			}
 		}
 		return item;

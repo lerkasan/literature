@@ -22,6 +22,7 @@ import com.github.lerkasan.literature.entity.ItemAccessType;
 import com.github.lerkasan.literature.entity.ItemToRead;
 import com.github.lerkasan.literature.entity.ItemType;
 import com.github.lerkasan.literature.entity.Resource;
+import com.github.lerkasan.literature.parser.ApiRequestPreparationService;
 import com.github.lerkasan.literature.parser.ConvertableToItemToRead;
 import com.github.lerkasan.literature.parser.RssEntry;
 import com.github.lerkasan.literature.parser.RssService;
@@ -37,12 +38,14 @@ import com.rometools.rome.io.XmlReader;
 @Service("RssService")
 public class RssServiceImpl implements RssService {
 
+	public static final String PROGRAMMINGFREE_RSS_AUTHOR_EMAIL = "noreply@blogger.com";
+
 	@Inject
 	private ItemToReadService itemToReadService;
 
 	@Inject
 	private AuthorService authorService;
-	
+
 	@Inject
 	private AutowireCapableBeanFactory beanFactory;
 
@@ -81,20 +84,20 @@ public class RssServiceImpl implements RssService {
 	}
 
 	public String save(int[] selectedRssNewsIds, List<SyndEntry> rssNews) {
-		
+
 		boolean oldItemsFlag = false;
 		if ((selectedRssNewsIds != null) && (rssNews != null)) {
 			for (int i : selectedRssNewsIds) {
 				SyndEntry pieceOfNewsSynd = rssNews.get(i);
-				
+
 				RssEntry pieceOfNews = new RssEntry(pieceOfNewsSynd);
 				beanFactory.autowireBean(pieceOfNews);
-				
+
 				String url = pieceOfNews.getLink();
-				ItemToRead foundItem = itemToReadService.getByUrl(url); 
+				ItemToRead foundItem = itemToReadService.getByUrl(url);
 				if (foundItem == null) {
-					ItemToRead item = pieceOfNews.convertToItem(); 
-					item.setAddedAt(LocalDate.now()); 
+					ItemToRead item = pieceOfNews.convertToItem();
+					item.setAddedAt(LocalDate.now());
 					itemToReadService.save(item);
 				} else {
 					oldItemsFlag = true;
@@ -117,9 +120,12 @@ public class RssServiceImpl implements RssService {
 		item.setPublishDate(publishDate);
 		if (!rssItem.getAuthors().isEmpty()) {
 			for (SyndPerson syndAuthor : rssItem.getAuthors()) {
-				String[] fullNameParts = authorService.divideFullName(syndAuthor.getName());
+				String syndAuthorName = syndAuthor.getName().replace(PROGRAMMINGFREE_RSS_AUTHOR_EMAIL, "");
+				for (String special : ApiRequestPreparationService.SPECIAL_CHARS) {
+					syndAuthorName = syndAuthorName.replaceAll(special, "");
+				}
+				String[] fullNameParts = authorService.divideFullName(syndAuthorName);
 				Author itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
-			//	Author itemAuthor = authorRepository.findByFullName(fullNameParts[0], fullNameParts[1]);
 				if (itemAuthor == null) {
 					itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
 				}
@@ -136,7 +142,7 @@ public class RssServiceImpl implements RssService {
 				item.addAuthor(rssAuthor);
 			}
 		}
-		
+
 		return item;
 	}
 

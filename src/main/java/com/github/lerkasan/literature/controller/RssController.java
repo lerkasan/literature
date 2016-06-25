@@ -17,8 +17,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.lerkasan.literature.dao.ResourceRepository;
 import com.github.lerkasan.literature.entity.Resource;
+import com.github.lerkasan.literature.parser.ApiRequestPreparationService;
 import com.github.lerkasan.literature.parser.RssService;
+import com.github.lerkasan.literature.parser.impl.RssServiceImpl;
 import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndPerson;
 
 @Controller
 @Scope("session")
@@ -35,6 +38,34 @@ public class RssController {
 		String message="";
 		Resource rss = resourceService.findByName(rssName);
 		List<SyndEntry> rssNews = rssService.read(rss);
+		
+		// removing email from author name
+		if (rssName.equals("Programmingfree")) {
+			for (SyndEntry entry : rssNews) {
+				if (!entry.getAuthors().isEmpty()) {
+					for (SyndPerson syndAuthor : entry.getAuthors()) {
+						String syndAuthorName = syndAuthor.getName();
+						syndAuthorName = syndAuthorName.replace(RssServiceImpl.PROGRAMMINGFREE_RSS_AUTHOR_EMAIL, "");
+					/*	for (String special : ApiRequestPreparationService.SPECIAL_CHARS) {
+							syndAuthorName = syndAuthorName.replaceAll(special, "");
+						}
+					*/
+						syndAuthor.setName(syndAuthorName);
+					}
+				}	
+				if (entry.getAuthor() != null) {
+					String syndAuthorName = entry.getAuthor();
+					syndAuthorName = syndAuthorName.replace(RssServiceImpl.PROGRAMMINGFREE_RSS_AUTHOR_EMAIL, "");
+					/* for (String special : ApiRequestPreparationService.SPECIAL_CHARS) {
+						syndAuthorName = syndAuthorName.replaceAll(special, "");
+					}
+					*/
+					entry.setAuthor(syndAuthorName);
+				}
+			}
+		}
+		// end of removing email from author name
+		
 		List<Resource> rssList = new ArrayList<>();
 		Iterable<Resource> rssIterable = resourceService.findByResponseFormat("rss");
 		if (rssIterable != null) {

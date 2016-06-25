@@ -58,7 +58,7 @@ public class ItemToRead implements Serializable {
 	private List<Comment> comments;
 
 	//bi-directional many-to-many association to Author
-	@ManyToMany 
+	@ManyToMany(cascade=CascadeType.PERSIST) 
 	@JoinTable(name="item_authors", 
 		joinColumns=@JoinColumn(name="itemToReadId"), 
 		inverseJoinColumns=@JoinColumn(name="authorId"))

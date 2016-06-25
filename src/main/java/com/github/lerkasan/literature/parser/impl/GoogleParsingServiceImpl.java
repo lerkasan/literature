@@ -40,9 +40,8 @@ public class GoogleParsingServiceImpl extends ParsingServiceImpl implements Pars
 						articleJson.setAuthors(new ArrayList<String>());
 						for (JsonElement person : persons) {
 							JsonElement personElement = person.getAsJsonObject().get("name");
-							if (personElement != null) {
-								String name = personElement.getAsString();
-								articleJson.getAuthors().add(name);
+							if ((personElement != null)  && (! articleJson.getAuthors().contains(personElement.getAsString()))) {
+								articleJson.getAuthors().add(personElement.getAsString());
 							}
 						}
 					}
