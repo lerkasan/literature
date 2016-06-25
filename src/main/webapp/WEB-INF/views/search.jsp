@@ -7,7 +7,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type="text/javascript">
 	function toggle(source) {
 		checkboxes = document.getElementsByName('selectedItems');
@@ -21,6 +22,7 @@
 	color: #555;
 	text-decoration: none;
 }
+
 .message_div {
 	display: none;
 }
@@ -53,185 +55,213 @@
 	</c:choose>
 
 	<c:choose>
-		<c:when test="${ (currentEngineName == 'Amazon') && (not empty amazonResults) }">
-			<p align="center">Search results from Amazon:</p>
-			<div align="center">
-				<form action="/literature/search/save/Amazon" method="POST">
-					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
-					All
+		<c:when test="${currentEngineName == 'Amazon'}">
+			<c:choose>
+				<c:when test="${not empty amazonResults}">
+					<p align="center">Search results from Amazon:</p>
+					<div align="center">
+						<form action="/literature/search/save/Amazon" method="POST">
+							<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
+							All
 
-					<table width=80%>
-						<tr>
-							<th></th>
-							<th></th>
-							<th>Title</th>
-							<th>Author</th>
-							<th>Publish Date</th>
-							<th>Publisher</th>
-						</tr>
+							<table width=80%>
+								<tr>
+									<th></th>
+									<th></th>
+									<th>Title</th>
+									<th>Author</th>
+									<th>Publish Date</th>
+									<th>Publisher</th>
+								</tr>
 
-						<c:set var="i" value="${0}" />
-						<c:forEach var="result" items="${amazonResults}">
-							<tr>
-								<td><input type="checkbox" name="selectedItems"
-									value="${i}" /></td>
-								<td><img width="130"
-									src="<c:out value='${result.imageUrl}'/>"></img></td>
-								<td><a href="<c:out value='${result.itemUrl}'/>"><c:out
-											value="${result.title}" /></a></td>
-								<td><c:out value="${result.author}" /></td>
-								<td><c:out value="${result.publicationDate}" /></td>
-								<td><c:out value="${result.publisher}" /></td>
-							</tr>
-							<c:set var="i" value="${i + 1}" />
-						</c:forEach>
-						<tr>
-							<td colspan=6 align="right"><input type="submit"
-								id="saveItemsButton" value="Save items" /></td>
-						</tr>
-					</table>
-				</form>
-			</div>
+								<c:set var="i" value="${0}" />
+								<c:forEach var="result" items="${amazonResults}">
+									<tr>
+										<td><input type="checkbox" name="selectedItems"
+											value="${i}" /></td>
+										<td><img width="130"
+											src="<c:out value='${result.imageUrl}'/>"></img></td>
+										<td><a href="<c:out value='${result.itemUrl}'/>"><c:out
+													value="${result.title}" /></a></td>
+										<td><c:out value="${result.author}" /></td>
+										<td><c:out value="${result.publicationDate}" /></td>
+										<td><c:out value="${result.publisher}" /></td>
+									</tr>
+									<c:set var="i" value="${i + 1}" />
+								</c:forEach>
+								<tr>
+									<td colspan=6 align="right"><input type="submit"
+										id="saveItemsButton" value="Save items" /></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<p align="center">Nothing found.</p>
+				</c:otherwise>
+			</c:choose>
 		</c:when>
 	</c:choose>
 
 	<c:choose>
-		<c:when test="${ (currentEngineName == 'Google') && (not empty googleResults) }">
-			<p align="center">Search results from Google:</p>
+		<c:when test="${currentEngineName == 'Google'}">
+			<c:choose>
+				<c:when test="${not empty googleResults}">
+					<p align="center">Search results from Google:</p>
 
-			<div align="center">
-				<form action="/literature/search/save/Google" method="POST">
-					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
-					All
-					<table class="list" id="list">
-						<tr>
-							<th></th>
-							<th>N</th>
-							<th>Title</th>
-							<th>Author</th>
-							<th>Publish Date</th>
-						</tr>
+					<div align="center">
+						<form action="/literature/search/save/Google" method="POST">
+							<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
+							All
+							<table class="list" id="list">
+								<tr>
+									<th></th>
+									<th>N</th>
+									<th>Title</th>
+									<th>Author</th>
+									<th>Publish Date</th>
+								</tr>
 
-						<c:set var="i" value="${0}" />
-						<c:forEach var="result" items="${googleResults}">
-							<tr>
-								<td><input type="checkbox" name="selectedItems"
-									value="${i}" /></td>
-								<td><c:out value="${i+1}" /></td>
-								<td><a href="<c:out value='${result.link}'/>"><c:out
-											value="${result.title}" /></a></td>
-								<td><c:forEach var="author" items="${result.authors}">
-										<c:out value="${author}" />&nbsp;
+								<c:set var="i" value="${0}" />
+								<c:forEach var="result" items="${googleResults}">
+									<tr>
+										<td><input type="checkbox" name="selectedItems"
+											value="${i}" /></td>
+										<td><c:out value="${i+1}" /></td>
+										<td><a href="<c:out value='${result.link}'/>"><c:out
+													value="${result.title}" /></a></td>
+										<td><c:forEach var="author" items="${result.authors}">
+												<c:out value="${author}" />&nbsp;
 								</c:forEach></td>
-								<td><c:out value="${result.publishDate}" /></td>
-							</tr>
-							<c:set var="i" value="${i + 1}" />
-						</c:forEach>
-						<tr>
-							<td colspan=5 align="right"><input type="submit"
-								id="saveItemsButton" value="Save items" /></td>
-						</tr>
-					</table>
-				</form>
-			</div>
+										<td><c:out value="${result.publishDate}" /></td>
+									</tr>
+									<c:set var="i" value="${i + 1}" />
+								</c:forEach>
+								<tr>
+									<td colspan=5 align="right"><input type="submit"
+										id="saveItemsButton" value="Save items" /></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<p align="center">Nothing found.</p>
+				</c:otherwise>
+			</c:choose>
 		</c:when>
 	</c:choose>
 
 	<c:choose>
-		<c:when test="${ (currentEngineName == 'Springer') && (not empty springerResults) }">
-			<br>
-			<p align="center">Search results from SpringerOpen:</p>
-			<div align="center">
-				<form action="/literature/search/save/Springer" method="POST">
-					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
-					All
-					<table class="list" id="list">
-						<tr>
-							<th></th>
-							<th>N</th>
-							<th>Title</th>
-							<th>Publisher</th>
-							<th>Published</th>
-							<th>ISBN</th>
-							<th>ISSN</th>
-							<th>DOI</th>
-							<th>Volume</th>
-							<th>Number</th>
-						</tr>
-						<c:set var="i" value="${0}" />
-						<c:forEach var="result" items="${springerResults}">
-							<tr>
-								<td><input type="checkbox" name="selectedItems"
-									value="${i}" /></td>
-								<td><c:out value="${i+1}" /></td>
-								<td><a href="<c:out value='${result.url}'/>"><c:out
-											value="${result.title}" /></a></td>
-								<td><c:out value="${result.publicationName}" /></td>
-								<td><c:out value="${result.publicationDate}" /></td>
-								<td><c:out value="${result.isbn}" /></td>
-								<td><c:out value="${result.issn}" /></td>
-								<td><c:out value="${result.doi}" /></td>
-								<td><c:out value="${result.volume}" /></td>
-								<td><c:out value="${result.number}" /></td>
-							</tr>
-							<c:set var="i" value="${i + 1}" />
-						</c:forEach>
-						<tr>
-							<td colspan=10 align="right"><input type="submit"
-								id="saveItemsButton" value="Save items" /></td>
-						</tr>
-					</table>
-				</form>
-			</div>
+		<c:when test="${currentEngineName == 'Springer'}">
+			<c:choose>
+				<c:when test="${not empty springerResults}">
+					<br>
+					<p align="center">Search results from SpringerOpen:</p>
+					<div align="center">
+						<form action="/literature/search/save/Springer" method="POST">
+							<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
+							All
+							<table class="list" id="list">
+								<tr>
+									<th></th>
+									<th>N</th>
+									<th>Title</th>
+									<th>Publisher</th>
+									<th>Published</th>
+									<th>ISBN</th>
+									<th>ISSN</th>
+									<th>DOI</th>
+									<th>Volume</th>
+									<th>Number</th>
+								</tr>
+								<c:set var="i" value="${0}" />
+								<c:forEach var="result" items="${springerResults}">
+									<tr>
+										<td><input type="checkbox" name="selectedItems"
+											value="${i}" /></td>
+										<td><c:out value="${i+1}" /></td>
+										<td><a href="<c:out value='${result.url}'/>"><c:out
+													value="${result.title}" /></a></td>
+										<td><c:out value="${result.publicationName}" /></td>
+										<td><c:out value="${result.publicationDate}" /></td>
+										<td><c:out value="${result.isbn}" /></td>
+										<td><c:out value="${result.issn}" /></td>
+										<td><c:out value="${result.doi}" /></td>
+										<td><c:out value="${result.volume}" /></td>
+										<td><c:out value="${result.number}" /></td>
+									</tr>
+									<c:set var="i" value="${i + 1}" />
+								</c:forEach>
+								<tr>
+									<td colspan=10 align="right"><input type="submit"
+										id="saveItemsButton" value="Save items" /></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<p align="center">Nothing found.</p>
+				</c:otherwise>
+			</c:choose>
 		</c:when>
 	</c:choose>
 
 	<c:choose>
-		<c:when test="${ (currentEngineName == 'Crossref') && (not empty crossrefResults) }">
-			<br>
-			<p align="center">Search results from Crossref:</p>
-			<div align="center">
-				<form action="/literature/search/save/Crossref" method="POST">
-					<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
-					All
-					<table class="list" id="list">
-						<tr>
-							<th></th>
-							<th>N</th>
-							<th>Title</th>
-							<th>Publisher</th>
-							<th>Published</th>
-							<th>ISBN</th>
-							<th>DOI</th>
-						</tr>
+		<c:when test="${currentEngineName == 'Crossref'}">
+			<c:choose>
+				<c:when test="${not empty crossrefResults}">
+					<br>
+					<p align="center">Search results from Crossref:</p>
+					<div align="center">
+						<form action="/literature/search/save/Crossref" method="POST">
+							<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
+							All
+							<table class="list" id="list">
+								<tr>
+									<th></th>
+									<th>N</th>
+									<th>Title</th>
+									<th>Publisher</th>
+									<th>Published</th>
+									<th>ISBN</th>
+									<th>DOI</th>
+								</tr>
 
-						<c:set var="i" value="${0}" />
-						<c:forEach var="result" items="${crossrefResults}">
-							<tr>
-								<td><input type="checkbox" name="selectedItems"
-									value="${i}" /></td>
-								<td><c:out value="${i+1}" /></td>
-								<td><a href="<c:out value='${result.URL}'/>"><c:out
-											value="${result.itemTitle}" /></a></td>
-								<td><c:out value="${result.publisher}" /></td>
-								<td><c:out value="${result.publishDate}" /></td>
-								<td><c:out value="${result.isbn}" /></td>
-								<td><c:out value="${result.DOI}" /></td>
-							</tr>
-							<c:set var="i" value="${i + 1}" />
-						</c:forEach>
-						<tr>
-							<td colspan=7 align="right"><input type="submit"
-								id="saveItemsButton" value="Save items" /></td>
-						</tr>
-					</table>
-				</form>
-			</div>
+								<c:set var="i" value="${0}" />
+								<c:forEach var="result" items="${crossrefResults}">
+									<tr>
+										<td><input type="checkbox" name="selectedItems"
+											value="${i}" /></td>
+										<td><c:out value="${i+1}" /></td>
+										<td><a href="<c:out value='${result.URL}'/>"><c:out
+													value="${result.itemTitle}" /></a></td>
+										<td><c:out value="${result.publisher}" /></td>
+										<td><c:out value="${result.publishDate}" /></td>
+										<td><c:out value="${result.isbn}" /></td>
+										<td><c:out value="${result.DOI}" /></td>
+									</tr>
+									<c:set var="i" value="${i + 1}" />
+								</c:forEach>
+								<tr>
+									<td colspan=7 align="right"><input type="submit"
+										id="saveItemsButton" value="Save items" /></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<p align="center">Nothing found.</p>
+				</c:otherwise>
+			</c:choose>
 		</c:when>
 	</c:choose>
 	<c:choose>
 		<c:when test="${message != ''}">
-			<div  hidden=true id="message_div">${message}</div>
+			<div hidden=true id="message_div">${message}</div>
 			<script type="text/javascript">
 				var alert_message = $('#message_div').html();
 				alert(alert_message);

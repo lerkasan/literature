@@ -20,9 +20,16 @@ public class Author implements Serializable {
 	private String givenName;
 
 	//bi-directional many-to-many association to ItemToRead
-	@ManyToMany(mappedBy="authors", cascade=CascadeType.PERSIST)
-	//@ManyToMany(mappedBy="authors")
-	private List<ItemToRead> itemsToRead;
+	//@ManyToMany(mappedBy="authors", cascade = {CascadeType.PERSIST,CascadeType.MERGE })
+	@ManyToMany(mappedBy="authors")
+	private List<ItemToRead> itemsToRead; 
+	
+	//@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE }) 
+	/*@ManyToMany
+	@JoinTable(name="item_authors", 
+		joinColumns=@JoinColumn(name="authorId"), 
+		inverseJoinColumns=@JoinColumn(name="itemToReadId")) 
+	private List<ItemToRead> itemsToRead;*/
 
 	public Author() {
 		itemsToRead = new ArrayList<>();
@@ -67,7 +74,10 @@ public class Author implements Serializable {
 	}
 
 	public void addItemToRead(ItemToRead itemToRead) {
-		this.itemsToRead.add(itemToRead);
+		getItemsToRead().add(itemToRead);
+	/*	if (!itemToRead.getAuthors().contains(this)) {  
+			itemToRead.addAuthor(this);   //Maybe should be deleted    //Maybe should be deleted
+		} */
 		
 	}
 	

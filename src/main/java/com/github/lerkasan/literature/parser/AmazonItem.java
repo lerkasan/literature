@@ -124,7 +124,9 @@ public class AmazonItem implements ConvertableToItemToRead {
 				itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
 			}
 			literatureItem.addAuthor(itemAuthor);
-			itemAuthor.addItemToRead(literatureItem); 
+			itemAuthor.addItemToRead(literatureItem); //should be here instead of implementation at item.addAthor
+			
+			
 		}
 		return literatureItem;
 	}

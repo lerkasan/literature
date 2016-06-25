@@ -99,7 +99,7 @@ public class GoogleApiJson implements ConvertableToItemToRead {
 					itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
 				}
 				item.addAuthor(itemAuthor);
-				itemAuthor.addItemToRead(item);   //wasn't there
+				itemAuthor.addItemToRead(item);   //wasn't there, should be there instead of implementation at item.addAthor
 			}
 		}
 		return item;

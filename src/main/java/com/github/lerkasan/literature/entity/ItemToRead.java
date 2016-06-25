@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.*;
 
+import com.github.lerkasan.literature.entity.ItemType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,15 +55,22 @@ public class ItemToRead implements Serializable {
 	private List<Category> categories;
 
 	//bi-directional many-to-one association to Comment
-	@OneToMany(mappedBy="itemToRead", cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy="itemToRead", cascade = {CascadeType.PERSIST,CascadeType.MERGE })
 	private List<Comment> comments;
 
 	//bi-directional many-to-many association to Author
-	@ManyToMany(cascade=CascadeType.PERSIST) 
+	//@ManyToMany
+	//@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE })
+	
+	//@Cascade({CascadeType.SAVE_UPDATE})
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE })
 	@JoinTable(name="item_authors", 
 		joinColumns=@JoinColumn(name="itemToReadId"), 
-		inverseJoinColumns=@JoinColumn(name="authorId"))
+		inverseJoinColumns=@JoinColumn(name="authorId")) 
 	private List<Author> authors;
+	
+	/* @ManyToMany(mappedBy="itemsToRead", cascade = {CascadeType.PERSIST,CascadeType.MERGE })
+	private List<Author> authors; */
 
 	//bi-directional many-to-one association to Language
 	@ManyToOne
@@ -85,7 +93,8 @@ public class ItemToRead implements Serializable {
 	private User user;
 
 	//bi-directional one-to-one association to Literature
-	@OneToOne(mappedBy="itemToRead", cascade=CascadeType.PERSIST)
+	//@OneToOne(mappedBy="itemToRead", cascade=CascadeType.PERSIST)
+	@OneToOne(mappedBy="itemToRead")
 	private Literature literature;
 
 	public ItemToRead() {
@@ -260,13 +269,15 @@ public class ItemToRead implements Serializable {
 	
 	public Author addAuthor(Author author) {
 		getAuthors().add(author);
-		author.addItemToRead(this);
+		/* if (!author.getItemsToRead().contains(this)) {
+			author.addItemToRead(this);   //Maybe should be deleted
+		} */
 		return author;
 	}
 
 	public Author removeAuthor(Author author) {
 		getAuthors().remove(author);
-		author.addItemToRead(null);
+		//author.getItemsToRead().remove(this);  //Maybe should be deleted
 
 		return author;
 	}

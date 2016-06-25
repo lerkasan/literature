@@ -46,7 +46,7 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 	@Transactional
 	public ItemToRead save(ItemToRead itemToRead) {
 		//category also should be worked out
-		List<Author> authors = itemToRead.getAuthors();
+	/*	List<Author> authors = itemToRead.getAuthors();
 		if ((authors != null) && (!authors.isEmpty())) {
 			for (Author author : authors) {
 				if ((author.getGivenName() != null) && (author.getFamilyName() != null)) {
@@ -56,7 +56,7 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 					}
 				}
 			}
-		}
+		}*/
 		return itemToReadRepository.save(itemToRead);
 	}
 
