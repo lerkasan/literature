@@ -26,12 +26,6 @@ public class Literature extends ItemToRead implements Serializable {
 	private String issueOrEditionNumber;
 	
 	private String imageUrl;
-	
-	//bi-directional one-to-one association to ItemToRead
-	@OneToOne(cascade=CascadeType.ALL)
-	//@PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
-	@JoinColumn(name="id", referencedColumnName="id")
-	private ItemToRead itemToRead;
 
 	public Literature() {
 	}
@@ -90,14 +84,6 @@ public class Literature extends ItemToRead implements Serializable {
 
 	public void setYear(int i) {
 		this.year = i;
-	}
-
-	public ItemToRead getItemToRead() {
-		return this.itemToRead;
-	}
-
-	public void setItemToRead(ItemToRead itemToRead) {
-		this.itemToRead = itemToRead;
 	}
 
 	public String getPublishing() {

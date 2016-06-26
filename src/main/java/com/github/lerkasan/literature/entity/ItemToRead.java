@@ -59,18 +59,13 @@ public class ItemToRead implements Serializable {
 	private List<Comment> comments;
 
 	//bi-directional many-to-many association to Author
-	//@ManyToMany
-	//@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE })
-	
-	//@Cascade({CascadeType.SAVE_UPDATE})
-	@ManyToMany(cascade = {CascadeType.ALL })
+	//@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST })  
+	//DO NOT USE CASCADE to avoid author record duplication in author table when this table already contains this author
+	@ManyToMany
 	@JoinTable(name="item_authors", 
 		joinColumns=@JoinColumn(name="itemToReadId", referencedColumnName = "id"), 
 		inverseJoinColumns=@JoinColumn(name="authorId", referencedColumnName = "id")) 
 	private List<Author> authors;
-	
-	/* @ManyToMany(mappedBy="itemsToRead", cascade = {CascadeType.PERSIST,CascadeType.MERGE })
-	private List<Author> authors; */
 
 	//bi-directional many-to-one association to Language
 	@ManyToOne
