@@ -28,7 +28,7 @@ public class Literature extends ItemToRead implements Serializable {
 	private String imageUrl;
 	
 	//bi-directional one-to-one association to ItemToRead
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	//@PrimaryKeyJoinColumn(name="id", referencedColumnName="id")
 	@JoinColumn(name="id", referencedColumnName="id")
 	private ItemToRead itemToRead;

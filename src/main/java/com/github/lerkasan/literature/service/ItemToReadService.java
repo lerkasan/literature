@@ -9,6 +9,7 @@ public interface ItemToReadService {
 	void delete(int id);
 	ItemToRead getById(int id);
 	ItemToRead save(ItemToRead itemToRead);
+	//void save(ItemToRead itemToRead);
 	Page<ItemToRead> getAll(Pageable pageable);
 	ItemToRead getByUrl(String url);
 }

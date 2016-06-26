@@ -1,18 +1,9 @@
 package com.github.lerkasan.literature.parser;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.AccessType;
-import javax.persistence.Lob;
-
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.stereotype.Service;
 
 import com.github.lerkasan.literature.entity.Author;
 import com.github.lerkasan.literature.entity.ItemAccessType;
@@ -124,9 +115,7 @@ public class AmazonItem implements ConvertableToItemToRead {
 				itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
 			}
 			literatureItem.addAuthor(itemAuthor);
-			itemAuthor.addItemToRead(literatureItem); //should be here instead of implementation at item.addAthor
-			
-			
+			itemAuthor.addItemToRead(literatureItem);
 		}
 		return literatureItem;
 	}

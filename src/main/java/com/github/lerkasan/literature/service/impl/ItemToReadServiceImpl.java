@@ -3,6 +3,8 @@ package com.github.lerkasan.literature.service.impl;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,9 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 	
 	@Inject
 	private AuthorService authorService;
+	
+	@PersistenceContext
+    private EntityManager em;
 	
 	public ItemToReadServiceImpl() {
 	}
@@ -45,6 +50,7 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 	@Override
 	@Transactional
 	public ItemToRead save(ItemToRead itemToRead) {
+	//public void save(ItemToRead itemToRead) {
 		//category also should be worked out
 	/*	List<Author> authors = itemToRead.getAuthors();
 		if ((authors != null) && (!authors.isEmpty())) {
@@ -58,6 +64,9 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 			}
 		}*/
 		return itemToReadRepository.save(itemToRead);
+	/*	em.getTransaction();
+		em.persist(itemToRead);
+		em.close(); */
 	}
 
 	@Override

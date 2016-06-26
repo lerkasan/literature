@@ -20,7 +20,7 @@ public class Author implements Serializable {
 	private String givenName;
 
 	//bi-directional many-to-many association to ItemToRead
-	//@ManyToMany(mappedBy="authors", cascade = {CascadeType.PERSIST,CascadeType.MERGE })
+	//@ManyToMany(mappedBy="authors", cascade = {CascadeType.ALL })
 	@ManyToMany(mappedBy="authors")
 	private List<ItemToRead> itemsToRead; 
 	

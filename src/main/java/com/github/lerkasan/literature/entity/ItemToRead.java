@@ -63,10 +63,10 @@ public class ItemToRead implements Serializable {
 	//@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE })
 	
 	//@Cascade({CascadeType.SAVE_UPDATE})
-	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE })
+	@ManyToMany(cascade = {CascadeType.ALL })
 	@JoinTable(name="item_authors", 
-		joinColumns=@JoinColumn(name="itemToReadId"), 
-		inverseJoinColumns=@JoinColumn(name="authorId")) 
+		joinColumns=@JoinColumn(name="itemToReadId", referencedColumnName = "id"), 
+		inverseJoinColumns=@JoinColumn(name="authorId", referencedColumnName = "id")) 
 	private List<Author> authors;
 	
 	/* @ManyToMany(mappedBy="itemsToRead", cascade = {CascadeType.PERSIST,CascadeType.MERGE })
@@ -91,11 +91,6 @@ public class ItemToRead implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="addedBy")
 	private User user;
-
-	//bi-directional one-to-one association to Literature
-	//@OneToOne(mappedBy="itemToRead", cascade=CascadeType.PERSIST)
-	@OneToOne(mappedBy="itemToRead")
-	private Literature literature;
 
 	public ItemToRead() {
 		categories = new ArrayList<>();
@@ -217,14 +212,14 @@ public class ItemToRead implements Serializable {
 
 	public Category addCategory(Category category) {
 		getCategories().add(category);
-		category.setItemToRead(this);
+	//	category.setItemToRead(this);
 
 		return category;
 	}
 
 	public Category removeCategory(Category category) {
 		getCategories().remove(category);
-		category.setItemToRead(null);
+	//	category.setItemToRead(null);
 
 		return category;
 	}
@@ -239,14 +234,14 @@ public class ItemToRead implements Serializable {
 
 	public Comment addComment(Comment comment) {
 		getComments().add(comment);
-		comment.setItemToRead(this);
+	//	comment.setItemToRead(this);
 
 		return comment;
 	}
 
 	public Comment removeComment(Comment comment) {
 		getComments().remove(comment);
-		comment.setItemToRead(null);
+	//	comment.setItemToRead(null);
 
 		return comment;
 	}
@@ -312,14 +307,6 @@ public class ItemToRead implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public Literature getLiterature() {
-		return this.literature;
-	}
-
-	public void setLiterature(Literature literature) {
-		this.literature = literature;
 	}
 
 }

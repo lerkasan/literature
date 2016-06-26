@@ -6,6 +6,4 @@ public interface ConvertableToItemToRead {
 	public ItemToRead convertToItem();
 	public String getUrl();
 	//public List<ItemToRead> convertItems(List<BasicItemStructure> basicItems);
-
-
 }
