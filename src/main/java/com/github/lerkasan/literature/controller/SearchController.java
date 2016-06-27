@@ -23,9 +23,11 @@ import com.github.lerkasan.literature.parser.ApiRequestPreparationService;
 import com.github.lerkasan.literature.parser.ConvertableToItemToRead;
 import com.github.lerkasan.literature.parser.CrossrefApiJson;
 import com.github.lerkasan.literature.parser.GoogleApiJson;
+import com.github.lerkasan.literature.parser.GoogleBookJson;
 import com.github.lerkasan.literature.parser.ParsingService;
 import com.github.lerkasan.literature.parser.SpringerApiJson;
-import com.github.lerkasan.literature.parser.impl.amazon.AmazonBookSearchService;
+import com.github.lerkasan.literature.parser.impl.ApiRequestPreparationServiceImpl;
+import com.github.lerkasan.literature.parser.impl.amazon.AmazonApiRequestPreparationService;
 import com.github.lerkasan.literature.service.ItemToReadService;
 
 @Controller
@@ -43,7 +45,7 @@ public class SearchController {
 	ResourceRepository resourceRepository;
 
 	@Inject
-	AmazonBookSearchService amazonBookSearchService;
+	AmazonApiRequestPreparationService amazonBookSearchService;
 
 	@Inject
 	@Qualifier("AmazonParsingService")
@@ -52,6 +54,14 @@ public class SearchController {
 	@Inject
 	@Qualifier("GoogleParsingService")
 	ParsingService googleParsingService;
+
+	@Inject
+	@Qualifier("GoogleHtmlParsingService")
+	ParsingService googleHtmlParsingService;
+	
+	@Inject
+	@Qualifier("GoogleBookParsingService")
+	ParsingService googleBookParsingService;
 
 	@Inject
 	@Qualifier("CrossrefParsingService")
@@ -69,6 +79,7 @@ public class SearchController {
 			HttpServletRequest request) {
 
 		List<GoogleApiJson> googleResults;
+		List<GoogleBookJson> googleBookResults;
 		List<SpringerApiJson> springerResults;
 		List<CrossrefApiJson> crossrefResults;
 		List<AmazonItem> amazonResults;
@@ -97,39 +108,41 @@ public class SearchController {
 			Resource searchApi = resourceRepository.findByName(engineName);
 			String preparedQuery = apiRequestPreparation.prepareQuery(searchApi, searchedWords);
 			apiResponse = apiRequestPreparation.passRequestToApi(searchApi, preparedQuery);
-
-		/*	model.addAttribute("googleResults", null);
-			request.getSession().setAttribute("googleResults", null);
-			model.addAttribute("amazonResults", null);
-			request.getSession().setAttribute("amazonResults", null);
-			model.addAttribute("springerResults", null);
-			request.getSession().setAttribute("springerResults", null);
-			model.addAttribute("crossrefResults", null);
-			request.getSession().setAttribute("crossrefResults", null);
-			*/
-			
 			model.addAttribute("currentEngineName", engineName);
 			request.getSession().setAttribute("currentEngineName", engineName);
+			
 			switch (engineName) {
-			case "Google": {
+			case ApiRequestPreparationServiceImpl.GOOGLE_API: {
 				googleResults = (List<GoogleApiJson>) googleParsingService.parse(apiResponse);
 				model.addAttribute("googleResults", googleResults);
 				request.getSession().setAttribute("googleResults", googleResults);
 				break;
 			}
-			case "Springer": {
+			case ApiRequestPreparationServiceImpl.GOOGLE_BOOKS: {
+				googleBookResults = (List<GoogleBookJson>) googleBookParsingService.parse(apiResponse);
+				model.addAttribute("googleBookResults", googleBookResults);
+				request.getSession().setAttribute("googleBookResults", googleBookResults);
+				break;
+			}
+			case ApiRequestPreparationServiceImpl.GOOGLE_SITE: {
+				List<GoogleApiJson> googleHtmlResults = (List<GoogleApiJson>) googleHtmlParsingService.parse(apiResponse);
+				model.addAttribute("googleHtmlResults", googleHtmlResults);
+				request.getSession().setAttribute("googleHtmlResults", googleHtmlResults);
+				break;
+			}
+			case ApiRequestPreparationServiceImpl.SPRINGER: {
 				springerResults = (List<SpringerApiJson>) springerParsingService.parse(apiResponse);
 				model.addAttribute("springerResults", springerResults);
 				request.getSession().setAttribute("springerResults", springerResults);
 				break;
 			}
-			case "Crossref": {
+			case ApiRequestPreparationServiceImpl.CROSSREF: {
 				crossrefResults = (List<CrossrefApiJson>) crossrefParsingService.parse(apiResponse);
 				model.addAttribute("crossrefResults", crossrefResults);
 				request.getSession().setAttribute("crossrefResults", crossrefResults);
 				break;
 			}
-			case "Amazon": {
+			case ApiRequestPreparationServiceImpl.AMAZON: {
 				String amazonRequestUrl = amazonBookSearchService.prepareRequestUrl(preparedQuery);
 				amazonResults = (List<AmazonItem>) amazonParsingService.parse(amazonRequestUrl);
 				model.addAttribute("amazonResults", amazonResults);
@@ -143,31 +156,42 @@ public class SearchController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/save/{engineName}", method = RequestMethod.POST)
-	public String saveItem(@PathVariable String engineName, @RequestParam(value = "selectedItems", required = false) int[] selectedItemsIds,
-			ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+	public String saveItem(@PathVariable String engineName,
+			@RequestParam(value = "selectedItems", required = false) int[] selectedItemsIds, ModelMap model,
+			HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
 		String message = "";
 		List<ConvertableToItemToRead> itemsToRead = null;
 		List<Resource> searchEngineList = (List<Resource>) request.getSession().getAttribute("searchEngineList");
 		model.addAttribute("searchEngineList", searchEngineList);
-		
+
 		switch (engineName) {
-		case "Google": {
+		case ApiRequestPreparationServiceImpl.GOOGLE_API: {
 			itemsToRead = (List<ConvertableToItemToRead>) request.getSession().getAttribute("googleResults");
 			message = googleParsingService.save(selectedItemsIds, itemsToRead);
 			break;
 		}
-		case "Springer": {
+		case ApiRequestPreparationServiceImpl.GOOGLE_SITE: {
+			itemsToRead = (List<ConvertableToItemToRead>) request.getSession().getAttribute("googleHtmlResults");
+			message = googleHtmlParsingService.save(selectedItemsIds, itemsToRead);
+			break;
+		}
+		case ApiRequestPreparationServiceImpl.GOOGLE_BOOKS: {
+			itemsToRead = (List<ConvertableToItemToRead>) request.getSession().getAttribute("googleBookResults");
+			message = googleBookParsingService.save(selectedItemsIds, itemsToRead);
+			break;
+		}
+		case ApiRequestPreparationServiceImpl.SPRINGER: {
 			itemsToRead = (List<ConvertableToItemToRead>) request.getSession().getAttribute("springerResults");
 			message = springerParsingService.save(selectedItemsIds, itemsToRead);
 			break;
 		}
-		case "Crossref": {
+		case ApiRequestPreparationServiceImpl.CROSSREF: {
 			itemsToRead = (List<ConvertableToItemToRead>) request.getSession().getAttribute("crossrefResults");
 			message = crossrefParsingService.save(selectedItemsIds, itemsToRead);
 			break;
 		}
-		case "Amazon": {
+		case ApiRequestPreparationServiceImpl.AMAZON: {
 			itemsToRead = (List<ConvertableToItemToRead>) request.getSession().getAttribute("amazonResults");
 			message = amazonParsingService.save(selectedItemsIds, itemsToRead);
 			break;

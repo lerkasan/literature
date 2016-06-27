@@ -13,7 +13,6 @@ import com.github.lerkasan.literature.entity.Literature;
 import com.github.lerkasan.literature.service.AuthorService;
 
 public class AmazonItem implements ConvertableToItemToRead {
-	private final String[] DATE_FORMAT_STRINGS = { "yyyy-MM-dd", "yyyy-MM", "yyyy" };
 	
 	private String title;
 	private String author;

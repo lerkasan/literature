@@ -23,10 +23,11 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 	@Override
 	public String prepareQuery(Resource api, String[] keywords) {
 		String request = "";
+		String searchURL ="";
 		StringBuilder query = new StringBuilder();
 		try {
 			switch (api.getName()) {
-			case "Springer": {
+			case SPRINGER: {
 				query.append(SPRINGER_SUBJECT);
 				for (String word : keywords) {
 					query = query.append(KEYWORD + "\"" + word + "\" OR " + TITLE + "\"" + word + "\" AND ");
@@ -36,7 +37,7 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 						URLEncoder.encode(RESULT_SIZE, CHARSET), URLEncoder.encode(api.getApiKey(), CHARSET));
 				break;
 			}
-			case "Amazon": {
+			case AMAZON: {
 				for (String word : keywords) {
 					query = query.append(word + "%20");
 				}
@@ -45,7 +46,7 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 
 				break;
 			}
-			case "Google": {
+			case GOOGLE_API: {
 				for (String word : keywords) {
 					query = query.append(word + "+");
 				}
@@ -53,6 +54,22 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 				request = String.format(api.getParameterFormat(), URLEncoder.encode(request, CHARSET),
 						URLEncoder.encode(api.getSearchEngineKey(), CHARSET),
 						URLEncoder.encode(api.getApiKey(), CHARSET));
+				break;
+			}
+			case GOOGLE_SITE: {
+				for (String word : keywords) {
+					query = query.append(word + "+");
+				}
+				request = query.substring(0, query.length() - 1);
+				searchURL = api.getUrl() + "?q="+request+"&num="+ApiRequestPreparationService.RESULT_SIZE;
+				break;
+			}
+			case GOOGLE_BOOKS: {
+				for (String word : keywords) {
+					query = query.append(word + "+");
+				}
+				request = query.substring(0, query.length() - 1);
+				request = String.format(api.getParameterFormat(), URLEncoder.encode(request, CHARSET));
 				break;
 			}
 			default: {
@@ -69,6 +86,9 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 			e.printStackTrace();
 		}
 		// System.out.println("search:" + request);
+		if (api.getName().equals(GOOGLE_SITE)) {
+			return searchURL;
+		}
 		return request;
 	}
 
@@ -96,6 +116,10 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 		StringBuilder response = new StringBuilder();
 		// String paramQ = "subject:\"Computer Science\" AND (title:\"data\" OR
 		// keyword:\"machine learning\" OR keyword:\"cloud computing\")";
+		
+		if (api.getName().equals(GOOGLE_SITE)) {
+			return request;
+		}
 		try {
 			connection = (HttpURLConnection) new URL(api.getUrl() + "?" + request).openConnection();
 			connection.setRequestProperty("Accept-Charset", CHARSET);

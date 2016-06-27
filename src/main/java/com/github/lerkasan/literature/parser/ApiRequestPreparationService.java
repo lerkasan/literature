@@ -10,6 +10,13 @@ public interface ApiRequestPreparationService {
 	public static final String TITLE = "title:";
 	public static final String CHARSET = "UTF-8";
 	public static final String RESULT_SIZE = "50"; // TO DO - make changeable
+	
+	public static final String AMAZON = "Amazon";
+	public static final String GOOGLE_API = "Google_API";
+	public static final String GOOGLE_SITE = "Google";
+	public static final String GOOGLE_BOOKS = "Google_Books";
+	public static final String SPRINGER = "Springer";
+	public static final String CROSSREF = "Crossref";
 
 	public String passRequestToApi(Resource api, String query);
 

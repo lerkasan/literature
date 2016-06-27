@@ -37,7 +37,7 @@ import com.github.lerkasan.literature.dao.ResourceRepository;
 import com.github.lerkasan.literature.entity.Resource;
 
 @Service("AmazonBookSearchService")
-public class AmazonBookSearchService {
+public class AmazonApiRequestPreparationService {
 
 	@Inject
 	ResourceRepository resourceRepository;

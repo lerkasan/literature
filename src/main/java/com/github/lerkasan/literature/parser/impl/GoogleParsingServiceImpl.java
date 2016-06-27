@@ -20,14 +20,13 @@ import com.google.gson.JsonParser;
 
 @Service("GoogleParsingService")
 public class GoogleParsingServiceImpl extends ParsingServiceImpl implements ParsingService {
-
+	
 	@Override
 	public List<GoogleApiJson> parse(String input) {
 		List<GoogleApiJson> articleList = new ArrayList<>();
 
 		Gson json = new Gson();
 		JsonParser parser = new JsonParser();
-
 		JsonArray items = parser.parse(input).getAsJsonObject().getAsJsonArray("items");
 		if ((items != null) && (items.size() > 0)) {
 			for (JsonElement item : items) {
