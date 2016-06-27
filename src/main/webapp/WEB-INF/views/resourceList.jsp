@@ -44,7 +44,7 @@
 		</table>
 	</div>
 	<c:url var="firstUrl" value="/resource/list/1" />
-	<c:url var="lastUrl" value="/resource/list/${resourceList.totalPages}" />
+	<c:url var="lastUrl" value="/resource/list/${resources.totalPages}" />
 	<c:url var="prevUrl" value="/resource/list/${currentIndex - 1}" />
 	<c:url var="nextUrl" value="/resource/list/${currentIndex + 1}" />
 
@@ -74,7 +74,7 @@
 					</c:choose>
 				</c:forEach>
 				<c:choose>
-					<c:when test="${currentIndex == resourceList.totalPages+1}">
+					<c:when test="${currentIndex == resources.totalPages}">
 						<td class="disabled"><a href="#">Next&nbsp;&gt;</a></td>
 						<td class="disabled"><a href="#">Last&nbsp;&gt;&gt;</a></td>
 					</c:when>

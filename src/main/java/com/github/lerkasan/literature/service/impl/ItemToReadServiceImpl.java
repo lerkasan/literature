@@ -1,10 +1,11 @@
 package com.github.lerkasan.literature.service.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.lerkasan.literature.controller.Messages;
 import com.github.lerkasan.literature.dao.ItemToReadRepository;
 import com.github.lerkasan.literature.entity.ItemToRead;
+import com.github.lerkasan.literature.entity.ItemType;
 import com.github.lerkasan.literature.service.ItemToReadService;
 
 @Service
@@ -20,9 +22,6 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 
 	@Inject
 	private ItemToReadRepository itemToReadRepository;
-	
-	@PersistenceContext
-    private EntityManager em;
 	
 	public ItemToReadServiceImpl() {
 	}
@@ -50,13 +49,21 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 
 	@Override
 	public Page<ItemToRead> getAll(int pageNumber) {
-		PageRequest pageRequest = new PageRequest(pageNumber - 1, Messages.PAGE_SIZE, Sort.Direction.ASC, "name");
+		PageRequest pageRequest = new PageRequest(pageNumber - 1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
 		return itemToReadRepository.findAll(pageRequest);
 	}
 
 	@Override
 	public ItemToRead getByUrl(String url) {
 		return itemToReadRepository.findByUrl(url);
+	}
+
+	@Override
+	public Page<ItemToRead> getAllByItemType(ItemType itemType, int pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber - 1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
+		List<ItemToRead> itemList = itemToReadRepository.findAllByItemType(itemType);
+		Page<ItemToRead> itemPage = new PageImpl<ItemToRead>(itemList, pageRequest, itemList.size()); 
+		return itemPage;
 	}
 
 }

@@ -31,4 +31,12 @@
         <put-attribute name="title" value="Tech literature | Search Results"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/search.jsp"></put-attribute>
     </definition>
+    <definition name="itemList" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Articles and books"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/itemList.jsp"></put-attribute>
+    </definition>
+    <definition name="itemList/*" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Articles and books"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/itemList.jsp"></put-attribute>
+    </definition>
 </tiles-definitions>

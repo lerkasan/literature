@@ -1,10 +1,14 @@
 package com.github.lerkasan.literature.dao;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.github.lerkasan.literature.entity.ItemToRead;
+import com.github.lerkasan.literature.entity.ItemType;
 
 public interface ItemToReadRepository extends PagingAndSortingRepository<ItemToRead, Integer> {
 	@Query("select i from item_to_read i where i.title= :title")
@@ -15,5 +19,8 @@ public interface ItemToReadRepository extends PagingAndSortingRepository<ItemToR
 	
 	@Query("select i from item_to_read i where i.url = :url")
     ItemToRead findByUrl(@Param("url") String url);
+
+	@Query("select i from item_to_read i where i.itemType = :itemType")
+	List<ItemToRead> findAllByItemType(@Param("itemType") ItemType itemType);
 
 }
