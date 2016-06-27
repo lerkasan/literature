@@ -1,6 +1,7 @@
 package com.github.lerkasan.literature.parser;
 
 import java.util.List;
+
 import javax.inject.Named;
 
 import com.github.lerkasan.literature.entity.ItemToRead;

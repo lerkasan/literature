@@ -1,12 +1,9 @@
 package com.github.lerkasan.literature.parser;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.Lob;
 
 import com.github.lerkasan.literature.entity.Author;
 import com.github.lerkasan.literature.entity.ItemAccessType;

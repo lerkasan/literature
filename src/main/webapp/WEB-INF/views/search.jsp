@@ -58,7 +58,7 @@
 		<c:when test="${currentEngineName == 'Amazon'}">
 			<c:choose>
 				<c:when test="${not empty amazonResults}">
-					<p align="center">Search results from Amazon:</p>
+					<p align="center"><b>Search results for&nbsp;&quot;<c:out value="${searchQuery}"/>&quot;&nbsp;from Amazon:</b></p>
 					<div align="center">
 						<form action="/literature/search/save/Amazon" method="POST">
 							<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
@@ -110,7 +110,7 @@
 		<c:when test="${currentEngineName == 'Google_Books'}">
 			<c:choose>
 				<c:when test="${not empty googleBookResults}">
-					<p align="center">Search results from Google Books:</p>
+					<p align="center"><p align="center"><b>Search results for&nbsp;&quot;<c:out value="${searchQuery}"/>&quot;&nbsp;from Google Books:</b></p>
 					<div align="center">
 						<form action="/literature/search/save/Google_Books" method="POST">
 							<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
@@ -167,7 +167,7 @@
 		<c:when test="${currentEngineName == 'Google_API'}">
 			<c:choose>
 				<c:when test="${not empty googleResults}">
-					<p align="center">Search results from Google API:</p>
+					<p align="center"><b><p align="center">Search results for&nbsp;&quot;<c:out value="${searchQuery}"/>&quot;&nbsp;from Google API:</b></p>
 
 					<div align="center">
 						<form action="/literature/search/save/Google_API" method="POST">
@@ -216,7 +216,7 @@
 		<c:when test="${currentEngineName == 'Google'}">
 			<c:choose>
 				<c:when test="${not empty googleHtmlResults}">
-					<p align="center">Search results from Google site:</p>
+					<p align="center"><p align="center"><b>Search results for&nbsp;&quot;<c:out value="${searchQuery}"/>&quot;&nbsp;from Google site:</b></p>
 
 					<div align="center">
 						<form action="/literature/search/save/Google" method="POST">
@@ -259,7 +259,7 @@
 			<c:choose>
 				<c:when test="${not empty springerResults}">
 					<br>
-					<p align="center">Search results from SpringerOpen:</p>
+					<p align="center"><p align="center"><b>Search results for&nbsp;&quot;<c:out value="${searchQuery}"/>&quot;&nbsp;from SpringerOpen:</b></p>
 					<div align="center">
 						<form action="/literature/search/save/Springer" method="POST">
 							<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck
@@ -315,7 +315,7 @@
 			<c:choose>
 				<c:when test="${not empty crossrefResults}">
 					<br>
-					<p align="center">Search results from Crossref:</p>
+					<p align="center"><p align="center"><b>Search results for&nbsp;&quot;<c:out value="${searchQuery}"/>&quot;&nbsp;from Crossref:</b></p>
 					<div align="center">
 						<form action="/literature/search/save/Crossref" method="POST">
 							<br> <input type="checkbox" onClick="toggle(this)" />&nbsp;&nbsp;Check/Uncheck

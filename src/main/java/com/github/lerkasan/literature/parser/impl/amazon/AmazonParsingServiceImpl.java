@@ -1,15 +1,8 @@
 package com.github.lerkasan.literature.parser.impl.amazon;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -18,8 +11,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.github.lerkasan.literature.parser.AmazonBook;
-import com.github.lerkasan.literature.parser.AmazonBooks;
 import com.github.lerkasan.literature.parser.AmazonItem;
 import com.github.lerkasan.literature.parser.ParsingService;
 import com.github.lerkasan.literature.parser.impl.ParsingServiceImpl;
@@ -29,30 +20,44 @@ public class AmazonParsingServiceImpl extends ParsingServiceImpl implements Pars
 
 	public List<AmazonItem> parse(String url) {
 		int nodesSize;
-		JAXBContext jc;
 		List<AmazonItem> books = new ArrayList<>();
-		ItemSearchResponse foundItems = new ItemSearchResponse();
-		try {
+		
+	/*		JAXBContext jc;
+		ItemSearchResponse itemSearchResponse;
+		StringBuilder response = new StringBuilder();
+		 try {
 			jc = JAXBContext.newInstance(ItemSearchResponse.class);
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
-			URL xmlURL = new URL(url);
-			InputStream xml = xmlURL.openStream();
-			xml.close();
-
+			URL xmlUrl = new URL(url);
+			try (BufferedReader in = new BufferedReader(new InputStreamReader(xmlUrl.openStream())); 
+					PrintWriter out = new PrintWriter(new FileWriter("/home/lerkasan/bionic/test.xml"))) {
+				String inputLine;
+				while ((inputLine = in.readLine()) != null) {
+					out.write(inputLine);
+					//response.append(inputLine);
+				}
+				
+			}
+			//itemSearchResponse = (ItemSearchResponse) unmarshaller.unmarshal(xmlUrl);
+			itemSearchResponse = (ItemSearchResponse) unmarshaller.unmarshal(new File("/home/lerkasan/bionic/test.xml")); //Doesn't work !!!! returns empty object (((
+			System.out.println("Amazon xml results:");
+		//	System.out.println(itemSearchResponse.getItems().get(0).getTitle());
+			
 		} catch (JAXBException | MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
+	*/
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(url);
 			NodeList nodes = doc.getElementsByTagName("Item");
 			NodeList nodesTitle = doc.getElementsByTagName("Title");
-			NodeList nodesImg = doc.getElementsByTagName("MediumImage");
+			//NodeList nodesImg = doc.getElementsByTagName("MediumImage");
 			NodeList nodesIsbn = doc.getElementsByTagName("ISBN");
 			NodeList nodesPublisher = doc.getElementsByTagName("Publisher");
 			NodeList nodesPublicationDate = doc.getElementsByTagName("PublicationDate");
@@ -75,7 +80,6 @@ public class AmazonParsingServiceImpl extends ParsingServiceImpl implements Pars
 				}
 				Node image = nodes.item(i);
 				if (image != null) {
-					// book.setImageUrl(image.getFirstChild().getTextContent());
 					book.setImageUrl(image.getFirstChild().getNextSibling().getNextSibling().getNextSibling()
 							.getNextSibling().getNextSibling().getFirstChild().getTextContent());
 				}
@@ -101,14 +105,7 @@ public class AmazonParsingServiceImpl extends ParsingServiceImpl implements Pars
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		// return foundItems.getItems().getBooks();
 		return books;
 
 	}
 }
-
-/*
- * JAXBContext context = JAXBContext.newInstance(AmazonItem.class); Unmarshaller
- * unMarshaller = context.createUnmarshaller(); AmazonItem newItem =
- * (AmazonItem) unMarshaller.unmarshal(response); System.out.println(newItem);
- */

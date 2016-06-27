@@ -1,7 +1,7 @@
 package com.github.lerkasan.literature.service;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import com.github.lerkasan.literature.entity.ItemToRead;
 
 public interface ItemToReadService {
@@ -10,6 +10,7 @@ public interface ItemToReadService {
 	ItemToRead getById(int id);
 	ItemToRead save(ItemToRead itemToRead);
 	//void save(ItemToRead itemToRead);
-	Page<ItemToRead> getAll(Pageable pageable);
+	//Page<ItemToRead> getAll(Pageable pageable);
 	ItemToRead getByUrl(String url);
+	Page<ItemToRead> getAll(int pageNumber);
 }

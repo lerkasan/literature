@@ -7,7 +7,6 @@ import javax.inject.Inject;
 
 import com.github.lerkasan.literature.entity.Author;
 import com.github.lerkasan.literature.entity.ItemAccessType;
-import com.github.lerkasan.literature.entity.ItemToRead;
 import com.github.lerkasan.literature.entity.ItemType;
 import com.github.lerkasan.literature.entity.Literature;
 import com.github.lerkasan.literature.service.AuthorService;

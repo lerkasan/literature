@@ -2,13 +2,8 @@ package com.github.lerkasan.literature.parser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
-import javax.persistence.Lob;
-
-import com.github.lerkasan.literature.entity.Author;
 import com.github.lerkasan.literature.entity.ItemAccessType;
-import com.github.lerkasan.literature.entity.ItemToRead;
 import com.github.lerkasan.literature.entity.ItemType;
 import com.github.lerkasan.literature.entity.Literature;
 

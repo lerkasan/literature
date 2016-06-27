@@ -1,17 +1,16 @@
 package com.github.lerkasan.literature.parser;
 
-import java.util.Arrays;
-
+import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
 import org.eclipse.persistence.oxm.annotations.XmlPath;
 
 @XmlRootElement(name="Item", namespace = "http://webservices.amazon.com/AWSECommerceService/2011-08-01")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder={"url", "imageUrl", "author", "edition", "isbn", "publishDate", "publisher", "title"})
+@XmlType(name = "", namespace = "http://webservices.amazon.com/AWSECommerceService/2011-08-01", propOrder={"url", "imageUrl", "attributes"})
 public class AmazonBook {
 	
 	public AmazonBook() {
@@ -25,7 +24,11 @@ public class AmazonBook {
 	@XmlPath("ItemSearchResponse/Items/Item/MediumImage/text()")
 	private String imageUrl;
 	
-	@XmlElement(name = "Author")
+	@XmlElement(name = "ItemAttributes", type = AmazonBookAttributes.class)
+	@XmlPath("ItemSearchResponse/Items/Item/ItemAttributes/text()")
+	AmazonBookAttributes attributes;
+	
+	/*@XmlElement(name = "Author")
 	@XmlPath("ItemSearchResponse/Items/Item/ItemAttributes/Author/text()")
 	private String[] author;
 	
@@ -47,7 +50,7 @@ public class AmazonBook {
 	
 	@XmlElement(name = "Title")
 	@XmlPath("ItemSearchResponse/Items/Item/ItemAttributes/Title/text()")
-	private String title;
+	private String title;*/
 
 	public String getUrl() {
 		return url;
@@ -65,7 +68,16 @@ public class AmazonBook {
 		this.imageUrl = imageUrl;
 	}
 
-	public String[] getAuthor() {
+	public AmazonBookAttributes getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(AmazonBookAttributes attributes) {
+		this.attributes = attributes;
+	}
+	
+
+	/*public String[] getAuthor() {
 		return author;
 	}
 
@@ -118,7 +130,7 @@ public class AmazonBook {
 		return "AmazonBook [url=" + url + ", imageUrl=" + imageUrl + ", author=" + Arrays.toString(author)
 				+ ", edition=" + edition + ", isbn=" + isbn + ", publishDate=" + publishDate + ", publisher="
 				+ publisher + ", title=" + title + "]";
-	}
+	}*/
 	
 
 }

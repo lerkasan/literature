@@ -1,12 +1,7 @@
 package com.github.lerkasan.literature.parser.impl;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Resource;
-import javax.inject.Named;
 
 import org.springframework.stereotype.Service;
 

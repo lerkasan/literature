@@ -1,12 +1,9 @@
 package com.github.lerkasan;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import com.github.lerkasan.literature.entity.Resource;
-import com.github.lerkasan.literature.parser.impl.GoogleParsingServiceImpl;
 
 public class GoogleParsingServiceImplTest {
 	Resource googleApi = new Resource();

@@ -2,10 +2,10 @@ package com.github.lerkasan.literature.dao;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+
 import com.github.lerkasan.literature.entity.Resource;
 
 public interface ResourceRepository extends PagingAndSortingRepository<Resource, Integer> {
@@ -15,7 +15,7 @@ public interface ResourceRepository extends PagingAndSortingRepository<Resource,
 	Resource findByName(String name);
 	
 	@Query("select r from resource r where r.id = :id")
-	Resource findById(@Param("id") int id);
+	Resource findById(@Param("id") Integer id);
 	
 	List<Resource> findByResponseFormat(String format);
 	List<Resource> findByResponseFormatNot(String format);

@@ -1,7 +1,10 @@
 package com.github.lerkasan.literature.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 
 @Entity(name="literature")
 @DiscriminatorValue("literature")

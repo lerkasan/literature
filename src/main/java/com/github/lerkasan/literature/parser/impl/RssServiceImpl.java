@@ -6,9 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -23,7 +21,6 @@ import com.github.lerkasan.literature.entity.ItemToRead;
 import com.github.lerkasan.literature.entity.ItemType;
 import com.github.lerkasan.literature.entity.Resource;
 import com.github.lerkasan.literature.parser.ApiRequestPreparationService;
-import com.github.lerkasan.literature.parser.ConvertableToItemToRead;
 import com.github.lerkasan.literature.parser.RssEntry;
 import com.github.lerkasan.literature.parser.RssService;
 import com.github.lerkasan.literature.service.AuthorService;

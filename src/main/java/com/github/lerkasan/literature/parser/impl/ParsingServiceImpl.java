@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.github.lerkasan.literature.controller.Messages;
 import com.github.lerkasan.literature.entity.ItemToRead;
 import com.github.lerkasan.literature.parser.ConvertableToItemToRead;
-import com.github.lerkasan.literature.parser.GoogleApiJson;
 import com.github.lerkasan.literature.parser.ParsingService;
 import com.github.lerkasan.literature.service.ItemToReadService;
 

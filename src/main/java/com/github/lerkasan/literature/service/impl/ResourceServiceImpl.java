@@ -6,18 +6,17 @@ import javax.inject.Inject;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.lerkasan.literature.controller.Messages;
 import com.github.lerkasan.literature.dao.ResourceRepository;
 import com.github.lerkasan.literature.entity.Resource;
 import com.github.lerkasan.literature.service.ResourceService;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
-	private static final int PAGE_SIZE = 50;
 
 	@Inject
 	private ResourceRepository resourceRepository;
@@ -47,7 +46,7 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Override
 	public Page<Resource> getAll(int pageNumber) {
-		PageRequest pageRequest = new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "name");
+		PageRequest pageRequest = new PageRequest(pageNumber - 1, Messages.PAGE_SIZE, Sort.Direction.ASC, "name");
 		return resourceRepository.findAll(pageRequest);
 	}
 

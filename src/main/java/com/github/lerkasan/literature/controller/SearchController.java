@@ -103,11 +103,12 @@ public class SearchController {
 		if ((searchQuery != null) && (searchQuery != "")) {
 			request.getSession().setAttribute("searchQuery", searchQuery);
 			String[] searchedWords = apiRequestPreparation.deleteSpecialsAndSplit(searchQuery);
-			Iterable<Resource> foundApi = resourceRepository.findByResponseFormatNot("rss");
+			//Iterable<Resource> foundApi = resourceRepository.findByResponseFormatNot("rss");
 
 			Resource searchApi = resourceRepository.findByName(engineName);
 			String preparedQuery = apiRequestPreparation.prepareQuery(searchApi, searchedWords);
 			apiResponse = apiRequestPreparation.passRequestToApi(searchApi, preparedQuery);
+			model.addAttribute("searchQuery", searchQuery);
 			model.addAttribute("currentEngineName", engineName);
 			request.getSession().setAttribute("currentEngineName", engineName);
 			

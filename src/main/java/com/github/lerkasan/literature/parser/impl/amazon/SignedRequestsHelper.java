@@ -23,16 +23,12 @@ package com.github.lerkasan.literature.parser.impl.amazon;
 //package com.amazon.advertising.api.sample;
 
 import java.io.UnsupportedEncodingException;
-
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;

@@ -25,13 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.github.lerkasan.literature.dao.ResourceRepository;
 import com.github.lerkasan.literature.entity.Resource;
@@ -39,17 +34,16 @@ import com.github.lerkasan.literature.entity.Resource;
 @Service("AmazonBookSearchService")
 public class AmazonApiRequestPreparationService {
 
+	private static final String ENDPOINT = "ecs.amazonaws.com";
+	
 	@Inject
 	ResourceRepository resourceRepository;
-	private static String awsAccessKeyId;
-	private static String awsSecretKey;
-	private static final String ENDPOINT = "ecs.amazonaws.com";
+	
+	private String awsAccessKeyId;
+	private String awsSecretKey;
 
 	public String prepareRequestUrl(String keywords) {
-		/*
-		 * Set up the signed requests helper
-		 */
-		
+
 		System.out.println("PREPARED QUERY " + keywords);
 		SignedRequestsHelper helper;
 		Resource foundApi = resourceRepository.findByName("Amazon");
@@ -62,10 +56,7 @@ public class AmazonApiRequestPreparationService {
 			e.printStackTrace();
 			return "";
 		}
-
 		String requestUrl = null;
-		String title = null;
-
 		System.out.println("Map form example:");
 		Map<String, String> params = new HashMap<String, String>();
 
@@ -74,40 +65,12 @@ public class AmazonApiRequestPreparationService {
 		params.put("Version", "2009-03-31");
 		params.put("Operation", "ItemSearch");
 		params.put("Keywords", keywords);
-		//params.put("Keywords", "java%20spring");
 		params.put("SearchIndex", "Books");
 		params.put("ResponseGroup", "Medium");
 
 		requestUrl = helper.sign(params);
 		System.out.println("Signed Request is \"" + requestUrl + "\"");
 		return requestUrl;
-		/*
-		 * title = fetchTitle(requestUrl); System.out.println(
-		 * "Signed Title is \"" + title + "\""); System.out.println();
-		 */
-	}
-
-	/*
-	 * Utility function to fetch the response from the service and extract the
-	 * title from the XML.
-	 */
-	private static String fetchTitle(String requestUrl) {
-		String title = null;
-		try {
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(requestUrl);
-			NodeList nodes = doc.getElementsByTagName("Item");
-			int nodesSize = nodes.getLength();
-			/*for (int i = 0; i < nodesSize; i++) {
-				title = nodes.item(i).getTextContent();
-			}*/
-			System.out.println(nodes.item(0).getTextContent());
-
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return title;
 	}
 
 }

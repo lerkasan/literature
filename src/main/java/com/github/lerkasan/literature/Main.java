@@ -1,29 +1,5 @@
 package com.github.lerkasan.literature;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import com.github.lerkasan.literature.dao.*;
-import com.github.lerkasan.literature.entity.Resource;
-import com.github.lerkasan.literature.parser.RssService;
-import com.github.lerkasan.literature.parser.impl.CrossrefParsingServiceImpl;
-import com.github.lerkasan.literature.parser.impl.GoogleParsingServiceImpl;
-import com.github.lerkasan.literature.parser.impl.RssServiceImpl;
-import com.github.lerkasan.literature.parser.impl.SpringerParsingServiceImpl;
-import com.github.lerkasan.literature.service.ResourceService;
-import com.github.lerkasan.literature.service.impl.ResourceServiceImpl;
-import com.rometools.rome.feed.synd.SyndEntry;
-
 public class Main {
 	/*
 	 * @Inject static RssService rssService;

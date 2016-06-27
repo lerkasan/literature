@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.github.lerkasan.literature.entity.ItemToRead;
-import com.github.lerkasan.literature.entity.Literature;
-
 @Service("ParsingService")
 public interface ParsingService {
 	

@@ -3,15 +3,11 @@ package com.github.lerkasan.literature.parser.impl;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.springframework.stereotype.Service;
 
 import com.github.lerkasan.literature.parser.ConvertableToItemToRead;
 import com.github.lerkasan.literature.parser.ParsingService;
 import com.github.lerkasan.literature.parser.SpringerApiJson;
-import com.github.lerkasan.literature.service.AuthorService;
-import com.github.lerkasan.literature.service.ItemToReadService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
