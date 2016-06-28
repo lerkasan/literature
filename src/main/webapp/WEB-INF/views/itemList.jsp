@@ -40,18 +40,50 @@
 								href="letter/<%=Character.toChars((Integer) pageContext.getAttribute("i"))%>"><%=Character.toChars((Integer) pageContext.getAttribute("i"))%></a>&nbsp;
 						</c:forEach></td>
 					<td><select name="typeSelection">
-							<option selected value="select_option">-- select an
-								option --</option>
+							<c:choose>
+								<c:when test="${empty selectedType}">
+									<option selected value="select_option">-- select an
+										option --</option>
+								</c:when>
+								<c:otherwise>
+									<option value="select_option">-- select an option --</option>
+								</c:otherwise>
+							</c:choose>
 							<c:forEach var="itemType" items="${itemTypes}">
-								<option value="${itemType}"><c:out value="${itemType}" /></option>
+								<c:choose>
+									<c:when test="${selectedType == itemType}">
+										<option selected value="${itemType}"><c:out
+												value="${itemType}" /></option>
+									</c:when>
+									<c:otherwise>
+										<option value="${itemType}"><c:out
+												value="${itemType}" /></option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 					</select></td>
 					<td><select name="accessSelection">
+							<c:choose>
+								<c:when test="${empty selectedAccess}">
+									<option selected value="select_option">-- select an
+										option --</option>
+								</c:when>
+
+								<c:otherwise>
+									<option value="select_option">-- select an option --</option>
+								</c:otherwise>
+							</c:choose>
 							<c:forEach var="accessType" items="${accessTypes}">
-								<option selected value="select_option">-- select an
-									option --</option>
-								<option value="${accessType}"><c:out
-										value="${accessType}" /></option>
+								<c:choose>
+									<c:when test="${selectedAccess == accessType}">
+										<option selected value="${accessType}"><c:out
+												value="${accessType}" /></option>
+									</c:when>
+									<c:otherwise>
+										<option value="${accessType}"><c:out
+												value="${accessType}" /></option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 					</select></td>
 					<td></td>
@@ -91,10 +123,67 @@
 			</c:choose>
 		</table>
 	</div>
-	<c:url var="firstUrl" value="/item/list/1" />
-	<c:url var="lastUrl" value="/item/list/${items.totalPages}" />
-	<c:url var="prevUrl" value="/item/list/${currentIndex - 1}" />
-	<c:url var="nextUrl" value="/item/list/${currentIndex + 1}" />
+
+	<c:choose>
+		<c:when test="${ not empty selectedType and not empty selectedAccess}">
+			<c:url var="firstUrl" value="/item/list/1">
+				<c:param name="typeSelection" value="${selectedType}" />
+				<c:param name="accessSelection" value="${selectedAccess}" />
+			</c:url>
+			<c:url var="lastUrl" value="/item/list/${items.totalPages}">
+				<c:param name="typeSelection" value="${selectedType}" />
+				<c:param name="accessSelection" value="${selectedAccess}" />
+			</c:url>
+			<c:url var="prevUrl" value="/item/list/${currentIndex - 1}">
+				<c:param name="typeSelection" value="${selectedType}" />
+				<c:param name="accessSelection" value="${selectedAccess}" />
+			</c:url>
+			<c:url var="nextUrl" value="/item/list/${currentIndex + 1}">
+				<c:param name="typeSelection" value="${selectedType}" />
+				<c:param name="accessSelection" value="${selectedAccess}" />
+			</c:url>
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${ not empty selectedType and empty selectedAccess }">
+			<c:url var="firstUrl" value="/item/list/1">
+				<c:param name="typeSelection" value="${selectedType}" />
+			</c:url>
+			<c:url var="lastUrl" value="/item/list/${items.totalPages}">
+				<c:param name="typeSelection" value="${selectedType}" />
+			</c:url>
+			<c:url var="prevUrl" value="/item/list/${currentIndex - 1}">
+				<c:param name="typeSelection" value="${selectedType}" />
+			</c:url>
+			<c:url var="nextUrl" value="/item/list/${currentIndex + 1}">
+				<c:param name="typeSelection" value="${selectedType}" />
+			</c:url>
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${ empty selectedType and not empty selectedAccess}">
+			<c:url var="firstUrl" value="/item/list/1">
+				<c:param name="accessSelection" value="${selectedAccess}" />
+			</c:url>
+			<c:url var="lastUrl" value="/item/list/${items.totalPages}">
+				<c:param name="accessSelection" value="${selectedAccess}" />
+			</c:url>
+			<c:url var="prevUrl" value="/item/list/${currentIndex - 1}">
+				<c:param name="accessSelection" value="${selectedAccess}" />
+			</c:url>
+			<c:url var="nextUrl" value="/item/list/${currentIndex + 1}">
+				<c:param name="accessSelection" value="${selectedAccess}" />
+			</c:url>
+		</c:when>
+	</c:choose>
+	<c:choose>
+		<c:when test="${ empty selectedType and empty selectedAccess}">
+			<c:url var="firstUrl" value="/item/list/1" />
+			<c:url var="lastUrl" value="/item/list/${items.totalPages}" />
+			<c:url var="prevUrl" value="/item/list/${currentIndex - 1}" />
+			<c:url var="nextUrl" value="/item/list/${currentIndex + 1}" />
+		</c:when>
+	</c:choose>
 
 	<div class="pagination" align="center">
 		<table align="center">
@@ -105,19 +194,49 @@
 						<td class="disabled"><a href="#">&lt;&nbsp;Previous</a></td>
 					</c:when>
 					<c:otherwise>
-						<td><a href="${firstUrl}">&lt;&lt;&nbsp;First</a></td>
-						<td><a href="${prevUrl}">&lt;&nbsp;Previous</a></td>
+						<td><a href="<c:out value='${firstUrl}'/>">&lt;&lt;&nbsp;First</a></td>
+						<td><a href="<c:out value='${prevUrl}'/>">&lt;&nbsp;Previous</a></td>
 					</c:otherwise>
 				</c:choose>
 				<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
-					<c:url var="pageUrl" value="/item/list/${i}" />
+					<c:choose>
+						<c:when
+							test="${ not empty selectedType and not empty selectedAccess}">
+							<c:url var="pageUrl" value="/item/list/${i}">
+								<c:param name="typeSelection" value="${selectedType}" />
+								<c:param name="accessSelection" value="${selectedAccess}" />
+							</c:url>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when
+							test="${ not empty selectedType and empty selectedAccess }">
+							<c:url var="pageUrl" value="/item/list/${i}">
+								<c:param name="typeSelection" value="${selectedType}" />
+							</c:url>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${ empty selectedType and not empty selectedAccess}">
+							<c:url var="pageUrl" value="/item/list/${i}">
+								<c:param name="accessSelection" value="${selectedAccess}" />
+							</c:url>
+						</c:when>
+					</c:choose>
+					<c:choose>
+						<c:when test="${ empty selectedType and empty selectedAccess}">
+							<c:url var="pageUrl" value="/item/list/${i}" />
+						</c:when>
+					</c:choose>
+
 					<c:choose>
 						<c:when test="${i == currentIndex}">
-							<td class="active"><a href="${pageUrl}"><c:out
+							<td class="active"><a href="<c:out value='${pageUrl}'/>"><c:out
 										value="${i}" /></a></td>
 						</c:when>
 						<c:otherwise>
-							<td><a href="${pageUrl}"><c:out value="${i}" /></a></td>
+							<td><a href="<c:out value='${pageUrl}'/>"><c:out
+										value="${i}" /></a></td>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
@@ -127,8 +246,8 @@
 						<td class="disabled"><a href="#">Last&nbsp;&gt;&gt;</a></td>
 					</c:when>
 					<c:otherwise>
-						<td><a href="${nextUrl}">Next&nbsp;&gt;</a></td>
-						<td><a href="${lastUrl}">Last&nbsp;&gt;&gt;</a></td>
+						<td><a href="<c:out value='${nextUrl}'/>">Next&nbsp;&gt;</a></td>
+						<td><a href="<c:out value='${lastUrl}'/>">Last&nbsp;&gt;&gt;</a></td>
 					</c:otherwise>
 				</c:choose>
 			</tr>
