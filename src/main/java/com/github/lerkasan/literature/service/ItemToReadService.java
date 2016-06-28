@@ -2,6 +2,7 @@ package com.github.lerkasan.literature.service;
 
 import org.springframework.data.domain.Page;
 
+import com.github.lerkasan.literature.entity.ItemAccessType;
 import com.github.lerkasan.literature.entity.ItemToRead;
 import com.github.lerkasan.literature.entity.ItemType;
 
@@ -14,5 +15,7 @@ public interface ItemToReadService {
 	//Page<ItemToRead> getAll(Pageable pageable);
 	ItemToRead getByUrl(String url);
 	Page<ItemToRead> getAll(int pageNumber);
-	Page<ItemToRead> getByItemType(ItemType itemtype, int pageNumber);
+	Page<ItemToRead> getByItemType(ItemType itemType, int pageNumber);
+	Page<ItemToRead> getByAccessType(ItemAccessType accessType, Integer pageNumber);
+	Page<ItemToRead> getByItemTypeAndAccessType(ItemType itemType, ItemAccessType accessType, Integer pageNumber);
 }

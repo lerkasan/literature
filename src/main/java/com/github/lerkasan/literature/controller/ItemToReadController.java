@@ -23,11 +23,11 @@ import com.github.lerkasan.literature.service.ItemToReadService;
 public class ItemToReadController {
 	@Inject
 	ItemToReadService itemToReadService;
-	
-	@RequestMapping(value = "/list", method = { RequestMethod.GET})
+
+	@RequestMapping(value = "/list", method = { RequestMethod.GET })
 	public String getFirstPage(ModelMap model, HttpSession session) {
 		Page<ItemToRead> page = null;
-		page = itemToReadService.getAll(1);		
+		page = itemToReadService.getAll(1);
 		session.removeAttribute("selectedType");
 		int current = page.getNumber() + 1;
 		int begin = Math.max(1, current - 5);
@@ -43,9 +43,113 @@ public class ItemToReadController {
 
 	@RequestMapping(value = "/list/{pageNumber}", method = { RequestMethod.GET, RequestMethod.POST })
 	public String getPage(@PathVariable Integer pageNumber, ModelMap model,
-			@RequestParam(value = "typeSelection", required = false) String typeSelection, HttpSession session) {
+			@RequestParam(value = "typeSelection", required = false) String typeSelection,
+			@RequestParam(value = "accessSelection", required = false) String accessSelection, HttpSession session) {
 		Page<ItemToRead> page = null;
 		String selectedType;
+		String selectedAccess;
+		
+
+		if ((typeSelection == null) || (typeSelection.equals("select_option"))
+				&& ((accessSelection == null) || (accessSelection.equals("select_option")))) {
+			page = itemToReadService.getAll(pageNumber);
+			session.removeAttribute("selectedType");
+			session.removeAttribute("selectedAccess");
+			model.addAttribute("items", page);
+			int current = page.getNumber() + 1;
+			int begin = Math.max(1, current - 5);
+			int end = Math.min(begin + 10, page.getTotalPages());
+			model.addAttribute("beginIndex", begin);
+			model.addAttribute("endIndex", end);
+			model.addAttribute("currentIndex", current);
+			model.addAttribute("itemTypes", ItemType.values());
+			model.addAttribute("accessTypes", ItemAccessType.values());
+			model.addAttribute("type", typeSelection);
+			return "itemList";
+		}
+
+		if ((session.getAttribute("selectedType") != null) && (session.getAttribute("selectedAccess") != null)) {
+			selectedType = session.getAttribute("selectedType").toString();
+			selectedAccess = session.getAttribute("selectedAccess").toString();
+			page = itemToReadService.getByItemTypeAndAccessType(ItemType.valueOf(selectedType),
+					ItemAccessType.valueOf(selectedAccess), pageNumber);
+			model.addAttribute("items", page);
+			int current = page.getNumber() + 1;
+			int begin = Math.max(1, current - 5);
+			int end = Math.min(begin + 10, page.getTotalPages());
+			model.addAttribute("beginIndex", begin);
+			model.addAttribute("endIndex", end);
+			model.addAttribute("currentIndex", current);
+			model.addAttribute("itemTypes", ItemType.values());
+			model.addAttribute("accessTypes", ItemAccessType.values());
+			model.addAttribute("type", typeSelection);
+			return "itemList";
+		}
+
+		if ((session.getAttribute("selectedType") != null)
+				&& ((accessSelection != null) || (!accessSelection.equals("select_option")))) {
+			selectedType = session.getAttribute("selectedType").toString();
+			page = itemToReadService.getByItemTypeAndAccessType(ItemType.valueOf(selectedType),
+					ItemAccessType.valueOf(accessSelection), pageNumber);
+			model.addAttribute("items", page);
+			session.setAttribute("selectedAccess", accessSelection);
+			int current = page.getNumber() + 1;
+			int begin = Math.max(1, current - 5);
+			int end = Math.min(begin + 10, page.getTotalPages());
+			model.addAttribute("beginIndex", begin);
+			model.addAttribute("endIndex", end);
+			model.addAttribute("currentIndex", current);
+			model.addAttribute("itemTypes", ItemType.values());
+			model.addAttribute("accessTypes", ItemAccessType.values());
+			model.addAttribute("type", typeSelection);
+			return "itemList";
+		}
+
+		if ((session.getAttribute("selectedAccess") != null) && !typeSelection.equals("select_option")) {
+			selectedAccess = session.getAttribute("selectedAccess").toString();
+			page = itemToReadService.getByItemTypeAndAccessType(ItemType.valueOf(typeSelection),
+					ItemAccessType.valueOf(selectedAccess), pageNumber);
+			model.addAttribute("items", page);
+			session.setAttribute("selectedType", accessSelection);
+			int current = page.getNumber() + 1;
+			int begin = Math.max(1, current - 5);
+			int end = Math.min(begin + 10, page.getTotalPages());
+			model.addAttribute("beginIndex", begin);
+			model.addAttribute("endIndex", end);
+			model.addAttribute("currentIndex", current);
+			model.addAttribute("itemTypes", ItemType.values());
+			model.addAttribute("accessTypes", ItemAccessType.values());
+			model.addAttribute("type", typeSelection);
+			return "itemList";
+		}
+
+		if (!typeSelection.equals("select_option") && !accessSelection.equals("select_option")) {
+			page = itemToReadService.getByItemTypeAndAccessType(ItemType.valueOf(typeSelection),
+					ItemAccessType.valueOf(accessSelection), pageNumber);
+			session.setAttribute("selectedType", typeSelection);
+			session.setAttribute("accessType", accessSelection);
+			model.addAttribute("items", page);
+			int current = page.getNumber() + 1;
+			int begin = Math.max(1, current - 5);
+			int end = Math.min(begin + 10, page.getTotalPages());
+			model.addAttribute("beginIndex", begin);
+			model.addAttribute("endIndex", end);
+			model.addAttribute("currentIndex", current);
+			model.addAttribute("itemTypes", ItemType.values());
+			model.addAttribute("accessTypes", ItemAccessType.values());
+			model.addAttribute("type", typeSelection);
+			return "itemList";
+		}
+
+		if (session.getAttribute("selectedAccess") != null) {
+			selectedAccess = session.getAttribute("selectedAccess").toString();
+			page = itemToReadService.getByAccessType(ItemAccessType.valueOf(selectedAccess), pageNumber);
+		}
+
+		if (session.getAttribute("selectedType") != null) {
+			selectedType = session.getAttribute("selectedType").toString();
+			page = itemToReadService.getByItemType(ItemType.valueOf(selectedType), pageNumber);
+		}
 
 		if ((typeSelection == null) || (typeSelection.equals("select_option"))) {
 			page = itemToReadService.getAll(pageNumber);
@@ -54,17 +158,21 @@ public class ItemToReadController {
 			page = itemToReadService.getByItemType(ItemType.valueOf(typeSelection), pageNumber);
 			session.setAttribute("selectedType", typeSelection);
 		}
-		if (session.getAttribute("selectedType") != null) {
-			selectedType = session.getAttribute("selectedType").toString();
-			page = itemToReadService.getByItemType(ItemType.valueOf(selectedType), pageNumber);
+
+		if ((accessSelection == null) || (accessSelection.equals("select_option"))) {
+			page = itemToReadService.getAll(pageNumber);
+			session.removeAttribute("selectedAccess");
+		} else {
+			page = itemToReadService.getByAccessType(ItemAccessType.valueOf(accessSelection), pageNumber);
+			session.setAttribute("selectedAccess", accessSelection);
 		}
+		model.addAttribute("items", page);
 		int current = page.getNumber() + 1;
 		int begin = Math.max(1, current - 5);
 		int end = Math.min(begin + 10, page.getTotalPages());
 		model.addAttribute("beginIndex", begin);
 		model.addAttribute("endIndex", end);
 		model.addAttribute("currentIndex", current);
-		model.addAttribute("items", page);
 		model.addAttribute("itemTypes", ItemType.values());
 		model.addAttribute("accessTypes", ItemAccessType.values());
 		model.addAttribute("type", typeSelection);

@@ -35,21 +35,21 @@
 					<td><c:forEach var="i" begin="65" end="90">
 							<a
 								href="letter/<%=Character.toChars((Integer) pageContext.getAttribute("i"))%>"><%=Character.toChars((Integer) pageContext.getAttribute("i"))%></a>&nbsp;
-			</c:forEach> <br>
-					<c:forEach var="i" begin="48" end="57">
+			</c:forEach> <br> <c:forEach var="i" begin="48" end="57">
 							<a
 								href="letter/<%=Character.toChars((Integer) pageContext.getAttribute("i"))%>"><%=Character.toChars((Integer) pageContext.getAttribute("i"))%></a>&nbsp;
 						</c:forEach></td>
 					<td><select name="typeSelection">
-							<option selected value="select_option">-- select an option --</option>
+							<option selected value="select_option">-- select an
+								option --</option>
 							<c:forEach var="itemType" items="${itemTypes}">
 								<option value="${itemType}"><c:out value="${itemType}" /></option>
 							</c:forEach>
 					</select></td>
 					<td><select name="accessSelection">
 							<c:forEach var="accessType" items="${accessTypes}">
-								<option disabled selected value>-- select an option --
-								</option>
+								<option selected value="select_option">-- select an
+									option --</option>
 								<option value="${accessType}"><c:out
 										value="${accessType}" /></option>
 							</c:forEach>

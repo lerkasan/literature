@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.lerkasan.literature.controller.Messages;
 import com.github.lerkasan.literature.dao.ItemToReadRepository;
+import com.github.lerkasan.literature.entity.ItemAccessType;
 import com.github.lerkasan.literature.entity.ItemToRead;
 import com.github.lerkasan.literature.entity.ItemType;
 import com.github.lerkasan.literature.service.ItemToReadService;
@@ -58,9 +59,20 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 	@Override
 	public Page<ItemToRead> getByItemType(ItemType itemType, int pageNumber) {
 		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
-	/*	List<ItemToRead> itemList = itemToReadRepository.findAllByItemType(itemType);
-		Page<ItemToRead> itemPage = new PageImpl<ItemToRead>(itemList, pageRequest, itemList.size()); */
 		return itemToReadRepository.findByItemType(itemType, pageRequest);
+	}
+
+	@Override
+	public Page<ItemToRead> getByAccessType(ItemAccessType accessType, Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
+		return itemToReadRepository.findByAccessType(accessType, pageRequest);
+	}
+
+	@Override
+	public Page<ItemToRead> getByItemTypeAndAccessType(ItemType itemType, ItemAccessType accessType,
+			Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
+		return itemToReadRepository.findByItemTypeAndAccessType(itemType, accessType, pageRequest);
 	}
 
 }
