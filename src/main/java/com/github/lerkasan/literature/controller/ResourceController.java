@@ -1,6 +1,7 @@
 package com.github.lerkasan.literature.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -20,11 +21,24 @@ import com.github.lerkasan.literature.service.ResourceService;
 public class ResourceController {
 	@Inject
 	ResourceService resourceService;
+	
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String getFirstPage(ModelMap model, HttpSession session) {
+		Page<Resource> page = resourceService.getAll(1);
+		session.removeAttribute("selectedType");
+		int current = page.getNumber() + 1;
+		int begin = Math.max(1, current - 5);
+		int end = Math.min(begin + 10, page.getTotalPages());
+		model.addAttribute("beginIndex", begin);
+		model.addAttribute("endIndex", end);
+		model.addAttribute("currentIndex", current);
+		model.addAttribute("resources", page);
+		return "resourceList";
+	}
 
 	@RequestMapping(value = "/list/{pageNumber}", method = RequestMethod.GET)
 	public String getPage(@PathVariable Integer pageNumber, ModelMap model) {
 		Page<Resource> page = resourceService.getAll(pageNumber);
-
 		int current = page.getNumber() + 1;
 		int begin = Math.max(1, current - 5);
 		int end = Math.min(begin + 10, page.getTotalPages());

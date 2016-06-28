@@ -1,11 +1,8 @@
 package com.github.lerkasan.literature.service.impl;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -59,11 +56,11 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 	}
 
 	@Override
-	public Page<ItemToRead> getAllByItemType(ItemType itemType, int pageNumber) {
-		PageRequest pageRequest = new PageRequest(pageNumber - 1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
-		List<ItemToRead> itemList = itemToReadRepository.findAllByItemType(itemType);
-		Page<ItemToRead> itemPage = new PageImpl<ItemToRead>(itemList, pageRequest, itemList.size()); 
-		return itemPage;
+	public Page<ItemToRead> getByItemType(ItemType itemType, int pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
+	/*	List<ItemToRead> itemList = itemToReadRepository.findAllByItemType(itemType);
+		Page<ItemToRead> itemPage = new PageImpl<ItemToRead>(itemList, pageRequest, itemList.size()); */
+		return itemToReadRepository.findByItemType(itemType, pageRequest);
 	}
 
 }

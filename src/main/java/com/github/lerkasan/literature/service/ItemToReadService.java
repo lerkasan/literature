@@ -14,5 +14,5 @@ public interface ItemToReadService {
 	//Page<ItemToRead> getAll(Pageable pageable);
 	ItemToRead getByUrl(String url);
 	Page<ItemToRead> getAll(int pageNumber);
-	Page<ItemToRead> getAllByItemType(ItemType itemtype, int pageNumber);
+	Page<ItemToRead> getByItemType(ItemType itemtype, int pageNumber);
 }

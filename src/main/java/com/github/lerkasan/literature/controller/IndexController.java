@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,9 @@ public class IndexController {
 	ResourceRepository rssFeed;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(ModelMap model, HttpServletRequest request) {
+	public String index(ModelMap model, HttpServletRequest request, HttpSession session) {
 		List<Resource> rssList = new ArrayList<>();
+		session.removeAttribute("selectedType");
 		Iterable<Resource> rssIterable = rssFeed.findByResponseFormat("rss");
 		if (rssIterable != null) {
 			rssIterable.forEach(rssList::add);

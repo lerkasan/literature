@@ -31,25 +31,34 @@
 			</tr>
 			<tr>
 				<cf:form action="/literature/item/list/1" id="selection">
-				<td></td>
-				<td>Sort</td>
-				<td><select name="typeSelection">
-						<c:forEach var="itemType" items="${itemTypes}">
-							<option value="${itemType}"><c:out value="${itemType}" /></option>
-						</c:forEach>
-
-				</select></td>
-				<td><select name="accessSelection">
-						<c:forEach var="accessType" items="${accessTypes}">
-							<option value="${accessType}"><c:out
-									value="${accessType}" /></option>
-						</c:forEach>
-				</select></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><input type="submit" value="Select" width="20" height="10"></td>
+					<td></td>
+					<td><c:forEach var="i" begin="65" end="90">
+							<a
+								href="letter/<%=Character.toChars((Integer) pageContext.getAttribute("i"))%>"><%=Character.toChars((Integer) pageContext.getAttribute("i"))%></a>&nbsp;
+			</c:forEach> <br>
+					<c:forEach var="i" begin="48" end="57">
+							<a
+								href="letter/<%=Character.toChars((Integer) pageContext.getAttribute("i"))%>"><%=Character.toChars((Integer) pageContext.getAttribute("i"))%></a>&nbsp;
+						</c:forEach></td>
+					<td><select name="typeSelection">
+							<option selected value="select_option">-- select an option --</option>
+							<c:forEach var="itemType" items="${itemTypes}">
+								<option value="${itemType}"><c:out value="${itemType}" /></option>
+							</c:forEach>
+					</select></td>
+					<td><select name="accessSelection">
+							<c:forEach var="accessType" items="${accessTypes}">
+								<option disabled selected value>-- select an option --
+								</option>
+								<option value="${accessType}"><c:out
+										value="${accessType}" /></option>
+							</c:forEach>
+					</select></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td><input type="submit" value="Select" width="20" height="10"></td>
 				</cf:form>
 			</tr>
 			<c:choose>
