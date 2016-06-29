@@ -1,5 +1,7 @@
 package com.github.lerkasan.literature.service;
 
+import java.time.LocalDate;
+
 import org.springframework.data.domain.Page;
 
 import com.github.lerkasan.literature.entity.ItemAccessType;
@@ -18,10 +20,10 @@ public interface ItemToReadService {
 	Page<ItemToRead> getByItemType(ItemType itemType, int pageNumber);
 	Page<ItemToRead> getByAccessType(ItemAccessType accessType, Integer pageNumber);
 	Page<ItemToRead> getByItemTypeAndAccessType(ItemType itemType, ItemAccessType accessType, Integer pageNumber);
-	Page<ItemToRead> getAllByKeyword(String searchDatabaseKeyword, Integer pageNumber);
-	Page<ItemToRead> getByKeywordAndItemType(String searchDatabaseKeyword, ItemType valueOf, Integer pageNumber);
-	Page<ItemToRead> getByKeywordAndItemTypeAndAccessType(String searchDatabaseKeyword, ItemType valueOf,
-			ItemAccessType valueOf2, Integer pageNumber);
-	Page<ItemToRead> getByKeywordAndAccessType(String searchDatabaseKeyword, ItemAccessType valueOf,
-			Integer pageNumber);
+	Page<ItemToRead> getAllByKeyword(String searchDatabaseKeyword, LocalDate periodSelection, Integer pageNumber);
+	Page<ItemToRead> getByKeywordAndItemType(String searchDatabaseKeyword, ItemType valueOf, LocalDate locDate, Integer pageNumber);
+	Page<ItemToRead> getByKeywordAndItemTypeAndAccessType(String searchDatabaseKeyword, ItemType itemType,
+			ItemAccessType accessType, LocalDate locDate, Integer pageNumber);
+	Page<ItemToRead> getByKeywordAndAccessType(String searchDatabaseKeyword, ItemAccessType itemType,
+			LocalDate locDate, Integer pageNumber);
 }

@@ -96,7 +96,82 @@
 								</c:choose>
 							</c:forEach>
 					</select></td>
-					<td></td>
+					<td><select name="periodSelection">
+							<c:choose>
+								<c:when test="${selectedPeriod == 30}">
+									<option selected value="30"><c:out
+											value="less than 1 month ago" /></option>
+								</c:when>
+								<c:otherwise>
+									<option value="30"><c:out value="less than 1 month ago" /></option>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${selectedPeriod == 90}">
+									<option selected value="91"><c:out
+											value="less than 3 months ago" /></option>
+								</c:when>
+								<c:otherwise>
+									<option value="91"><c:out value="less than 3 months ago" /></option>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${selectedPeriod == 180}">
+									<option selected value="182"><c:out
+											value="less than 6 months ago" /></option>
+								</c:when>
+								<c:otherwise>
+									<option value="182"><c:out value="less than 6 months ago" /></option>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${selectedPeriod == 365}">
+									<option selected value="365"><c:out
+											value="less than 1 year ago" /></option>
+								</c:when>
+								<c:otherwise>
+									<option value="365"><c:out value="less than 1 year ago" /></option>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${selectedPeriod == 1095}">
+									<option selected value="1095"><c:out
+											value="less than 3 years ago" /></option>
+								</c:when>
+								<c:otherwise>
+									<option value="1095"><c:out value="less than 3 years ago" /></option>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${selectedPeriod == 1825}">
+									<option selected value="1826"><c:out
+											value="less than 5 years ago" /></option>
+								</c:when>
+								<c:otherwise>
+									<option value="1826"><c:out value="less than 5 years ago" /></option>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${selectedPeriod == 3650}">
+									<option selected value="3652"><c:out
+											value="less than 10 years ago" /></option>
+								</c:when>
+								<c:otherwise>
+									<option value="3652"><c:out value="less than 10 years ago" /></option>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when
+									test="${empty selectedPeriod or (selectedPeriod == 36500) }">
+									<option selected value="36500"><c:out
+											value="more than 10 years ago" /></option>
+								</c:when>
+								<c:otherwise>
+									<option value="36500"><c:out
+											value="more than 10 years ago" /></option>
+								</c:otherwise>
+							</c:choose>
+					</select></td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -140,21 +215,25 @@
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="accessSelection" value="${selectedAccess}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 			<c:url var="lastUrl" value="/item/list/${items.totalPages}">
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="accessSelection" value="${selectedAccess}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 			<c:url var="prevUrl" value="/item/list/${currentIndex - 1}">
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="accessSelection" value="${selectedAccess}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 			<c:url var="nextUrl" value="/item/list/${currentIndex + 1}">
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="accessSelection" value="${selectedAccess}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 		</c:when>
 	</c:choose>
@@ -163,18 +242,22 @@
 			<c:url var="firstUrl" value="/item/list/1">
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 			<c:url var="lastUrl" value="/item/list/${items.totalPages}">
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 			<c:url var="prevUrl" value="/item/list/${currentIndex - 1}">
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 			<c:url var="nextUrl" value="/item/list/${currentIndex + 1}">
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 		</c:when>
 	</c:choose>
@@ -183,18 +266,22 @@
 			<c:url var="firstUrl" value="/item/list/1">
 				<c:param name="accessSelection" value="${selectedAccess}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 			<c:url var="lastUrl" value="/item/list/${items.totalPages}">
 				<c:param name="accessSelection" value="${selectedAccess}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 			<c:url var="prevUrl" value="/item/list/${currentIndex - 1}">
 				<c:param name="accessSelection" value="${selectedAccess}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 			<c:url var="nextUrl" value="/item/list/${currentIndex + 1}">
 				<c:param name="accessSelection" value="${selectedAccess}" />
 				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+				<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 			</c:url>
 		</c:when>
 	</c:choose>
@@ -228,6 +315,7 @@
 								<c:param name="typeSelection" value="${selectedType}" />
 								<c:param name="accessSelection" value="${selectedAccess}" />
 								<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+								<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 							</c:url>
 						</c:when>
 					</c:choose>
@@ -237,6 +325,7 @@
 							<c:url var="pageUrl" value="/item/list/${i}">
 								<c:param name="typeSelection" value="${selectedType}" />
 								<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+								<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 							</c:url>
 						</c:when>
 					</c:choose>
@@ -245,6 +334,7 @@
 							<c:url var="pageUrl" value="/item/list/${i}">
 								<c:param name="accessSelection" value="${selectedAccess}" />
 								<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+								<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 							</c:url>
 						</c:when>
 					</c:choose>
@@ -252,6 +342,7 @@
 						<c:when test="${ empty selectedType and empty selectedAccess}">
 							<c:url var="pageUrl" value="/item/list/${i}">
 								<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+								<c:param name="periodSelection" value="${selectedPeriod}"></c:param>
 							</c:url>
 						</c:when>
 					</c:choose>

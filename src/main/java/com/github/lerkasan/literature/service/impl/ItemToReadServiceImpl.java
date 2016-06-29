@@ -1,5 +1,7 @@
 package com.github.lerkasan.literature.service.impl;
 
+import java.time.LocalDate;
+
 import javax.inject.Inject;
 
 import org.springframework.data.domain.Page;
@@ -76,30 +78,30 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 	}
 
 	@Override
-	public Page<ItemToRead> getAllByKeyword(String searchDatabaseKeyword, Integer pageNumber) {
+	public Page<ItemToRead> getAllByKeyword(String searchDatabaseKeyword, LocalDate periodSelection, Integer pageNumber) {
 		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
-		return itemToReadRepository.findByKeyword("%"+searchDatabaseKeyword+"%", pageRequest);
+		return itemToReadRepository.findByKeyword("%"+searchDatabaseKeyword+"%", periodSelection, pageRequest);
 	}
 
 	@Override
-	public Page<ItemToRead> getByKeywordAndItemType(String searchDatabaseKeyword, ItemType itemType,
+	public Page<ItemToRead> getByKeywordAndItemType(String searchDatabaseKeyword, ItemType itemType, LocalDate periodSelection,
 			Integer pageNumber) {
 		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
-		return itemToReadRepository.findByKeywordAndItemType("%"+searchDatabaseKeyword+"%", itemType, pageRequest);
+		return itemToReadRepository.findByKeywordAndItemType("%"+searchDatabaseKeyword+"%", itemType, periodSelection, pageRequest);
 	}
 
 	@Override
 	public Page<ItemToRead> getByKeywordAndItemTypeAndAccessType(String searchDatabaseKeyword, ItemType itemType,
-			ItemAccessType accessType, Integer pageNumber) {
+			ItemAccessType accessType, LocalDate periodSelection, Integer pageNumber) {
 		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
-		return itemToReadRepository.findByKeyWordAndItemTypeAndAccessType("%"+searchDatabaseKeyword+"%", itemType, accessType, pageRequest);
+		return itemToReadRepository.findByKeyWordAndItemTypeAndAccessType("%"+searchDatabaseKeyword+"%", itemType, accessType, periodSelection, pageRequest);
 	}
 
 	@Override
-	public Page<ItemToRead> getByKeywordAndAccessType(String searchDatabaseKeyword, ItemAccessType accessType,
+	public Page<ItemToRead> getByKeywordAndAccessType(String searchDatabaseKeyword, ItemAccessType accessType, LocalDate periodSelection,
 			Integer pageNumber) {
 		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
-		return itemToReadRepository.findByKeywordAndAccessType("%"+searchDatabaseKeyword+"%", accessType, pageRequest);
+		return itemToReadRepository.findByKeywordAndAccessType("%"+searchDatabaseKeyword+"%", accessType, periodSelection, pageRequest);
 	}
 
 }
