@@ -164,10 +164,22 @@ public class GoogleBookJson implements ConvertableToItemToRead {
 	}
 	
 	public String getImgUrl() {
+		if (getImageLinks() == null) {
+			return "";
+		}
 		return getImageLinks().getThumbnail();
 	}
 
 	public String getIsbn() {
+		if (getIndustryIdentifiers() == null) {
+			return "";
+		} else {
+			if (getIndustryIdentifiers().isEmpty()) {
+				return "";
+			} else if (getIndustryIdentifiers().get(0) == null) {
+				return "";
+			}
+		}
 		return getIndustryIdentifiers().get(0).getIdentifier();
 	}
 	

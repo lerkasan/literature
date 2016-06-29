@@ -164,11 +164,11 @@
 								<c:when
 									test="${empty selectedPeriod or (selectedPeriod == 36500) }">
 									<option selected value="36500"><c:out
-											value="more than 10 years ago" /></option>
+											value="anytime" /></option>
 								</c:when>
 								<c:otherwise>
 									<option value="36500"><c:out
-											value="more than 10 years ago" /></option>
+											value="anytime" /></option>
 								</c:otherwise>
 							</c:choose>
 					</select></td>
