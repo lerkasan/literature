@@ -24,7 +24,7 @@
                 <li id="home"><a href="/literature" class="homeIcon">Home</a></li>
                 <li id="resources"><a href="/literature/resource/list">Resources</a></li>
                 <li id="items"><a href="/literature/item/list">Articles/Books</a></li>
-                <li id="about"><a href="#about">About us</a></li>
+                <li id="authors"><a href="/literature/author/list">Authors</a></li>
                 <li id="services"><a href="#services">Services</a></li>
                 <li id="contacts"><a href="#contacts">Contacts</a></li>
             </ul>

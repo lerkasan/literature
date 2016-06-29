@@ -39,4 +39,12 @@
         <put-attribute name="title" value="Tech literature | Articles and books"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/itemList.jsp"></put-attribute>
     </definition>
+    <definition name="authorList" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Authors"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/authorList.jsp"></put-attribute>
+    </definition>
+    <definition name="authorList/*" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Authors"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/authorList.jsp"></put-attribute>
+    </definition>
 </tiles-definitions>

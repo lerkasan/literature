@@ -9,10 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQuery;
 
 @Entity(name="author")
 @NamedQuery(name="Author.findAll", query="SELECT a FROM author a")
+//@NamedNativeQuery(name = "findAuthorsWithItemsTotal", query="select a.id, a.givenName, a.familyName, (select count(*) from item_authors i where a.id = i.authorId) from author a")
 public class Author implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -80,17 +82,12 @@ public class Author implements Serializable {
 
 	public void addItemToRead(ItemToRead itemToRead) {
 		getItemsToRead().add(itemToRead);
-	/*	if (!itemToRead.getAuthors().contains(this)) {  
-			itemToRead.addAuthor(this);   //Maybe should be deleted    //Maybe should be deleted
-		} */
 		
 	}
 	
-	/*public static String[] parseFullName(String fullName) {
-		String[] fullNameParts = fullName.split(" ", 2);
-		return fullNameParts;
-	}*/
-	
+	public String getFullName() {
+		return this.givenName+" "+this.familyName;
+	}
 	
 
 }

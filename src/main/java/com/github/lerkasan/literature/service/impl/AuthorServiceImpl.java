@@ -1,18 +1,30 @@
 package com.github.lerkasan.literature.service.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.PersistenceContext;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.lerkasan.literature.controller.Messages;
 import com.github.lerkasan.literature.dao.AuthorRepository;
 import com.github.lerkasan.literature.entity.Author;
+import com.github.lerkasan.literature.entity.Resource;
 import com.github.lerkasan.literature.service.AuthorService;
 
 @Service("AuthorService")
 public class AuthorServiceImpl implements AuthorService {
+	
+	@PersistenceContext
+    private EntityManager manager;
 
 	@Inject
 	private AuthorRepository authorRepository;
@@ -73,5 +85,13 @@ public class AuthorServiceImpl implements AuthorService {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public Page<Author> getAll(int pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber - 1, Messages.PAGE_SIZE, Sort.Direction.ASC, "familyName");
+		return authorRepository.findAll(pageRequest);
+	//	Page<AuthorTotalItemsResult> findAllWithItemsTotal(Pageable pageable);	
+	//List<AuthorTotalItemsResult> results = manager.createNamedQuery("findAuthorsWithItemsTotal", AuthorTotalItemsResult.class).getResultList();
 	}
 }
