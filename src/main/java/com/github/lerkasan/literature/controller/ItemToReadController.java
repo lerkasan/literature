@@ -1,6 +1,5 @@
 package com.github.lerkasan.literature.controller;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.inject.Inject;
@@ -52,16 +51,13 @@ public class ItemToReadController {
 			@RequestParam(value = "periodSelection", required = false) String periodSelection) {
 		Page<ItemToRead> page = null;
 		String searchKeyword = "";
-		Date sqlDate;
 		LocalDate locDate;
 		int selectedPeriod = 36500;
 		if (periodSelection != null) {
 			selectedPeriod = Integer.valueOf(periodSelection);
 			locDate = LocalDate.now().minusDays(selectedPeriod);
-			sqlDate = Date.valueOf(locDate);
 		} else {
 			locDate = LocalDate.now().minusDays(36500);
-			sqlDate = Date.valueOf(locDate);
 		}
 		model.addAttribute("selectedPeriod", selectedPeriod );
 		if (keywordSelection != null) {

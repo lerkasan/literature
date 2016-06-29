@@ -8,6 +8,6 @@
         <put-attribute name="stylecss" value="resources/css/style.css"></put-attribute>
         <put-attribute name="header" value="/WEB-INF/views/menu.jsp"></put-attribute>
         <put-attribute name="body" value=""></put-attribute>
-        <put-attribute name="footer" value="2016 @Lerkasan copyright"></put-attribute>
+        <put-attribute name="footer" value=""></put-attribute>
     </definition>
 </tiles-definitions>
