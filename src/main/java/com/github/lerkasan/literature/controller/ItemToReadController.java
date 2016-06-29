@@ -44,33 +44,42 @@ public class ItemToReadController {
 	@RequestMapping(value = "/list/{pageNumber}", method = { RequestMethod.GET, RequestMethod.POST })
 	public String getPage(@PathVariable Integer pageNumber, ModelMap model,
 			@RequestParam(value = "typeSelection", required = false) String typeSelection,
-			@RequestParam(value = "accessSelection", required = false) String accessSelection) {
+			@RequestParam(value = "accessSelection", required = false) String accessSelection,
+			@RequestParam(value = "keywordSelection", required = false) String keywordSelection) {
 		Page<ItemToRead> page = null;
-		String selectedType;
-		String selectedAccess;
-		
+		String searchKeyword = "";
+
+		if (keywordSelection != null) {
+			searchKeyword = keywordSelection.replaceAll("%20", " ");
+		}
+		model.addAttribute("selectedKeyword", searchKeyword );
 		if ((typeSelection == null) && (accessSelection == null)) {
-			page = itemToReadService.getAll(pageNumber);
+			//page = itemToReadService.getAll(pageNumber);
+			page = itemToReadService.getAllByKeyword(keywordSelection, pageNumber);
 		} else {
 			
 			if ((typeSelection != null) && !typeSelection.equals("select_option")) {
-				page = itemToReadService.getByItemType(ItemType.valueOf(typeSelection), pageNumber);
+				//page = itemToReadService.getByItemType(ItemType.valueOf(typeSelection), pageNumber);
+				page = itemToReadService.getByKeywordAndItemType(keywordSelection, ItemType.valueOf(typeSelection), pageNumber);
 				model.addAttribute("selectedType", typeSelection);
 			}
 			
 			if ((accessSelection != null) && !accessSelection.equals("select_option")) {
-				page = itemToReadService.getByAccessType(ItemAccessType.valueOf(accessSelection), pageNumber);
+				//page = itemToReadService.getByAccessType(ItemAccessType.valueOf(accessSelection), pageNumber);
+				page = itemToReadService.getByKeywordAndAccessType(keywordSelection, ItemAccessType.valueOf(accessSelection), pageNumber);
 				model.addAttribute("selectedAccess", accessSelection);
 			}
 			
 			if ((typeSelection != null) && !typeSelection.equals("select_option") && (accessSelection != null) && !accessSelection.equals("select_option")) {
-				page = itemToReadService.getByItemTypeAndAccessType(ItemType.valueOf(typeSelection), ItemAccessType.valueOf(accessSelection), pageNumber);
+				//page = itemToReadService.getByItemTypeAndAccessType(ItemType.valueOf(typeSelection), ItemAccessType.valueOf(accessSelection), pageNumber);
+				page = itemToReadService.getByKeywordAndItemTypeAndAccessType(keywordSelection, ItemType.valueOf(typeSelection), ItemAccessType.valueOf(accessSelection), pageNumber);
 				model.addAttribute("selectedType", typeSelection);
 				model.addAttribute("selectedAccess", accessSelection);
 			}
 			
 			if ((typeSelection != null) && typeSelection.equals("select_option") && (accessSelection != null) && accessSelection.equals("select_option")) {
-				page = itemToReadService.getAll(pageNumber);
+				//page = itemToReadService.getAll(pageNumber);
+				page = itemToReadService.getAllByKeyword(keywordSelection, pageNumber);
 			}
 				
 		}

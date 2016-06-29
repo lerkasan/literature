@@ -75,4 +75,31 @@ public class ItemToReadServiceImpl implements ItemToReadService {
 		return itemToReadRepository.findByItemTypeAndAccessType(itemType, accessType, pageRequest);
 	}
 
+	@Override
+	public Page<ItemToRead> getAllByKeyword(String searchDatabaseKeyword, Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
+		return itemToReadRepository.findByKeyword("%"+searchDatabaseKeyword+"%", pageRequest);
+	}
+
+	@Override
+	public Page<ItemToRead> getByKeywordAndItemType(String searchDatabaseKeyword, ItemType itemType,
+			Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
+		return itemToReadRepository.findByKeywordAndItemType("%"+searchDatabaseKeyword+"%", itemType, pageRequest);
+	}
+
+	@Override
+	public Page<ItemToRead> getByKeywordAndItemTypeAndAccessType(String searchDatabaseKeyword, ItemType itemType,
+			ItemAccessType accessType, Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
+		return itemToReadRepository.findByKeyWordAndItemTypeAndAccessType("%"+searchDatabaseKeyword+"%", itemType, accessType, pageRequest);
+	}
+
+	@Override
+	public Page<ItemToRead> getByKeywordAndAccessType(String searchDatabaseKeyword, ItemAccessType accessType,
+			Integer pageNumber) {
+		PageRequest pageRequest = new PageRequest(pageNumber-1, Messages.PAGE_SIZE, Sort.Direction.ASC, "title");
+		return itemToReadRepository.findByKeywordAndAccessType("%"+searchDatabaseKeyword+"%", accessType, pageRequest);
+	}
+
 }

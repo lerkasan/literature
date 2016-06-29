@@ -1,7 +1,6 @@
 package com.github.lerkasan.literature.dao;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -28,5 +27,19 @@ public interface ItemToReadRepository extends PagingAndSortingRepository<ItemToR
 	Page<ItemToRead> findByAccessType(@Param("accessType") ItemAccessType accessType, Pageable pageable);
 
 	Page<ItemToRead> findByItemTypeAndAccessType(@Param("itemType") ItemType itemType, @Param("accessType") ItemAccessType accessType, Pageable pageable);
+
+	@Query("select i from item_to_read i where (i.title like :searchDatabaseKeyword) or (i.contents like :searchDatabaseKeyword)")
+	Page<ItemToRead> findByKeyword(@Param("searchDatabaseKeyword") String searchDatabaseKeyword, Pageable pageable);
+
+	@Query("select i from item_to_read i where (i.itemType = :itemType) and ((i.title like :searchDatabaseKeyword) or (i.contents like :searchDatabaseKeyword))")
+	Page<ItemToRead> findByKeywordAndItemType(@Param("searchDatabaseKeyword") String searchDatabaseKeyword, @Param("itemType") ItemType itemType, Pageable pageable);
+
+	@Query("select i from item_to_read i where (i.itemType = :itemType) and (i.accessType = :accessType) and ((i.title like :searchDatabaseKeyword) or (i.contents like :searchDatabaseKeyword))")
+	Page<ItemToRead> findByKeyWordAndItemTypeAndAccessType(@Param("searchDatabaseKeyword") String searchDatabaseKeyword, @Param("itemType") ItemType itemType,
+			@Param("accessType") ItemAccessType accessType, Pageable pageable);
+
+	@Query("select i from item_to_read i where (i.accessType = :accessType) and ((i.title like :searchDatabaseKeyword) or (i.contents like :searchDatabaseKeyword))")
+	Page<ItemToRead> findByKeywordAndAccessType(@Param("searchDatabaseKeyword") String searchDatabaseKeyword, @Param("accessType") ItemAccessType accessType,
+			Pageable pageable);
 
 }

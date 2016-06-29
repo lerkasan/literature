@@ -38,7 +38,17 @@
 			</c:forEach> <br> <c:forEach var="i" begin="48" end="57">
 							<a
 								href="letter/<%=Character.toChars((Integer) pageContext.getAttribute("i"))%>"><%=Character.toChars((Integer) pageContext.getAttribute("i"))%></a>&nbsp;
-						</c:forEach></td>
+						</c:forEach> <c:choose>
+							<c:when test="${empty selectedKeyword}">
+
+								<input type="text" name="keywordSelection" size="30"
+									placeholder="Search in database">
+							</c:when>
+							<c:otherwise>
+								<input type="text" name="keywordSelection" size="30"
+									value="${selectedKeyword}">
+							</c:otherwise>
+						</c:choose></td>
 					<td><select name="typeSelection">
 							<c:choose>
 								<c:when test="${empty selectedType}">
@@ -129,18 +139,22 @@
 			<c:url var="firstUrl" value="/item/list/1">
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="accessSelection" value="${selectedAccess}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 			<c:url var="lastUrl" value="/item/list/${items.totalPages}">
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="accessSelection" value="${selectedAccess}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 			<c:url var="prevUrl" value="/item/list/${currentIndex - 1}">
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="accessSelection" value="${selectedAccess}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 			<c:url var="nextUrl" value="/item/list/${currentIndex + 1}">
 				<c:param name="typeSelection" value="${selectedType}" />
 				<c:param name="accessSelection" value="${selectedAccess}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 		</c:when>
 	</c:choose>
@@ -148,15 +162,19 @@
 		<c:when test="${ not empty selectedType and empty selectedAccess }">
 			<c:url var="firstUrl" value="/item/list/1">
 				<c:param name="typeSelection" value="${selectedType}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 			<c:url var="lastUrl" value="/item/list/${items.totalPages}">
 				<c:param name="typeSelection" value="${selectedType}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 			<c:url var="prevUrl" value="/item/list/${currentIndex - 1}">
 				<c:param name="typeSelection" value="${selectedType}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 			<c:url var="nextUrl" value="/item/list/${currentIndex + 1}">
 				<c:param name="typeSelection" value="${selectedType}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 		</c:when>
 	</c:choose>
@@ -164,15 +182,19 @@
 		<c:when test="${ empty selectedType and not empty selectedAccess}">
 			<c:url var="firstUrl" value="/item/list/1">
 				<c:param name="accessSelection" value="${selectedAccess}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 			<c:url var="lastUrl" value="/item/list/${items.totalPages}">
 				<c:param name="accessSelection" value="${selectedAccess}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 			<c:url var="prevUrl" value="/item/list/${currentIndex - 1}">
 				<c:param name="accessSelection" value="${selectedAccess}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 			<c:url var="nextUrl" value="/item/list/${currentIndex + 1}">
 				<c:param name="accessSelection" value="${selectedAccess}" />
+				<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 			</c:url>
 		</c:when>
 	</c:choose>
@@ -205,6 +227,7 @@
 							<c:url var="pageUrl" value="/item/list/${i}">
 								<c:param name="typeSelection" value="${selectedType}" />
 								<c:param name="accessSelection" value="${selectedAccess}" />
+								<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 							</c:url>
 						</c:when>
 					</c:choose>
@@ -213,6 +236,7 @@
 							test="${ not empty selectedType and empty selectedAccess }">
 							<c:url var="pageUrl" value="/item/list/${i}">
 								<c:param name="typeSelection" value="${selectedType}" />
+								<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 							</c:url>
 						</c:when>
 					</c:choose>
@@ -220,12 +244,15 @@
 						<c:when test="${ empty selectedType and not empty selectedAccess}">
 							<c:url var="pageUrl" value="/item/list/${i}">
 								<c:param name="accessSelection" value="${selectedAccess}" />
+								<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
 							</c:url>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${ empty selectedType and empty selectedAccess}">
-							<c:url var="pageUrl" value="/item/list/${i}" />
+							<c:url var="pageUrl" value="/item/list/${i}">
+								<c:param name="keywordSelection" value="${selectedKeyword}"></c:param>
+							</c:url>
 						</c:when>
 					</c:choose>
 
