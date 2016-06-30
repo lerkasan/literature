@@ -31,7 +31,8 @@ public class SignedRequestsHelperOther {
 	private SecretKeySpec secretKeySpec = null;
 	private Mac mac = null;
 
-	public SignedRequestsHelperOther() throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+	public SignedRequestsHelperOther()
+			throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
 		byte[] secretyKeyBytes = awsSecretKey.getBytes(UTF8_CHARSET);
 		secretKeySpec = new SecretKeySpec(secretyKeyBytes, HMAC_SHA256_ALGORITHM);
 		mac = Mac.getInstance(HMAC_SHA256_ALGORITHM);

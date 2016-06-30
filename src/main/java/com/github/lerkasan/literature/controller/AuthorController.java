@@ -1,5 +1,7 @@
 package com.github.lerkasan.literature.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +20,7 @@ import com.github.lerkasan.literature.service.AuthorService;
 public class AuthorController {
 	@Inject
 	AuthorService authorService;
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String getFirstPage(ModelMap model, HttpSession session) {
 		Page<Author> page = authorService.getAll(1);
@@ -44,7 +46,14 @@ public class AuthorController {
 		model.addAttribute("authors", page);
 		return "authorList";
 	}
-	
+
+	@RequestMapping(value = "/letter/{letter}", method = RequestMethod.GET)
+	public String getAuthorsByLetter(@PathVariable String letter, ModelMap model) {
+		List<Author> page = authorService.getByFirstLetter(letter);
+		model.addAttribute("authors", page);
+		return "letterAuthorList";
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getAuthorsItems(@PathVariable Integer id, ModelMap model) {
 		Author author = authorService.getById(id);

@@ -12,13 +12,13 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
-@Entity(name="comment")
-@NamedQuery(name="Comment.findAll", query="SELECT c FROM comment c")
+@Entity(name = "comment")
+@NamedQuery(name = "Comment.findAll", query = "SELECT c FROM comment c")
 public class Comment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Lob
@@ -26,14 +26,14 @@ public class Comment implements Serializable {
 
 	private LocalDateTime timespamp;
 
-	//bi-directional many-to-one association to ItemToRead
+	// bi-directional many-to-one association to ItemToRead
 	@ManyToOne
-	@JoinColumn(name="itemToReadId")
+	@JoinColumn(name = "itemToReadId")
 	private ItemToRead itemToRead;
 
-	//bi-directional many-to-one association to User
+	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="userId")
+	@JoinColumn(name = "userId")
 	private User user;
 
 	public Comment() {

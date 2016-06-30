@@ -10,19 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-@Entity(name="user_group")
-@NamedQuery(name="UserGroup.findAll", query="SELECT u FROM user_group u")
+@Entity(name = "user_group")
+@NamedQuery(name = "UserGroup.findAll", query = "SELECT u FROM user_group u")
 public class UserGroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Byte id;
 
 	private String name;
 
-	//bi-directional many-to-one association to User
-	@OneToMany(mappedBy="userGroup")
+	// bi-directional many-to-one association to User
+	@OneToMany(mappedBy = "userGroup")
 	private List<User> users;
 
 	public UserGroup() {

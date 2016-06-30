@@ -125,7 +125,8 @@ public class RssServiceImpl implements RssService {
 				Author itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 				if (itemAuthor == null) {
 					itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
-					//This saving is used instead of Cascade.PERSIST to avoid duplication of existing authors:
+					// This saving is used instead of Cascade.PERSIST to avoid
+					// duplication of existing authors:
 					authorService.save(itemAuthor);
 					itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 				}
@@ -138,7 +139,8 @@ public class RssServiceImpl implements RssService {
 				Author rssAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 				if (rssAuthor == null) {
 					rssAuthor = new Author(fullNameParts[0], fullNameParts[1]);
-					//This saving is used instead of Cascade.PERSIST to avoid duplication of existing authors:
+					// This saving is used instead of Cascade.PERSIST to avoid
+					// duplication of existing authors:
 					authorService.save(rssAuthor);
 					rssAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 				}

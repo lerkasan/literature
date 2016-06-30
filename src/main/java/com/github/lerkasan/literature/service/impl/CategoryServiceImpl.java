@@ -13,10 +13,10 @@ import com.github.lerkasan.literature.service.CategoryService;
 
 @Service("CategoryService")
 public class CategoryServiceImpl implements CategoryService {
-	
+
 	@Inject
 	private CategoryRepository categoryRepository;
-	
+
 	public CategoryServiceImpl() {
 	}
 
@@ -50,8 +50,5 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category getById(int id) {
 		return categoryRepository.findById(id);
 	}
-	
-	
-	
 
 }

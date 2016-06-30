@@ -15,7 +15,7 @@ import com.google.gson.JsonParser;
 
 @Service("GoogleParsingService")
 public class GoogleParsingServiceImpl extends ParsingServiceImpl implements ParsingService {
-	
+
 	@Override
 	public List<GoogleApiJson> parse(String input) {
 		List<GoogleApiJson> articleList = new ArrayList<>();
@@ -34,7 +34,8 @@ public class GoogleParsingServiceImpl extends ParsingServiceImpl implements Pars
 						articleJson.setAuthors(new ArrayList<String>());
 						for (JsonElement person : persons) {
 							JsonElement personElement = person.getAsJsonObject().get("name");
-							if ((personElement != null)  && (! articleJson.getAuthors().contains(personElement.getAsString()))) {
+							if ((personElement != null)
+									&& (!articleJson.getAuthors().contains(personElement.getAsString()))) {
 								articleJson.getAuthors().add(personElement.getAsString());
 							}
 						}

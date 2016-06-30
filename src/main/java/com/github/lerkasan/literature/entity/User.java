@@ -20,13 +20,13 @@ import javax.persistence.TemporalType;
 
 import com.github.lerkasan.literature.controller.Messages;
 
-@Entity(name="user")
-@NamedQuery(name="User.findAll", query="SELECT u FROM user u")
+@Entity(name = "user")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM user u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Temporal(TemporalType.DATE)
@@ -43,38 +43,37 @@ public class User implements Serializable {
 	private LocalDate registrationDate;
 
 	private String username;
-	
-	//bi-directional many-to-one association to ItemToRead (user_library)
+
+	// bi-directional many-to-one association to ItemToRead (user_library)
 	@ManyToMany
-	@JoinTable(name="user_library", 
-		joinColumns=@JoinColumn(name="userId", referencedColumnName = "id"), 
-		inverseJoinColumns=@JoinColumn(name="itemToReadId", referencedColumnName = "id")) 
+	@JoinTable(name = "user_library", joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "itemToReadId", referencedColumnName = "id"))
 	private List<ItemToRead> library;
 
-	//bi-directional many-to-one association to Category
-	@OneToMany(mappedBy="user")
+	// bi-directional many-to-one association to Category
+	@OneToMany(mappedBy = "user")
 	private List<Category> categories;
 
-	//bi-directional many-to-one association to Comment
-	@OneToMany(mappedBy="user")
+	// bi-directional many-to-one association to Comment
+	@OneToMany(mappedBy = "user")
 	private List<Comment> comments;
 
-	//bi-directional many-to-one association to ItemToRead (addedBy user - field)
-	@OneToMany(mappedBy="user")
+	// bi-directional many-to-one association to ItemToRead (addedBy user -
+	// field)
+	@OneToMany(mappedBy = "user")
 	private List<ItemToRead> addedItems;
 
-	//bi-directional many-to-one association to Resource
-	@OneToMany(mappedBy="user")
+	// bi-directional many-to-one association to Resource
+	@OneToMany(mappedBy = "user")
 	private List<Resource> resources;
 
-	//bi-directional many-to-one association to Country
+	// bi-directional many-to-one association to Country
 	@ManyToOne
-	@JoinColumn(name="countryId")
+	@JoinColumn(name = "countryId")
 	private Country country;
 
-	//bi-directional many-to-one association to UserGroup
+	// bi-directional many-to-one association to UserGroup
 	@ManyToOne
-	@JoinColumn(name="userGroupId")
+	@JoinColumn(name = "userGroupId")
 	private UserGroup userGroup;
 
 	public User() {
@@ -255,7 +254,7 @@ public class User implements Serializable {
 	public void setLibrary(List<ItemToRead> library) {
 		this.library = library;
 	}
-	
+
 	public void removeFromLibrary(ItemToRead item) {
 		getLibrary().remove(item);
 	}
@@ -267,7 +266,7 @@ public class User implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public String addSelectedToLibrary(List<ItemToRead> items, int[] selectedItemsIds) {
 		boolean allNewFlag = true;
 		String message = "";

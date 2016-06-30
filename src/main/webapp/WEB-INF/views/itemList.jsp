@@ -41,13 +41,7 @@
 			<tr>
 				<cf:form action="/literature/item/list/1" id="selection">
 					<td></td>
-					<td><c:forEach var="i" begin="65" end="90">
-							<a
-								href="letter/<%=Character.toChars((Integer) pageContext.getAttribute("i"))%>"><%=Character.toChars((Integer) pageContext.getAttribute("i"))%></a>&nbsp;
-			</c:forEach> <br> <c:forEach var="i" begin="48" end="57">
-							<a
-								href="letter/<%=Character.toChars((Integer) pageContext.getAttribute("i"))%>"><%=Character.toChars((Integer) pageContext.getAttribute("i"))%></a>&nbsp;
-						</c:forEach> <c:choose>
+					<td> <c:choose>
 							<c:when test="${empty selectedKeyword}">
 
 								<input type="text" name="keywordSelection" size="30"

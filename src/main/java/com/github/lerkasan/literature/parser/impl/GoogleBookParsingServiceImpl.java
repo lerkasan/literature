@@ -18,17 +18,17 @@ public class GoogleBookParsingServiceImpl extends ParsingServiceImpl implements 
 
 	@Override
 	public List<GoogleBookJson> parse(String input) {
-		
+
 		List<GoogleBookJson> googleBookRecords = new ArrayList<>();
 		Gson json = new Gson();
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = parser.parse(input).getAsJsonObject();
 		JsonArray items = rootObj.getAsJsonArray("items");
-		
+
 		for (JsonElement item : items) {
 			JsonElement volumeInfo = item.getAsJsonObject().get("volumeInfo");
 			GoogleBookJson googleBookRecord = json.fromJson(volumeInfo.toString(), GoogleBookJson.class);
-	//		System.out.println("\n" + googleBookRecord.getTitle());
+			// System.out.println("\n" + googleBookRecord.getTitle());
 			googleBookRecords.add(googleBookRecord);
 		}
 		return googleBookRecords;

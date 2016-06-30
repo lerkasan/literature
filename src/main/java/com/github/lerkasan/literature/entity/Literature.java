@@ -6,9 +6,9 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 
-@Entity(name="literature")
+@Entity(name = "literature")
 @DiscriminatorValue("literature")
-@NamedQuery(name="Literature.findAll", query="SELECT l FROM literature l")
+@NamedQuery(name = "Literature.findAll", query = "SELECT l FROM literature l")
 public class Literature extends ItemToRead implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,11 +23,11 @@ public class Literature extends ItemToRead implements Serializable {
 	private short volume;
 
 	private int year;
-	
+
 	private String publishing;
-	
+
 	private String issueOrEditionNumber;
-	
+
 	private String imageUrl;
 
 	public Literature() {
@@ -96,7 +96,7 @@ public class Literature extends ItemToRead implements Serializable {
 	public void setPublishing(String publishing) {
 		this.publishing = publishing;
 	}
-	
+
 	public String getImageUrl() {
 		return imageUrl;
 	}

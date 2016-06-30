@@ -9,7 +9,7 @@ import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndEntryImpl;
 
 public class RssEntry extends SyndEntryImpl implements ConvertableToItemToRead {
-	
+
 	@Inject
 	RssService rssService;
 

@@ -12,7 +12,7 @@ import com.github.lerkasan.literature.entity.Literature;
 import com.github.lerkasan.literature.service.AuthorService;
 
 public class AmazonItem implements ConvertableToItemToRead {
-	
+
 	private String title;
 	private String author;
 	private String imageUrl;
@@ -102,7 +102,7 @@ public class AmazonItem implements ConvertableToItemToRead {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}			
+			}
 		}
 		literatureItem.setAccessType(ItemAccessType.PAID);
 		literatureItem.setItemType(ItemType.BOOK);
@@ -111,7 +111,8 @@ public class AmazonItem implements ConvertableToItemToRead {
 			Author itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 			if (itemAuthor == null) {
 				itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
-				//This saving is used instead of Cascade.PERSIST to avoid duplication of existing authors:
+				// This saving is used instead of Cascade.PERSIST to avoid
+				// duplication of existing authors:
 				authorService.save(itemAuthor);
 				itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 			}

@@ -1,5 +1,7 @@
 package com.github.lerkasan.literature.service.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,9 +20,9 @@ import com.github.lerkasan.literature.service.AuthorService;
 
 @Service("AuthorService")
 public class AuthorServiceImpl implements AuthorService {
-	
+
 	@PersistenceContext
-    private EntityManager manager;
+	private EntityManager manager;
 
 	@Inject
 	private AuthorRepository authorRepository;
@@ -32,6 +34,7 @@ public class AuthorServiceImpl implements AuthorService {
 	public Author add(Author author) {
 		return authorRepository.save(author);
 	}
+
 	@Override
 	public void delete(int id) {
 		authorRepository.delete(id);
@@ -58,8 +61,8 @@ public class AuthorServiceImpl implements AuthorService {
 	public Author save(Author author) {
 		if ((author.getGivenName() != null) && (author.getFamilyName() != null)) {
 			return authorRepository.save(author);
-		}
-		else return null;
+		} else
+			return null;
 	}
 
 	@Override
@@ -90,7 +93,15 @@ public class AuthorServiceImpl implements AuthorService {
 	public Page<Author> getAll(int pageNumber) {
 		PageRequest pageRequest = new PageRequest(pageNumber - 1, Messages.PAGE_SIZE, Sort.Direction.ASC, "familyName");
 		return authorRepository.findAll(pageRequest);
-	//	Page<AuthorTotalItemsResult> findAllWithItemsTotal(Pageable pageable);	
-	//List<AuthorTotalItemsResult> results = manager.createNamedQuery("findAuthorsWithItemsTotal", AuthorTotalItemsResult.class).getResultList();
+		// Page<AuthorTotalItemsResult> findAllWithItemsTotal(Pageable
+		// pageable);
+		// List<AuthorTotalItemsResult> results =
+		// manager.createNamedQuery("findAuthorsWithItemsTotal",
+		// AuthorTotalItemsResult.class).getResultList();
+	}
+
+	@Override
+	public List<Author> getByFirstLetter(String letter) {
+		return authorRepository.getByFirstLetter(letter + "%");
 	}
 }

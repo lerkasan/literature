@@ -21,7 +21,7 @@ import com.github.lerkasan.literature.service.ResourceService;
 public class ResourceController {
 	@Inject
 	ResourceService resourceService;
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String getFirstPage(ModelMap model, HttpSession session) {
 		Page<Resource> page = resourceService.getAll(1);

@@ -27,9 +27,9 @@ import com.github.lerkasan.literature.service.UserService;
 public class ItemToReadController {
 	@Inject
 	ItemToReadService itemToReadService;
-	
+
 	@Inject
-	UserService	userService;
+	UserService userService;
 
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
 	public String getFirstPage(ModelMap model, HttpSession session) {
@@ -48,9 +48,10 @@ public class ItemToReadController {
 		model.addAttribute("accessTypes", ItemAccessType.values());
 		return "itemList";
 	}
-	
+
 	@RequestMapping(value = "/addToLibrary", method = { RequestMethod.POST })
-	public String addToLibraryPage(ModelMap model, @RequestParam(value = "selectedItems", required = false) int[] selectedItemsIds, HttpSession session) {
+	public String addToLibraryPage(ModelMap model,
+			@RequestParam(value = "selectedItems", required = false) int[] selectedItemsIds, HttpSession session) {
 		@SuppressWarnings("unchecked")
 		Page<ItemToRead> page = (Page<ItemToRead>) session.getAttribute("items");
 		String message = "";
@@ -86,41 +87,54 @@ public class ItemToReadController {
 		} else {
 			locDate = LocalDate.now().minusDays(36500);
 		}
-		model.addAttribute("selectedPeriod", selectedPeriod );
+		model.addAttribute("selectedPeriod", selectedPeriod);
 		if (keywordSelection != null) {
 			searchKeyword = keywordSelection.replaceAll("%20", " ");
 		}
-		model.addAttribute("selectedKeyword", searchKeyword );
+		model.addAttribute("selectedKeyword", searchKeyword);
 		if ((typeSelection == null) && (accessSelection == null)) {
-			//page = itemToReadService.getAll(pageNumber);
+			// page = itemToReadService.getAll(pageNumber);
 			page = itemToReadService.getAllByKeyword(keywordSelection, locDate, pageNumber);
 		} else {
-			
+
 			if ((typeSelection != null) && !typeSelection.equals("select_option")) {
-				//page = itemToReadService.getByItemType(ItemType.valueOf(typeSelection), pageNumber);
-				//page = itemToReadService.getByKeywordAndItemType(keywordSelection, ItemType.valueOf(typeSelection), pageNumber);
-				page = itemToReadService.getByKeywordAndItemType(keywordSelection, ItemType.valueOf(typeSelection), locDate, pageNumber);
+				// page =
+				// itemToReadService.getByItemType(ItemType.valueOf(typeSelection),
+				// pageNumber);
+				// page =
+				// itemToReadService.getByKeywordAndItemType(keywordSelection,
+				// ItemType.valueOf(typeSelection), pageNumber);
+				page = itemToReadService.getByKeywordAndItemType(keywordSelection, ItemType.valueOf(typeSelection),
+						locDate, pageNumber);
 				model.addAttribute("selectedType", typeSelection);
 			}
-			
+
 			if ((accessSelection != null) && !accessSelection.equals("select_option")) {
-				//page = itemToReadService.getByAccessType(ItemAccessType.valueOf(accessSelection), pageNumber);
-				page = itemToReadService.getByKeywordAndAccessType(keywordSelection, ItemAccessType.valueOf(accessSelection), locDate, pageNumber);
+				// page =
+				// itemToReadService.getByAccessType(ItemAccessType.valueOf(accessSelection),
+				// pageNumber);
+				page = itemToReadService.getByKeywordAndAccessType(keywordSelection,
+						ItemAccessType.valueOf(accessSelection), locDate, pageNumber);
 				model.addAttribute("selectedAccess", accessSelection);
 			}
-			
-			if ((typeSelection != null) && !typeSelection.equals("select_option") && (accessSelection != null) && !accessSelection.equals("select_option")) {
-				//page = itemToReadService.getByItemTypeAndAccessType(ItemType.valueOf(typeSelection), ItemAccessType.valueOf(accessSelection), pageNumber);
-				page = itemToReadService.getByKeywordAndItemTypeAndAccessType(keywordSelection, ItemType.valueOf(typeSelection), ItemAccessType.valueOf(accessSelection), locDate, pageNumber);
+
+			if ((typeSelection != null) && !typeSelection.equals("select_option") && (accessSelection != null)
+					&& !accessSelection.equals("select_option")) {
+				// page =
+				// itemToReadService.getByItemTypeAndAccessType(ItemType.valueOf(typeSelection),
+				// ItemAccessType.valueOf(accessSelection), pageNumber);
+				page = itemToReadService.getByKeywordAndItemTypeAndAccessType(keywordSelection,
+						ItemType.valueOf(typeSelection), ItemAccessType.valueOf(accessSelection), locDate, pageNumber);
 				model.addAttribute("selectedType", typeSelection);
 				model.addAttribute("selectedAccess", accessSelection);
 			}
-			
-			if ((typeSelection != null) && typeSelection.equals("select_option") && (accessSelection != null) && accessSelection.equals("select_option")) {
-				//page = itemToReadService.getAll(pageNumber);
+
+			if ((typeSelection != null) && typeSelection.equals("select_option") && (accessSelection != null)
+					&& accessSelection.equals("select_option")) {
+				// page = itemToReadService.getAll(pageNumber);
 				page = itemToReadService.getAllByKeyword(keywordSelection, locDate, pageNumber);
 			}
-				
+
 		}
 		model.addAttribute("items", page);
 		session.setAttribute("items", page);

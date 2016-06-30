@@ -94,12 +94,13 @@ public class GoogleApiJson implements ConvertableToItemToRead {
 				Author itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 				if (itemAuthor == null) {
 					itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
-					//This saving is used instead of Cascade.PERSIST to avoid duplication of existing authors:
+					// This saving is used instead of Cascade.PERSIST to avoid
+					// duplication of existing authors:
 					authorService.save(itemAuthor);
 					itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 				}
 				item.addAuthor(itemAuthor);
-				itemAuthor.addItemToRead(item); 
+				itemAuthor.addItemToRead(item);
 			}
 		}
 		return item;

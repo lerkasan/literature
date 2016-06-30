@@ -13,9 +13,8 @@ import org.eclipse.persistence.oxm.annotations.XmlPath;
 
 import com.github.lerkasan.literature.parser.AmazonBook;
 
-
 @XmlRootElement(name = "ItemSearchResponse", namespace = "http://webservices.amazon.com/AWSECommerceService/2011-08-01")
-@XmlType(name = "", namespace = "http://webservices.amazon.com/AWSECommerceService/2011-08-01", propOrder={"items"})
+@XmlType(name = "", namespace = "http://webservices.amazon.com/AWSECommerceService/2011-08-01", propOrder = { "items" })
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ItemSearchResponse {
 
@@ -34,21 +33,15 @@ public class ItemSearchResponse {
 	public void setItems(List<AmazonBook> items) {
 		this.items = items;
 	}
-	
-	
-	//private AmazonBooks items;
 
-	/*public ItemSearchResponse() {
-		items = new AmazonBooks();
-	}
+	// private AmazonBooks items;
 
-	public AmazonBooks getItems() {
-		return items;
-	}
+	/*
+	 * public ItemSearchResponse() { items = new AmazonBooks(); }
+	 * 
+	 * public AmazonBooks getItems() { return items; }
+	 * 
+	 * public void setItems(AmazonBooks items) { this.items = items; }
+	 */
 
-	public void setItems(AmazonBooks items) {
-		this.items = items;
-	}
-	*/
-	
 }

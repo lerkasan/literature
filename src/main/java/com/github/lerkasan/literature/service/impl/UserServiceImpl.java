@@ -27,8 +27,8 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
-	/*@Override
-	public Page<ItemToRead> getLibraryByUserId(int id) {
-		return userRepository.getLibraryByUserId(id);
-	}*/
+	/*
+	 * @Override public Page<ItemToRead> getLibraryByUserId(int id) { return
+	 * userRepository.getLibraryByUserId(id); }
+	 */
 }

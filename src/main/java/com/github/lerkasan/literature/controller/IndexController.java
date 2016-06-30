@@ -36,17 +36,19 @@ public class IndexController {
 			rssIterable.forEach(rssList::add);
 		}
 		if (!rssList.isEmpty()) {
-			Resource currentRss = rssList.get(rssList.size()-1);
+			Resource currentRss = rssList.get(rssList.size() - 1);
 			List<SyndEntry> rssNews = rssService.read(currentRss);
-			model.addAttribute("rssNews", rssNews);  
-			model.addAttribute("rssList", rssList);  
-			request.getSession().setAttribute("rssNewsParam",rssNews);
-			request.getSession().setAttribute("rssList",rssList);
-			request.getSession().setAttribute("currentRssName",currentRss.getName());
-			
+			model.addAttribute("rssNews", rssNews);
+			model.addAttribute("rssList", rssList);
+			request.getSession().setAttribute("rssNewsParam", rssNews);
+			request.getSession().setAttribute("rssList", rssList);
+			request.getSession().setAttribute("currentRssName", currentRss.getName());
+
 		}
-	/*	model.addAttribute("searchQuery", searchQuery);
-		model.addAttribute("selectedRssNews", selectedRssNews);*/
+		/*
+		 * model.addAttribute("searchQuery", searchQuery);
+		 * model.addAttribute("selectedRssNews", selectedRssNews);
+		 */
 		return "index";
 	}
 

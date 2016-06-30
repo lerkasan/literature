@@ -22,16 +22,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-@Entity(name="item_to_read")
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="dtype", discriminatorType=DiscriminatorType.STRING)
+@Entity(name = "item_to_read")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("item_to_read")
-@NamedQuery(name="ItemToRead.findAll", query="SELECT i FROM item_to_read i")
+@NamedQuery(name = "ItemToRead.findAll", query = "SELECT i FROM item_to_read i")
 public class ItemToRead implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	private LocalDate addedAt;
@@ -40,12 +40,12 @@ public class ItemToRead implements Serializable {
 	private String contents;
 
 	private String linkToFile;
-	
+
 	private LocalDate publishDate;
 
 	@Lob
 	private String text;
-	
+
 	private ItemType itemType;
 
 	private ItemAccessType accessType;
@@ -59,55 +59,52 @@ public class ItemToRead implements Serializable {
 	private String url;
 
 	private boolean visible;
-	
+
 	private String keywords;
 
 	@ManyToMany
-	@JoinTable(name="user_categories",
-		joinColumns=@JoinColumn(name="itemToReadId"),
-		inverseJoinColumns=@JoinColumn(name="categoryId"))
+	@JoinTable(name = "user_categories", joinColumns = @JoinColumn(name = "itemToReadId"), inverseJoinColumns = @JoinColumn(name = "categoryId"))
 	private List<Category> categories;
 
-	//bi-directional many-to-one association to Comment
-	@OneToMany(mappedBy="itemToRead")
+	// bi-directional many-to-one association to Comment
+	@OneToMany(mappedBy = "itemToRead")
 	private List<Comment> comments;
 
-	//bi-directional many-to-many association to Author
-	//@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST })  
-	//DO NOT USE CASCADE to avoid author record duplication in author table when this table already contains this author
+	// bi-directional many-to-many association to Author
+	// @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST })
+	// DO NOT USE CASCADE to avoid author record duplication in author table
+	// when this table already contains this author
 	@ManyToMany
-	@JoinTable(name="item_authors", 
-		joinColumns=@JoinColumn(name="itemToReadId", referencedColumnName = "id"), 
-		inverseJoinColumns=@JoinColumn(name="authorId", referencedColumnName = "id")) 
+	@JoinTable(name = "item_authors", joinColumns = @JoinColumn(name = "itemToReadId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "authorId", referencedColumnName = "id"))
 	private List<Author> authors;
 
-	//bi-directional many-to-one association to Language
+	// bi-directional many-to-one association to Language
 	@ManyToOne
-	@JoinColumn(name="languageId")
+	@JoinColumn(name = "languageId")
 	private Language language;
 
-	//bi-directional many-to-one association to Resource
+	// bi-directional many-to-one association to Resource
 	@ManyToOne
-	@JoinColumn(name="resourceId")
+	@JoinColumn(name = "resourceId")
 	private Resource resource;
 
-	//bi-directional many-to-one association to Subject
+	// bi-directional many-to-one association to Subject
 	@ManyToOne
-	@JoinColumn(name="subjectId")
+	@JoinColumn(name = "subjectId")
 	private Subject subject;
 
-	//bi-directional many-to-one association to User
+	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="addedBy")
+	@JoinColumn(name = "addedBy")
 	private User user;
-	
-	@ManyToMany(mappedBy="library")
-	private List<User> readers; 
+
+	@ManyToMany(mappedBy = "library")
+	private List<User> readers;
 
 	public ItemToRead() {
 		categories = new ArrayList<>();
 		comments = new ArrayList<>();
-		authors = new ArrayList<>(); 
+		authors = new ArrayList<>();
 	}
 
 	public Integer getId() {
@@ -141,7 +138,7 @@ public class ItemToRead implements Serializable {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
-	
+
 	public String getLinkToFile() {
 		return this.linkToFile;
 	}
@@ -149,7 +146,7 @@ public class ItemToRead implements Serializable {
 	public void setLinkToFile(String linkToFile) {
 		this.linkToFile = linkToFile;
 	}
-	
+
 	public LocalDate getPublishDate() {
 		return publishDate;
 	}
@@ -165,7 +162,7 @@ public class ItemToRead implements Serializable {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 	public ItemType getItemType() {
 		return itemType;
 	}
@@ -232,14 +229,14 @@ public class ItemToRead implements Serializable {
 
 	public Category addCategory(Category category) {
 		getCategories().add(category);
-	//	category.setItemToRead(this);
+		// category.setItemToRead(this);
 
 		return category;
 	}
 
 	public Category removeCategory(Category category) {
 		getCategories().remove(category);
-	//	category.setItemToRead(null);
+		// category.setItemToRead(null);
 
 		return category;
 	}
@@ -254,14 +251,14 @@ public class ItemToRead implements Serializable {
 
 	public Comment addComment(Comment comment) {
 		getComments().add(comment);
-	//	comment.setItemToRead(this);
+		// comment.setItemToRead(this);
 
 		return comment;
 	}
 
 	public Comment removeComment(Comment comment) {
 		getComments().remove(comment);
-	//	comment.setItemToRead(null);
+		// comment.setItemToRead(null);
 
 		return comment;
 	}
@@ -281,18 +278,19 @@ public class ItemToRead implements Serializable {
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}
-	
+
 	public Author addAuthor(Author author) {
 		getAuthors().add(author);
-		/* if (!author.getItemsToRead().contains(this)) {
-			author.addItemToRead(this);   //Maybe should be deleted
-		} */
+		/*
+		 * if (!author.getItemsToRead().contains(this)) {
+		 * author.addItemToRead(this); //Maybe should be deleted }
+		 */
 		return author;
 	}
 
 	public Author removeAuthor(Author author) {
 		getAuthors().remove(author);
-		//author.getItemsToRead().remove(this);  //Maybe should be deleted
+		// author.getItemsToRead().remove(this); //Maybe should be deleted
 
 		return author;
 	}

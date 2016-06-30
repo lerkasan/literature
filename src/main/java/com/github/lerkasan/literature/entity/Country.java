@@ -10,19 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-@Entity(name="country")
-@NamedQuery(name="Country.findAll", query="SELECT c FROM country c")
+@Entity(name = "country")
+@NamedQuery(name = "Country.findAll", query = "SELECT c FROM country c")
 public class Country implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Short id;
 
 	private String name;
 
-	//bi-directional many-to-one association to User
-	@OneToMany(mappedBy="country")
+	// bi-directional many-to-one association to User
+	@OneToMany(mappedBy = "country")
 	private List<User> users;
 
 	public Country() {

@@ -16,14 +16,16 @@ public class ApplicationContextConfig extends WebMvcConfigurationSupport {
 	public UrlBasedViewResolver getViewResolver() {
 		UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
 		viewResolver.setViewClass(TilesView.class);
-		/*viewResolver.setViewClass(JstlView.class);
-		viewResolver.setPrefix("/WEB-INF/views/");
-		viewResolver.setSuffix(".jsp");*/
+		/*
+		 * viewResolver.setViewClass(JstlView.class);
+		 * viewResolver.setPrefix("/WEB-INF/views/");
+		 * viewResolver.setSuffix(".jsp");
+		 */
 		viewResolver.setOrder(1);
 		return viewResolver;
 	}
-	
-	@Bean(name="tilesConfigurer")
+
+	@Bean(name = "tilesConfigurer")
 	public TilesConfigurer getTilesConfigurer() {
 		TilesConfigurer tilesConfig = new TilesConfigurer();
 		tilesConfig.setDefinitions("/WEB-INF/views/tiles.xml", "WEB-INF/views/views.xml");

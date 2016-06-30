@@ -55,4 +55,12 @@
         <put-attribute name="title" value="Tech literature | My Library"></put-attribute>
         <put-attribute name="body" value="/WEB-INF/views/myLibrary.jsp"></put-attribute>
     </definition>
+     <definition name="letterAuthorList" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Authors"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/letterAuthorList.jsp"></put-attribute>
+    </definition>
+    <definition name="letterAuthorList/*" extends="base.definition">
+        <put-attribute name="title" value="Tech literature | Authors"></put-attribute>
+        <put-attribute name="body" value="/WEB-INF/views/letterAuthorList.jsp"></put-attribute>
+    </definition>
 </tiles-definitions>

@@ -5,7 +5,7 @@ import com.github.lerkasan.literature.entity.Author;
 public class AuthorTotalItemsResult {
 	Author author;
 	int totalItems;
-	
+
 	public AuthorTotalItemsResult() {
 	}
 

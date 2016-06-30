@@ -14,42 +14,42 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-@Entity(name="resource")
-@NamedQuery(name="Resource.findAll", query="SELECT r FROM resource r")
+@Entity(name = "resource")
+@NamedQuery(name = "Resource.findAll", query = "SELECT r FROM resource r")
 public class Resource implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@NotEmpty(message="Name can not be empty")
+	@NotEmpty(message = "Name can not be empty")
 	private String name;
 
-	@NotEmpty(message="URL can not be empty")
+	@NotEmpty(message = "URL can not be empty")
 	private String url;
-	
-	@NotEmpty(message="Domain can not be empty")
+
+	@NotEmpty(message = "Domain can not be empty")
 	private String domain;
-	
+
 	private String parameterFormat;
-	
-	@NotEmpty(message="Response format can not be empty")
+
+	@NotEmpty(message = "Response format can not be empty")
 	private String responseFormat;
-	
+
 	private String apiKey;
-	
+
 	private String searchEngineKey;
-	
+
 	private String associateId;
 
-	//bi-directional many-to-one association to ItemToRead
-	@OneToMany(mappedBy="resource")
+	// bi-directional many-to-one association to ItemToRead
+	@OneToMany(mappedBy = "resource")
 	private List<ItemToRead> itemsToRead;
 
-	//bi-directional many-to-one association to User
+	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="addedBy")
+	@JoinColumn(name = "addedBy")
 	private User user;
 
 	public Resource() {

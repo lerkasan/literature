@@ -10,19 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-@Entity(name="language")
-@NamedQuery(name="Language.findAll", query="SELECT l FROM language l")
+@Entity(name = "language")
+@NamedQuery(name = "Language.findAll", query = "SELECT l FROM language l")
 public class Language implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Short id;
 
 	private String name;
 
-	//bi-directional many-to-one association to ItemToRead
-	@OneToMany(mappedBy="language")
+	// bi-directional many-to-one association to ItemToRead
+	@OneToMany(mappedBy = "language")
 	private List<ItemToRead> itemsToRead;
 
 	public Language() {
@@ -51,7 +51,7 @@ public class Language implements Serializable {
 	public void setItemsToRead(List<ItemToRead> itemToReads) {
 		this.itemsToRead = itemToReads;
 	}
-	
+
 	public List<ItemToRead> getItemsToRead() {
 		return this.itemsToRead;
 	}

@@ -58,7 +58,7 @@ public class SearchController {
 	@Inject
 	@Qualifier("GoogleHtmlParsingService")
 	ParsingService googleHtmlParsingService;
-	
+
 	@Inject
 	@Qualifier("GoogleBookParsingService")
 	ParsingService googleBookParsingService;
@@ -103,7 +103,8 @@ public class SearchController {
 		if ((searchQuery != null) && (searchQuery != "")) {
 			request.getSession().setAttribute("searchQuery", searchQuery);
 			String[] searchedWords = apiRequestPreparation.deleteSpecialsAndSplit(searchQuery);
-			//Iterable<Resource> foundApi = resourceRepository.findByResponseFormatNot("rss");
+			// Iterable<Resource> foundApi =
+			// resourceRepository.findByResponseFormatNot("rss");
 
 			Resource searchApi = resourceRepository.findByName(engineName);
 			String preparedQuery = apiRequestPreparation.prepareQuery(searchApi, searchedWords);
@@ -111,7 +112,7 @@ public class SearchController {
 			model.addAttribute("searchQuery", searchQuery);
 			model.addAttribute("currentEngineName", engineName);
 			request.getSession().setAttribute("currentEngineName", engineName);
-			
+
 			switch (engineName) {
 			case ApiRequestPreparationServiceImpl.GOOGLE_API: {
 				googleResults = (List<GoogleApiJson>) googleParsingService.parse(apiResponse);
@@ -126,7 +127,8 @@ public class SearchController {
 				break;
 			}
 			case ApiRequestPreparationServiceImpl.GOOGLE_SITE: {
-				List<GoogleApiJson> googleHtmlResults = (List<GoogleApiJson>) googleHtmlParsingService.parse(apiResponse);
+				List<GoogleApiJson> googleHtmlResults = (List<GoogleApiJson>) googleHtmlParsingService
+						.parse(apiResponse);
 				model.addAttribute("googleHtmlResults", googleHtmlResults);
 				request.getSession().setAttribute("googleHtmlResults", googleHtmlResults);
 				break;

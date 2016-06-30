@@ -10,19 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-@Entity(name="subject")
-@NamedQuery(name="Subject.findAll", query="SELECT s FROM subject s")
+@Entity(name = "subject")
+@NamedQuery(name = "Subject.findAll", query = "SELECT s FROM subject s")
 public class Subject implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	private String name;
 
-	//bi-directional many-to-one association to ItemToRead
-	@OneToMany(mappedBy="subject")
+	// bi-directional many-to-one association to ItemToRead
+	@OneToMany(mappedBy = "subject")
 	private List<ItemToRead> itemsToRead;
 
 	public Subject() {

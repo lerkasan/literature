@@ -12,24 +12,24 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
-@Entity(name="category")
-@NamedQuery(name="Category.findAll", query="SELECT c FROM category c")
+@Entity(name = "category")
+@NamedQuery(name = "Category.findAll", query = "SELECT c FROM category c")
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	private String name;
 
-	//bi-directional many-to-one association to User
+	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="userId")
+	@JoinColumn(name = "userId")
 	private User user;
-	
-	//bi-directional many-to-many association to ItemToRead
-	@ManyToMany(mappedBy="categories")
+
+	// bi-directional many-to-many association to ItemToRead
+	@ManyToMany(mappedBy = "categories")
 	private List<ItemToRead> itemsToRead;
 
 	public Category() {
@@ -61,9 +61,9 @@ public class Category implements Serializable {
 
 	public void setItemToRead(ItemToRead itemToRead) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public List<ItemToRead> getItemsToRead() {
 		return this.itemsToRead;
 	}

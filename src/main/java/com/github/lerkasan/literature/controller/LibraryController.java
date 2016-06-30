@@ -1,7 +1,6 @@
 package com.github.lerkasan.literature.controller;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -35,7 +34,7 @@ public class LibraryController {
 		if (selectedItemsIds != null) {
 			int shift = 0;
 			for (int i : selectedItemsIds) {
-				currentUser.removeFromLibrary(currentUser.getLibrary().get(i-shift));
+				currentUser.removeFromLibrary(currentUser.getLibrary().get(i - shift));
 				shift++;
 			}
 			userService.save(currentUser);

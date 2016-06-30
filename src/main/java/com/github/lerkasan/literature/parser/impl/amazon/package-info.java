@@ -1,6 +1,4 @@
-@XmlSchema(
-    namespace = "http://webservices.amazon.com/AWSECommerceService/2011-08-01",
-    elementFormDefault = XmlNsForm.QUALIFIED)
+@XmlSchema(namespace = "http://webservices.amazon.com/AWSECommerceService/2011-08-01", elementFormDefault = XmlNsForm.QUALIFIED)
 @XmlAccessorType(XmlAccessType.FIELD)
 
 package com.github.lerkasan.literature.parser.impl.amazon;

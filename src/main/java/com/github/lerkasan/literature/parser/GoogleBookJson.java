@@ -15,12 +15,12 @@ import com.github.lerkasan.literature.entity.Literature;
 import com.github.lerkasan.literature.service.AuthorService;
 
 public class GoogleBookJson implements ConvertableToItemToRead {
-	
+
 	private final int BriefDescriptionSizeInChars = 500;
 
 	@Inject
 	private AuthorService authorService;
-	
+
 	private String title;
 	private List<String> authors;
 	private String publisher;
@@ -76,13 +76,13 @@ public class GoogleBookJson implements ConvertableToItemToRead {
 		this.description = description;
 	}
 
-	 List<GoogleBookIndustryIdentifier> getIndustryIdentifiers() {
+	List<GoogleBookIndustryIdentifier> getIndustryIdentifiers() {
 		return industryIdentifiers;
 	}
 
 	public void setIndustryIdentifiers(List<GoogleBookIndustryIdentifier> industryIdentifiers) {
 		this.industryIdentifiers = industryIdentifiers;
-	} 
+	}
 
 	public String getPageCount() {
 		return pageCount;
@@ -125,7 +125,7 @@ public class GoogleBookJson implements ConvertableToItemToRead {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}			
+			}
 		}
 		literatureItem.setAccessType(ItemAccessType.PAID);
 		literatureItem.setItemType(ItemType.BOOK);
@@ -134,9 +134,8 @@ public class GoogleBookJson implements ConvertableToItemToRead {
 		literatureItem.setImageUrl(getImageLinks().getThumbnail());
 		if ((pageCount != null) && (pageCount != "")) {
 			try {
-			literatureItem.setPages(Short.parseShort(pageCount));
-				}
-			catch (NumberFormatException e) {
+				literatureItem.setPages(Short.parseShort(pageCount));
+			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 		}
@@ -147,14 +146,15 @@ public class GoogleBookJson implements ConvertableToItemToRead {
 				Author itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 				if (itemAuthor == null) {
 					itemAuthor = new Author(fullNameParts[0], fullNameParts[1]);
-					//This saving is used instead of Cascade.PERSIST to avoid duplication of existing authors:
+					// This saving is used instead of Cascade.PERSIST to avoid
+					// duplication of existing authors:
 					authorService.save(itemAuthor);
 					itemAuthor = authorService.getByFullName(fullNameParts[0], fullNameParts[1]);
 				}
 				literatureItem.addAuthor(itemAuthor);
-				itemAuthor.addItemToRead(literatureItem); 
+				itemAuthor.addItemToRead(literatureItem);
 			}
-		} 
+		}
 		return literatureItem;
 	}
 
@@ -162,7 +162,7 @@ public class GoogleBookJson implements ConvertableToItemToRead {
 	public String getUrl() {
 		return getPreviewLink();
 	}
-	
+
 	public String getImgUrl() {
 		if (getImageLinks() == null) {
 			return "";
@@ -182,14 +182,14 @@ public class GoogleBookJson implements ConvertableToItemToRead {
 		}
 		return getIndustryIdentifiers().get(0).getIdentifier();
 	}
-	
+
 	public String getBriefDescription() {
 		if (description != null) {
 			int size = description.length();
 			if (size > BriefDescriptionSizeInChars + 1) {
-				return description.substring(0, BriefDescriptionSizeInChars) +"...";
+				return description.substring(0, BriefDescriptionSizeInChars) + "...";
 			} else {
-				return description.substring(0, size/2) +"...";
+				return description.substring(0, size / 2) + "...";
 			}
 		}
 		return "";

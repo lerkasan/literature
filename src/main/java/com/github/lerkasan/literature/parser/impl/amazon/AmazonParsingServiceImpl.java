@@ -21,43 +21,36 @@ public class AmazonParsingServiceImpl extends ParsingServiceImpl implements Pars
 	public List<AmazonItem> parse(String url) {
 		int nodesSize;
 		List<AmazonItem> books = new ArrayList<>();
-		
-	/*		JAXBContext jc;
-		ItemSearchResponse itemSearchResponse;
-		StringBuilder response = new StringBuilder();
-		 try {
-			jc = JAXBContext.newInstance(ItemSearchResponse.class);
-			Unmarshaller unmarshaller = jc.createUnmarshaller();
-			URL xmlUrl = new URL(url);
-			try (BufferedReader in = new BufferedReader(new InputStreamReader(xmlUrl.openStream())); 
-					PrintWriter out = new PrintWriter(new FileWriter("/home/lerkasan/bionic/test.xml"))) {
-				String inputLine;
-				while ((inputLine = in.readLine()) != null) {
-					out.write(inputLine);
-					//response.append(inputLine);
-				}
-				
-			}
-			//itemSearchResponse = (ItemSearchResponse) unmarshaller.unmarshal(xmlUrl);
-			itemSearchResponse = (ItemSearchResponse) unmarshaller.unmarshal(new File("/home/lerkasan/bionic/test.xml")); //Doesn't work !!!! returns empty object (((
-			System.out.println("Amazon xml results:");
-		//	System.out.println(itemSearchResponse.getItems().get(0).getTitle());
-			
-		} catch (JAXBException | MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-	*/
+
+		/*
+		 * JAXBContext jc; ItemSearchResponse itemSearchResponse; StringBuilder
+		 * response = new StringBuilder(); try { jc =
+		 * JAXBContext.newInstance(ItemSearchResponse.class); Unmarshaller
+		 * unmarshaller = jc.createUnmarshaller(); URL xmlUrl = new URL(url);
+		 * try (BufferedReader in = new BufferedReader(new
+		 * InputStreamReader(xmlUrl.openStream())); PrintWriter out = new
+		 * PrintWriter(new FileWriter("/home/lerkasan/bionic/test.xml"))) {
+		 * String inputLine; while ((inputLine = in.readLine()) != null) {
+		 * out.write(inputLine); //response.append(inputLine); }
+		 * 
+		 * } //itemSearchResponse = (ItemSearchResponse)
+		 * unmarshaller.unmarshal(xmlUrl); itemSearchResponse =
+		 * (ItemSearchResponse) unmarshaller.unmarshal(new
+		 * File("/home/lerkasan/bionic/test.xml")); //Doesn't work !!!! returns
+		 * empty object ((( System.out.println("Amazon xml results:"); //
+		 * System.out.println(itemSearchResponse.getItems().get(0).getTitle());
+		 * 
+		 * } catch (JAXBException | MalformedURLException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); } catch (IOException
+		 * e) { // TODO Auto-generated catch block e.printStackTrace(); }
+		 */
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(url);
 			NodeList nodes = doc.getElementsByTagName("Item");
 			NodeList nodesTitle = doc.getElementsByTagName("Title");
-			//NodeList nodesImg = doc.getElementsByTagName("MediumImage");
+			// NodeList nodesImg = doc.getElementsByTagName("MediumImage");
 			NodeList nodesIsbn = doc.getElementsByTagName("ISBN");
 			NodeList nodesPublisher = doc.getElementsByTagName("Publisher");
 			NodeList nodesPublicationDate = doc.getElementsByTagName("PublicationDate");
@@ -79,8 +72,8 @@ public class AmazonParsingServiceImpl extends ParsingServiceImpl implements Pars
 					}
 					if (authorStr.contains("USD")) {
 						authorStr = author.getFirstChild().getNextSibling().getNextSibling().getNextSibling()
-								.getNextSibling().getNextSibling().getNextSibling().getNextSibling()
-								.getFirstChild().getTextContent();
+								.getNextSibling().getNextSibling().getNextSibling().getNextSibling().getFirstChild()
+								.getTextContent();
 						book.setAuthor(authorStr);
 					}
 				}

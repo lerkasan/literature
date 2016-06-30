@@ -35,10 +35,10 @@ import com.github.lerkasan.literature.entity.Resource;
 public class AmazonApiRequestPreparationService {
 
 	private static final String ENDPOINT = "ecs.amazonaws.com";
-	
+
 	@Inject
 	ResourceRepository resourceRepository;
-	
+
 	private String awsAccessKeyId;
 	private String awsSecretKey;
 

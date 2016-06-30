@@ -19,7 +19,7 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 	@Override
 	public String prepareQuery(Resource api, String[] keywords) {
 		String request = "";
-		String searchURL ="";
+		String searchURL = "";
 		StringBuilder query = new StringBuilder();
 		try {
 			switch (api.getName()) {
@@ -57,7 +57,7 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 					query = query.append(word + "+");
 				}
 				request = query.substring(0, query.length() - 1);
-				searchURL = api.getUrl() + "?q="+request+"&num="+ApiRequestPreparationService.RESULT_SIZE;
+				searchURL = api.getUrl() + "?q=" + request + "&num=" + ApiRequestPreparationService.RESULT_SIZE;
 				break;
 			}
 			case GOOGLE_BOOKS: {
@@ -112,7 +112,7 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 		StringBuilder response = new StringBuilder();
 		// String paramQ = "subject:\"Computer Science\" AND (title:\"data\" OR
 		// keyword:\"machine learning\" OR keyword:\"cloud computing\")";
-		
+
 		if (api.getName().equals(GOOGLE_SITE)) {
 			return request;
 		}
@@ -132,7 +132,7 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 					response.append(output);
 				}
 				connection.disconnect();
-				
+
 			} else {
 				BufferedReader br = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
 				String output;
@@ -140,7 +140,7 @@ public class ApiRequestPreparationServiceImpl implements ApiRequestPreparationSe
 					response.append(output);
 				}
 				connection.disconnect();
-				//System.out.println(sb.toString());
+				// System.out.println(sb.toString());
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

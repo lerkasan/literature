@@ -31,7 +31,7 @@ public class CrossrefParsingServiceImpl extends ParsingServiceImpl implements Pa
 				if (!item.getAsJsonObject().get("type").getAsString().equals("component")
 						&& item.getAsJsonObject().has("title")) {
 					JsonArray titleArray = item.getAsJsonObject().get("title").getAsJsonArray();
-					if ( (titleArray != null) && (titleArray.size() > 0 ) ) {
+					if ((titleArray != null) && (titleArray.size() > 0)) {
 						String title = titleArray.get(0).getAsString();
 						itemJson.setItemTitle(title);
 					}
@@ -56,7 +56,7 @@ public class CrossrefParsingServiceImpl extends ParsingServiceImpl implements Pa
 				}
 			}
 		}
-	
+
 		return itemList;
 
 	}

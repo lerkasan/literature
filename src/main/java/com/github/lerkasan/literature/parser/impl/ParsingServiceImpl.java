@@ -30,9 +30,10 @@ public class ParsingServiceImpl implements ParsingService {
 			for (int i : selectedItemsIds) {
 
 				ConvertableToItemToRead convertableItem = items.get(i);
-				//without the next line injections used in method convertableItem.convertToItem() are null
+				// without the next line injections used in method
+				// convertableItem.convertToItem() are null
 				beanFactory.autowireBean(convertableItem);
-				
+
 				String url = convertableItem.getUrl();
 				ItemToRead foundItem = itemToReadService.getByUrl(url);
 				if (foundItem == null) {

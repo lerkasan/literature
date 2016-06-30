@@ -28,16 +28,16 @@ import com.rometools.rome.feed.synd.SyndPerson;
 public class RssController {
 	@Inject
 	RssService rssService;
-	
+
 	@Inject
 	ResourceRepository resourceService;
 
 	@RequestMapping(value = "/{rssName}", method = RequestMethod.GET)
 	public String showRssNewsByRssName(@PathVariable String rssName, ModelMap model, HttpServletRequest request) {
-		String message="";
+		String message = "";
 		Resource rss = resourceService.findByName(rssName);
 		List<SyndEntry> rssNews = rssService.read(rss);
-		
+
 		// removing email from author name
 		if (rssName.equals("Programmingfree")) {
 			for (SyndEntry entry : rssNews) {
@@ -45,26 +45,30 @@ public class RssController {
 					for (SyndPerson syndAuthor : entry.getAuthors()) {
 						String syndAuthorName = syndAuthor.getName();
 						syndAuthorName = syndAuthorName.replace(RssServiceImpl.PROGRAMMINGFREE_RSS_AUTHOR_EMAIL, "");
-					/*	for (String special : ApiRequestPreparationService.SPECIAL_CHARS) {
-							syndAuthorName = syndAuthorName.replaceAll(special, "");
-						}
-					*/
+						/*
+						 * for (String special :
+						 * ApiRequestPreparationService.SPECIAL_CHARS) {
+						 * syndAuthorName = syndAuthorName.replaceAll(special,
+						 * ""); }
+						 */
 						syndAuthor.setName(syndAuthorName);
 					}
-				}	
+				}
 				if (entry.getAuthor() != null) {
 					String syndAuthorName = entry.getAuthor();
 					syndAuthorName = syndAuthorName.replace(RssServiceImpl.PROGRAMMINGFREE_RSS_AUTHOR_EMAIL, "");
-					/* for (String special : ApiRequestPreparationService.SPECIAL_CHARS) {
-						syndAuthorName = syndAuthorName.replaceAll(special, "");
-					}
-					*/
+					/*
+					 * for (String special :
+					 * ApiRequestPreparationService.SPECIAL_CHARS) {
+					 * syndAuthorName = syndAuthorName.replaceAll(special, "");
+					 * }
+					 */
 					entry.setAuthor(syndAuthorName);
 				}
 			}
 		}
 		// end of removing email from author name
-		
+
 		List<Resource> rssList = new ArrayList<>();
 		Iterable<Resource> rssIterable = resourceService.findByResponseFormat("rss");
 		if (rssIterable != null) {

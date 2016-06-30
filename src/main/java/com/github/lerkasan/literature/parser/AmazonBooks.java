@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.eclipse.persistence.oxm.annotations.XmlPath;
 
 @XmlRootElement(name = "Items", namespace = "http://webservices.amazon.com/AWSECommerceService/2011-08-01")
-@XmlType(name = "", namespace = "http://webservices.amazon.com/AWSECommerceService/2011-08-01", propOrder={"books"})
+@XmlType(name = "", namespace = "http://webservices.amazon.com/AWSECommerceService/2011-08-01", propOrder = { "books" })
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AmazonBooks {
 

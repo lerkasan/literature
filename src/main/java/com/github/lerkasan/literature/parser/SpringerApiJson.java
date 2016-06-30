@@ -149,9 +149,8 @@ public class SpringerApiJson implements ConvertableToItemToRead {
 		literatureItem.setItemType(ItemType.JOURNAL_ARTICLE);
 		if ((volume != null) && (volume != "")) {
 			try {
-			literatureItem.setVolume(Short.parseShort(volume));
-				}
-			catch (NumberFormatException e) {
+				literatureItem.setVolume(Short.parseShort(volume));
+			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 		}

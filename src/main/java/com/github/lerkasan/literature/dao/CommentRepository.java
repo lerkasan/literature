@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import com.github.lerkasan.literature.entity.Comment;
 
 public interface CommentRepository extends PagingAndSortingRepository<Comment, Integer> {
-	
+
 	@Query("select c from comment c where c.id = :id")
-    Comment findById(@Param("id") Integer id);
+	Comment findById(@Param("id") Integer id);
 }

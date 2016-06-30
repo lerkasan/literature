@@ -30,8 +30,8 @@
 			</tr>
 			<c:choose>
 				<c:when test="${not empty authors}">
-					<c:set var="i" value="${(currentIndex - 1)*50 + 1}" />
-					<c:forEach var="author" items="${authors.content}">
+					<c:set var="i" value="${1}" />
+					<c:forEach var="author" items="${authors}">
 						<tr>
 							<td><c:out value="${i}" /></td>
 							<td><c:out value="${author.fullName}" /></td>
@@ -40,51 +40,6 @@
 						</tr>
 						<c:set var="i" value="${i + 1}" />
 					</c:forEach>
-					<tr>
-						<td colspan=3><c:url var="firstUrl" value="/author/list/1" />
-							<c:url var="lastUrl" value="/author/list/${authors.totalPages}" />
-							<c:url var="prevUrl" value="/author/list/${currentIndex - 1}" />
-							<c:url var="nextUrl" value="/author/list/${currentIndex + 1}" />
-
-							<div class="pagination" align="center" style="float: left">
-								<table align="center">
-									<tr>
-										<c:choose>
-											<c:when test="${currentIndex == 1}">
-												<td class="disabled"><a href="#">&lt;&lt;&nbsp;First</a></td>
-												<td class="disabled"><a href="#">&lt;&nbsp;Previous</a></td>
-											</c:when>
-											<c:otherwise>
-												<td><a href="${firstUrl}">&lt;&lt;&nbsp;First</a></td>
-												<td><a href="${prevUrl}">&lt;&nbsp;Previous</a></td>
-											</c:otherwise>
-										</c:choose>
-										<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
-											<c:url var="pageUrl" value="/author/list/${i}" />
-											<c:choose>
-												<c:when test="${i == currentIndex}">
-													<td class="active"><a href="${pageUrl}"><c:out
-																value="${i}" /></a></td>
-												</c:when>
-												<c:otherwise>
-													<td><a href="${pageUrl}"><c:out value="${i}" /></a></td>
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>
-										<c:choose>
-											<c:when test="${currentIndex == authors.totalPages}">
-												<td class="disabled"><a href="#">Next&nbsp;&gt;</a></td>
-												<td class="disabled"><a href="#">Last&nbsp;&gt;&gt;</a></td>
-											</c:when>
-											<c:otherwise>
-												<td><a href="${nextUrl}">Next&nbsp;&gt;</a></td>
-												<td><a href="${lastUrl}">Last&nbsp;&gt;&gt;</a></td>
-											</c:otherwise>
-										</c:choose>
-									</tr>
-								</table>
-							</div></td>
-					</tr>
 				</c:when>
 			</c:choose>
 		</table>
