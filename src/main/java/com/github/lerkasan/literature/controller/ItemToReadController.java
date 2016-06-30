@@ -68,6 +68,8 @@ public class ItemToReadController {
 		model.addAttribute("currentIndex", current);
 		model.addAttribute("items", page);
 		model.addAttribute("message", message);
+		model.addAttribute("itemTypes", ItemType.values());
+		model.addAttribute("accessTypes", ItemAccessType.values());
 		return "itemList";
 	}
 

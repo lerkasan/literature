@@ -28,6 +28,7 @@ public interface ItemToReadRepository extends PagingAndSortingRepository<ItemToR
 	@Query("select i from item_to_read i where i.accessType = :accessType")
 	Page<ItemToRead> findByAccessType(@Param("accessType") ItemAccessType accessType, Pageable pageable);
 
+	
 	Page<ItemToRead> findByItemTypeAndAccessType(@Param("itemType") ItemType itemType,
 			@Param("accessType") ItemAccessType accessType, Pageable pageable);
 

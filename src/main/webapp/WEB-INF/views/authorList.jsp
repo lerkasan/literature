@@ -29,7 +29,7 @@
 				<th>Articles/Books in database</th>
 			</tr>
 			<c:choose>
-				<c:when test="${not empty authors}">
+				<c:when test="${not empty authors.content}">
 					<c:set var="i" value="${(currentIndex - 1)*50 + 1}" />
 					<c:forEach var="author" items="${authors.content}">
 						<tr>
