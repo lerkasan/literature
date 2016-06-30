@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.github.lerkasan.literature.controller.Messages;
+
 @Entity(name="user")
 @NamedQuery(name="User.findAll", query="SELECT u FROM user u")
 public class User implements Serializable {
@@ -258,7 +260,26 @@ public class User implements Serializable {
 		getLibrary().remove(item);
 	}
 
-	public void addToLibrary(ItemToRead item) {
-		getLibrary().add(item);
+	public boolean addToLibrary(ItemToRead item) {
+		if (!getLibrary().contains(item)) {
+			getLibrary().add(item);
+			return true;
+		}
+		return false;
+	}
+	
+	public String addSelectedToLibrary(List<ItemToRead> items, int[] selectedItemsIds) {
+		boolean allNewFlag = true;
+		String message = "";
+		for (int i : selectedItemsIds) {
+			boolean flag = addToLibrary(items.get(i));
+			allNewFlag = allNewFlag && flag;
+		}
+		if (allNewFlag) {
+			message = Messages.SUCCESSFUL_ADDITION_TO_LIBRARY;
+		} else {
+			message = Messages.SOME_ITEMS_ALREADY_IN_LIBRARY;
+		}
+		return message;
 	}
 }

@@ -1,7 +1,6 @@
 package com.github.lerkasan.literature.controller;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -53,12 +52,9 @@ public class ItemToReadController {
 	@RequestMapping(value = "/addToLibrary", method = { RequestMethod.POST })
 	public String addToLibraryPage(ModelMap model, @RequestParam(value = "selectedItems", required = false) int[] selectedItemsIds, HttpSession session) {
 		@SuppressWarnings("unchecked")
-		Page<ItemToRead> itemList = (Page<ItemToRead>) session.getAttribute("items");
+		Page<ItemToRead> page = (Page<ItemToRead>) session.getAttribute("items");
 		User currentUser = userService.getById(userService.USER_ID);
-		
-		for (int i : selectedItemsIds) {
-			currentUser.addToLibrary(itemList.getContent().get(i));
-		}
+		String message = currentUser.addSelectedToLibrary(page.getContent(), selectedItemsIds);
 		userService.save(currentUser);
 		int current = page.getNumber() + 1;
 		int begin = Math.max(1, current - 5);
@@ -67,7 +63,8 @@ public class ItemToReadController {
 		model.addAttribute("endIndex", end);
 		model.addAttribute("currentIndex", current);
 		model.addAttribute("items", page);
-		return "myLibrary";
+		model.addAttribute("message", message);
+		return "itemList";
 	}
 
 	@RequestMapping(value = "/list/{pageNumber}", method = { RequestMethod.GET, RequestMethod.POST })
@@ -80,7 +77,7 @@ public class ItemToReadController {
 		String searchKeyword = "";
 		LocalDate locDate;
 		int selectedPeriod = 36500;
-		if (periodSelection != null) {
+		if ((periodSelection != null) && (periodSelection != "")) {
 			selectedPeriod = Integer.valueOf(periodSelection);
 			locDate = LocalDate.now().minusDays(selectedPeriod);
 		} else {

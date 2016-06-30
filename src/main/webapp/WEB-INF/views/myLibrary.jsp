@@ -14,7 +14,7 @@
 <br>
 	<p align="center">Articles and Books:</p>
 	<div align="center">
-		<cf:form action="removeFromLibrary" method="POST">
+		<cf:form action="/library/remove" method="POST">
 		<table class="list" id="list">
 			<tr>
 				<th></th>
@@ -28,9 +28,9 @@
 				<th>Added</th>
 			</tr>
 			<c:choose>
-				<c:when test="${not empty items and not empty items.content}">
-					<c:set var="i" value="${(currentIndex - 1)*50 + 1}" />
-					<c:forEach var="item" items="${items.content}">
+				<c:when test="${not empty items and not empty items}">
+					<c:set var="i" value="${1}" />
+					<c:forEach var="item" items="${items}">
 						<tr>
 						<td><input type="checkbox" name="selectedItems"
 									value="${i}" /></td>
@@ -55,7 +55,7 @@
 						<c:set var="i" value="${i + 1}" />
 					</c:forEach>
 					<tr>
-							<td align="right" colspan=7><input type="submit"
+							<td align="right" colspan=9><input type="submit"
 								id="removeFromLibrary" value="Remove from my Library" /></td>
 						</tr>
 				</c:when>

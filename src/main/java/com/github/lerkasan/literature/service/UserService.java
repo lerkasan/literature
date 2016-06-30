@@ -8,4 +8,5 @@ public interface UserService {
 	
 	User getById(int id);
 	User save(User user);
+	//Page<ItemToRead> getLibraryByUserId(int i);
 }

@@ -187,15 +187,15 @@
 					<td><input type="submit" value="Select" width="20" height="10"></td>
 				</cf:form>
 			</tr>
-			<cf:form action="addToLibrary" method="POST">
+			<cf:form action="/literature/item/addToLibrary" method="POST">
 			<c:choose>
 				<c:when test="${not empty items.content}">
-					<c:set var="i" value="${(currentIndex - 1)*50 + 1}" />
+					<c:set var="i" value="${1}" />
 					<c:forEach var="item" items="${items.content}">
 						<tr>
 						<td><input type="checkbox" name="selectedItems"
 									value="${i}" /></td>
-							<td><c:out value="${i}" /></td>
+							<td><c:out value="${(currentIndex - 1)*50 + i}" /></td>
 							<td><a href="<c:out value='${item.url}'/>"><c:out
 										value="${item.title}" /></a></td>
 							<td><c:out value="${item.itemType}" /></td>
@@ -387,5 +387,14 @@
 			</tr>
 		</table>
 	</div>
+	<c:choose>
+		<c:when test="${message != ''}">
+			<div hidden=true id="message_div">${message}</div>
+			<script type="text/javascript">
+				var alert_message = $('#message_div').html();
+				alert(alert_message);
+			</script>
+		</c:when>
+	</c:choose>
 </body>
 </html>
