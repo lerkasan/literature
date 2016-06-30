@@ -3,7 +3,6 @@ package com.github.lerkasan.literature.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +29,7 @@ public class Category implements Serializable {
 	private User user;
 	
 	//bi-directional many-to-many association to ItemToRead
-	@ManyToMany(mappedBy="categories", cascade=CascadeType.PERSIST)
+	@ManyToMany(mappedBy="categories")
 	private List<ItemToRead> itemsToRead;
 
 	public Category() {

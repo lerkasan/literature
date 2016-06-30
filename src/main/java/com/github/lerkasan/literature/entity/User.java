@@ -5,12 +5,13 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -40,21 +41,28 @@ public class User implements Serializable {
 	private LocalDate registrationDate;
 
 	private String username;
+	
+	//bi-directional many-to-one association to ItemToRead (user_library)
+	@ManyToMany
+	@JoinTable(name="user_library", 
+		joinColumns=@JoinColumn(name="userId", referencedColumnName = "id"), 
+		inverseJoinColumns=@JoinColumn(name="itemToReadId", referencedColumnName = "id")) 
+	private List<ItemToRead> library;
 
 	//bi-directional many-to-one association to Category
-	@OneToMany(mappedBy="user", cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy="user")
 	private List<Category> categories;
 
 	//bi-directional many-to-one association to Comment
-	@OneToMany(mappedBy="user", cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy="user")
 	private List<Comment> comments;
 
-	//bi-directional many-to-one association to ItemToRead
-	@OneToMany(mappedBy="user", cascade=CascadeType.PERSIST)
-	private List<ItemToRead> itemsToRead;
+	//bi-directional many-to-one association to ItemToRead (addedBy user - field)
+	@OneToMany(mappedBy="user")
+	private List<ItemToRead> addedItems;
 
 	//bi-directional many-to-one association to Resource
-	@OneToMany(mappedBy="user", cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy="user")
 	private List<Resource> resources;
 
 	//bi-directional many-to-one association to Country
@@ -178,23 +186,23 @@ public class User implements Serializable {
 		return comment;
 	}
 
-	public List<ItemToRead> getItemToReads() {
-		return this.itemsToRead;
+	public List<ItemToRead> getAddedItems() {
+		return this.addedItems;
 	}
 
-	public void setItemToReads(List<ItemToRead> itemToReads) {
-		this.itemsToRead = itemToReads;
+	public void setAddedItems(List<ItemToRead> addedItems) {
+		this.addedItems = addedItems;
 	}
 
 	public ItemToRead addItemToRead(ItemToRead itemToRead) {
-		getItemToReads().add(itemToRead);
+		getAddedItems().add(itemToRead);
 		itemToRead.setUser(this);
 
 		return itemToRead;
 	}
 
 	public ItemToRead removeItemToRead(ItemToRead itemToRead) {
-		getItemToReads().remove(itemToRead);
+		getAddedItems().remove(itemToRead);
 		itemToRead.setUser(null);
 
 		return itemToRead;
@@ -238,4 +246,19 @@ public class User implements Serializable {
 		this.userGroup = userGroup;
 	}
 
+	public List<ItemToRead> getLibrary() {
+		return library;
+	}
+
+	public void setLibrary(List<ItemToRead> library) {
+		this.library = library;
+	}
+	
+	public void removeFromLibrary(ItemToRead item) {
+		getLibrary().remove(item);
+	}
+
+	public void addToLibrary(ItemToRead item) {
+		getLibrary().add(item);
+	}
 }

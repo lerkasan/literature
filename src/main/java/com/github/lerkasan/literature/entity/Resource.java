@@ -3,7 +3,6 @@ package com.github.lerkasan.literature.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -45,7 +44,7 @@ public class Resource implements Serializable {
 	private String associateId;
 
 	//bi-directional many-to-one association to ItemToRead
-	@OneToMany(mappedBy="resource", cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy="resource")
 	private List<ItemToRead> itemsToRead;
 
 	//bi-directional many-to-one association to User

@@ -3,7 +3,6 @@ package com.github.lerkasan.literature.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +22,7 @@ public class UserGroup implements Serializable {
 	private String name;
 
 	//bi-directional many-to-one association to User
-	@OneToMany(mappedBy="userGroup", cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy="userGroup")
 	private List<User> users;
 
 	public UserGroup() {

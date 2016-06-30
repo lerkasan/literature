@@ -1,6 +1,7 @@
 package com.github.lerkasan.literature.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.github.lerkasan.literature.entity.ItemAccessType;
 import com.github.lerkasan.literature.entity.ItemToRead;
 import com.github.lerkasan.literature.entity.ItemType;
+import com.github.lerkasan.literature.entity.User;
 import com.github.lerkasan.literature.service.ItemToReadService;
+import com.github.lerkasan.literature.service.UserService;
 
 @Controller
 @Scope("session")
@@ -25,6 +28,9 @@ import com.github.lerkasan.literature.service.ItemToReadService;
 public class ItemToReadController {
 	@Inject
 	ItemToReadService itemToReadService;
+	
+	@Inject
+	UserService	userService;
 
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
 	public String getFirstPage(ModelMap model, HttpSession session) {
@@ -38,13 +44,34 @@ public class ItemToReadController {
 		model.addAttribute("endIndex", end);
 		model.addAttribute("currentIndex", current);
 		model.addAttribute("items", page);
+		session.setAttribute("items", page);
 		model.addAttribute("itemTypes", ItemType.values());
 		model.addAttribute("accessTypes", ItemAccessType.values());
 		return "itemList";
 	}
+	
+	@RequestMapping(value = "/addToLibrary", method = { RequestMethod.POST })
+	public String addToLibraryPage(ModelMap model, @RequestParam(value = "selectedItems", required = false) int[] selectedItemsIds, HttpSession session) {
+		@SuppressWarnings("unchecked")
+		Page<ItemToRead> itemList = (Page<ItemToRead>) session.getAttribute("items");
+		User currentUser = userService.getById(userService.USER_ID);
+		
+		for (int i : selectedItemsIds) {
+			currentUser.addToLibrary(itemList.getContent().get(i));
+		}
+		userService.save(currentUser);
+		int current = page.getNumber() + 1;
+		int begin = Math.max(1, current - 5);
+		int end = Math.min(begin + 10, page.getTotalPages());
+		model.addAttribute("beginIndex", begin);
+		model.addAttribute("endIndex", end);
+		model.addAttribute("currentIndex", current);
+		model.addAttribute("items", page);
+		return "myLibrary";
+	}
 
 	@RequestMapping(value = "/list/{pageNumber}", method = { RequestMethod.GET, RequestMethod.POST })
-	public String getPage(@PathVariable Integer pageNumber, ModelMap model,
+	public String getPage(@PathVariable Integer pageNumber, ModelMap model, HttpSession session,
 			@RequestParam(value = "typeSelection", required = false) String typeSelection,
 			@RequestParam(value = "accessSelection", required = false) String accessSelection,
 			@RequestParam(value = "keywordSelection", required = false) String keywordSelection,
@@ -96,6 +123,7 @@ public class ItemToReadController {
 				
 		}
 		model.addAttribute("items", page);
+		session.setAttribute("items", page);
 		int current = page.getNumber() + 1;
 		int begin = Math.max(1, current - 5);
 		int end = Math.min(begin + 10, page.getTotalPages());

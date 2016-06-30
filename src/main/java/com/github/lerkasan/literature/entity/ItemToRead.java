@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -70,7 +69,7 @@ public class ItemToRead implements Serializable {
 	private List<Category> categories;
 
 	//bi-directional many-to-one association to Comment
-	@OneToMany(mappedBy="itemToRead", cascade = {CascadeType.PERSIST,CascadeType.MERGE })
+	@OneToMany(mappedBy="itemToRead")
 	private List<Comment> comments;
 
 	//bi-directional many-to-many association to Author
@@ -101,6 +100,9 @@ public class ItemToRead implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="addedBy")
 	private User user;
+	
+	@ManyToMany(mappedBy="library")
+	private List<User> readers; 
 
 	public ItemToRead() {
 		categories = new ArrayList<>();
@@ -114,6 +116,14 @@ public class ItemToRead implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public List<User> getReaders() {
+		return readers;
+	}
+
+	public void setReaders(List<User> readers) {
+		this.readers = readers;
 	}
 
 	public LocalDate getAddedAt() {
@@ -319,4 +329,13 @@ public class ItemToRead implements Serializable {
 		this.user = user;
 	}
 
+	public User addReader(User user) {
+		getReaders().add(user);
+		return user;
+	}
+
+	public User removeReader(User user) {
+		getReaders().remove(user);
+		return user;
+	}
 }
