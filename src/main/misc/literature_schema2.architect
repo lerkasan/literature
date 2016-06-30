@@ -4,8 +4,8 @@
  <print-settings printerName="HP LaserJet P3005 PCL6" numCopies="1" zoom="0.51" pageNumbersPrinted="true" orientation="0" paperWidth="595.275590551181" paperHeight="841.8897637795276" leftBorder="14.173228346456693" rightBorder="14.173228346456614" topBorder="14.173228346456693" bottomBorder="14.173228346456728" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="literature_Mysql" />
    <property key="Connection Type" value="MySQL" />
+   <property key="Logical" value="PlayPen Database" />
    <property key="JDBC URL" value="jdbc:mysql://localhost:3306/literature" />
    <property key="UID" value="dbuser" />
    <property key="PWD" value="daniel" />
@@ -15,7 +15,7 @@
    <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
    <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
   </data-source>
-  <data-source id="DS2">
+  <data-source id="DS0">
    <property key="Connection Type" value="MySQL" />
    <property key="Logical" value="PlayPen Database" />
    <property key="JDBC URL" value="jdbc:mysql://localhost:3306/literature" />
@@ -29,7 +29,7 @@
   </data-source>
  </project-data-sources>
  <source-databases>
-  <database id="DB0" populated="true" UUID="11449c9e-a172-4027-a54a-8762341729b1" dbcs-ref="DS2" name="PlayPen Database" physicalName="literature_Mysql" >
+  <database id="DB0" populated="true" UUID="11449c9e-a172-4027-a54a-8762341729b1" dbcs-ref="DS0" name="PlayPen Database" physicalName="literature_Mysql" >
    <catalog id="CAT1" populated="false" UUID="5e1c35e8-fda7-4863-ba94-0d432d306b39" name="information_schema" nativeTerm="database" physicalName="information_schema" >
    </catalog>
    <catalog id="CAT2" populated="true" UUID="b48cfef3-aad8-42db-bf5f-d8a223928214" name="literature" nativeTerm="database" physicalName="literature" >

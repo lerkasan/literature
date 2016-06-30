@@ -24,12 +24,13 @@ public class GoogleBookParsingServiceImpl extends ParsingServiceImpl implements 
 		JsonParser parser = new JsonParser();
 		JsonObject rootObj = parser.parse(input).getAsJsonObject();
 		JsonArray items = rootObj.getAsJsonArray("items");
-
-		for (JsonElement item : items) {
-			JsonElement volumeInfo = item.getAsJsonObject().get("volumeInfo");
-			GoogleBookJson googleBookRecord = json.fromJson(volumeInfo.toString(), GoogleBookJson.class);
-			// System.out.println("\n" + googleBookRecord.getTitle());
-			googleBookRecords.add(googleBookRecord);
+		if (items != null) {
+			for (JsonElement item : items) {
+				JsonElement volumeInfo = item.getAsJsonObject().get("volumeInfo");
+				GoogleBookJson googleBookRecord = json.fromJson(volumeInfo.toString(), GoogleBookJson.class);
+				// System.out.println("\n" + googleBookRecord.getTitle());
+				googleBookRecords.add(googleBookRecord);
+			}
 		}
 		return googleBookRecords;
 	}

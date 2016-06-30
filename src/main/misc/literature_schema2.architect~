@@ -4,7 +4,16 @@
  <print-settings printerName="HP LaserJet P3005 PCL6" numCopies="1" zoom="0.51" pageNumbersPrinted="true" orientation="0" paperWidth="595.275590551181" paperHeight="841.8897637795276" leftBorder="14.173228346456693" rightBorder="14.173228346456614" topBorder="14.173228346456693" bottomBorder="14.173228346456728" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="PlayPen Database" />
+   <property key="Logical" value="literature_Mysql" />
+   <property key="Connection Type" value="MySQL" />
+   <property key="JDBC URL" value="jdbc:mysql://localhost:3306/literature" />
+   <property key="UID" value="dbuser" />
+   <property key="PWD" value="daniel" />
+   <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
+   <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
   </data-source>
   <data-source id="DS2">
    <property key="Connection Type" value="MySQL" />
@@ -734,12 +743,12 @@
    <relationship id="REL232" populated="true" UUID="92eaf45c-7bc2-44b6-a9fd-7bead35b2953" deferrability="7" deleteRule="1" fk-table-ref="TAB74" fkCardinality="7" identifying="false" name="user_group_user_fk" physicalName="user_group_user_fk" pk-table-ref="TAB175" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP233" populated="true" UUID="7d1ca1eb-dc3b-463b-8080-de4bce74c643" fk-column-ref="COL84" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL176" />
    </relationship>
-   <relationship id="REL234" populated="true" UUID="b5abc14d-6284-4944-ac50-32859417810b" deferrability="7" deleteRule="2" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Resource_ItemToRead_fk" physicalName="Resource_ItemToRead_fk" pk-table-ref="TAB180" pkCardinality="2" updateRule="3" >
+   <relationship id="REL234" populated="true" UUID="b5abc14d-6284-4944-ac50-32859417810b" deferrability="7" deleteRule="2" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Resource_ItemToRead_fk" physicalName="resource_itemtoread_fk" pk-table-ref="TAB180" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP235" populated="true" UUID="0f4de432-b71f-4691-ab26-6785c76d3407" fk-column-ref="COL151" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL181" />
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.MySqlDDLGenerator" allow-connection="true" target-catalog="literature"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.MySqlDDLGenerator" allow-connection="false" target-catalog="literature"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
