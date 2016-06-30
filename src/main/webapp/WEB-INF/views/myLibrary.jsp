@@ -14,7 +14,7 @@
 <br>
 	<p align="center">Articles and Books:</p>
 	<div align="center">
-		<cf:form action="/library/remove" method="POST">
+		<cf:form action="/literature/library/remove" method="POST">
 		<table class="list" id="list">
 			<tr>
 				<th></th>
@@ -33,7 +33,7 @@
 					<c:forEach var="item" items="${items}">
 						<tr>
 						<td><input type="checkbox" name="selectedItems"
-									value="${i}" /></td>
+									value="${i-1}" /></td>
 							<td><c:out value="${i}" /></td>
 							<td><a href="<c:out value='${item.url}'/>"><c:out
 										value="${item.title}" /></a></td>

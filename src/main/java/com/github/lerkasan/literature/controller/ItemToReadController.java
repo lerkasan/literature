@@ -53,9 +53,12 @@ public class ItemToReadController {
 	public String addToLibraryPage(ModelMap model, @RequestParam(value = "selectedItems", required = false) int[] selectedItemsIds, HttpSession session) {
 		@SuppressWarnings("unchecked")
 		Page<ItemToRead> page = (Page<ItemToRead>) session.getAttribute("items");
+		String message = "";
 		User currentUser = userService.getById(userService.USER_ID);
-		String message = currentUser.addSelectedToLibrary(page.getContent(), selectedItemsIds);
-		userService.save(currentUser);
+		if (selectedItemsIds != null) {
+			message = currentUser.addSelectedToLibrary(page.getContent(), selectedItemsIds);
+			userService.save(currentUser);
+		}
 		int current = page.getNumber() + 1;
 		int begin = Math.max(1, current - 5);
 		int end = Math.min(begin + 10, page.getTotalPages());

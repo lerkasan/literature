@@ -72,6 +72,9 @@ public class AuthorServiceImpl implements AuthorService {
 		String[] result = new String[2];
 		if ((fullName != null) && (fullName != "")) {
 			String[] fullNameParts = fullName.split(" ", 2);
+			if (fullName.indexOf(" ") != fullName.lastIndexOf(" ")) {
+				fullNameParts = fullName.split(" ", 3);
+			}
 			if (fullNameParts.length > 1) {
 				result[0] = fullNameParts[0];
 				result[1] = fullNameParts[1];

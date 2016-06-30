@@ -77,6 +77,12 @@ public class AmazonParsingServiceImpl extends ParsingServiceImpl implements Pars
 					if (!authorStr.contains("Product Description")) {
 						book.setAuthor(authorStr);
 					}
+					if (authorStr.contains("USD")) {
+						authorStr = author.getFirstChild().getNextSibling().getNextSibling().getNextSibling()
+								.getNextSibling().getNextSibling().getNextSibling().getNextSibling()
+								.getFirstChild().getTextContent();
+						book.setAuthor(authorStr);
+					}
 				}
 				Node image = nodes.item(i);
 				if (image != null) {
