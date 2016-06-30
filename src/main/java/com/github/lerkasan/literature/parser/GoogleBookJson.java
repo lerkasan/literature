@@ -130,8 +130,12 @@ public class GoogleBookJson implements ConvertableToItemToRead {
 		literatureItem.setAccessType(ItemAccessType.PAID);
 		literatureItem.setItemType(ItemType.BOOK);
 		literatureItem.setPublishing(publisher);
-		literatureItem.setIsbn(getIndustryIdentifiers().get(0).getIdentifier());
-		literatureItem.setImageUrl(getImageLinks().getThumbnail());
+		if (getIndustryIdentifiers() != null && getIndustryIdentifiers().get(0) != null) {
+			literatureItem.setIsbn(getIndustryIdentifiers().get(0).getIdentifier());
+		}
+		if (getImageLinks() != null) {
+			literatureItem.setImageUrl(getImageLinks().getThumbnail());
+		}
 		if ((pageCount != null) && (pageCount != "")) {
 			try {
 				literatureItem.setPages(Short.parseShort(pageCount));
